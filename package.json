@@ -1,0 +1,69 @@
+{
+	"name": "vl-ui-wizard",
+	"version": "0.0.0",
+	"description": "Gebruik de wizard om de gebruiker door een proces met meerdere stappen te begeleiden. Een wizard laat je toe om een complex proces op te splitsen in hapklare acties. Een wizard maakt het ook mogelijk om opties afhankelijk te maken van de keuzes in een voorgaande stap.",
+	"author": "DIDM",
+	"license": "MIT",
+	"main": "./src/index.js",
+	"exports": {
+		"require": "./index.js",
+		"import": "./src/index.js",
+		"node": "./index.js",
+		"default": "./index.js"
+	},
+	"homepage": "https://github.com/milieuinfo/webcomponent-vl-ui-wizard#readme",
+	"bugs": {
+		"url": "https://github.com/milieuinfo/webcomponent-vl-ui-wizard/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/milieuinfo/webcomponent-vl-ui-wizard.git"
+	},
+	"publishConfig": {
+		"registry": "http://artifactory-pr-build.lb.cumuli.be:8081/artifactory/api/npm/acd-npm/"
+	},
+	"scripts": {
+		"prepare": "npm update --dev vl-ui-util && npm run prepare:util",
+		"prepare:util": "npm explore vl-ui-util -- npm run util",
+		"test": "npm run test:unit && npm run test:e2e",
+		"test:unit": "wct --config-file ./wct.local.conf.json",
+		"test:e2e": "npm run test:server:start && npm run test:e2e:chrome && npm run test:e2e:firefox",
+		"test:e2e:grid": "npm run test:server:start && npm run test:e2e:chrome:grid && npm run test:e2e:firefox:grid",
+		"test:grid": "wct --config-file ./wct.docker.conf.json && npm run test:e2e:grid",
+		"posttest:e2e": "pkill -f http-server",
+		"test:e2e:chrome": "mocha --chrome",
+		"test:e2e:chrome:grid": "mocha --chrome --grid",
+		"test:e2e:firefox": "mocha --firefox",
+		"test:e2e:firefox:grid": "mocha --firefox --grid",
+		"test:e2e:opera": "mocha --opera",
+		"test:e2e:safari": "mocha --safari",
+		"test:server:start": "http-server &",
+		"release": "np",
+		"release:prepare": "npm explore vl-ui-util -- npm run release-component:prepare $(pwd) wizard",
+		"release:testless": "np --yolo",
+		"demo": "http-server"
+	},
+	"dependencies": {
+		"vl-ui-core": "github:milieuinfo/webcomponent-vl-ui-core#equals",
+		"vl-ui-progress-bar": "github:milieuinfo/webcomponent-vl-ui-progress-bar#wizard"
+	},
+	"peerDependencies": {
+		"vl-ui-core": "github:milieuinfo/webcomponent-vl-ui-core#equals",
+		"vl-ui-progress-bar": "milieuinfo/webcomponent-vl-ui-progress-bar#wizard"
+	},
+	"devDependencies": {
+		"@govflanders/vl-ui-util": "3.9.1",
+		"@govflanders/vl-ui-wizard": "3.9.1",
+		"vl-ui-util": "5.0.10",
+		"vl-ui-titles": "^3.0.1",
+		"vl-ui-grid": "^3.0.2",
+		"vl-ui-form-grid": "^3.0.2",
+		"vl-ui-form-message": "^5.0.1",
+		"vl-ui-input-field": "^3.1.1",
+		"vl-ui-action-group": "^3.0.1",
+		"vl-ui-button": "^5.0.1",
+		"vl-ui-link": "^4.0.1",
+		"vl-ui-icon": "^5.0.1",
+		"vl-ui-checkbox": "^3.0.2"
+	}
+}
