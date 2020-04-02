@@ -25,7 +25,7 @@ export class VlWizard extends VlElement(HTMLElement) {
                     overflow: hidden;
                 }
             </style>
-            <section id="vl-wizard-id" class="vl-wizard" data-vl-wizard>
+            <section class="vl-wizard" data-vl-wizard>
                 <header class="vl-wizard__heading" role="none">
                     <slot name="title"></slot>
                     <slot name="header"></slot>
