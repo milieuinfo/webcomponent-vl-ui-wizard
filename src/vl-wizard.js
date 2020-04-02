@@ -82,10 +82,6 @@ export class VlWizard extends VlElement(HTMLElement) {
         return this._shadow.querySelector('vl-progress-bar');
     }
 
-    get _panesContainer() {
-        return this._shadow.querySelector('.vl-wizard__panes');
-    }
-
     _getProgressBarStepTemplate(content) {
         return this._template(`
             <vl-progress-bar-step>
