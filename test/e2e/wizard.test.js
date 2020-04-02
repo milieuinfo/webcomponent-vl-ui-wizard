@@ -11,6 +11,10 @@ describe('vl-wizard', async () => {
         return vlWizardPage.load();
     });
 
+    afterEach(async () => {
+        await vlWizardPage.reset();
+    });
+
     it('als gebruiker kan ik de titel en header van de wizard zien', async () => {
         const wizard = await vlWizardPage.getWizard();
         const titleSlotElements = await wizard.getTitleSlotElements();
@@ -72,7 +76,6 @@ describe('vl-wizard', async () => {
         pane = await wizard.getActivePane();
         title = await new VlH3(driver, (await pane.getTitleSlotElements())[0]);
         await assert.eventually.equal(title.getText(), 'Stap 4');
-        await progressBarStep1.click();
     });
 
     it('als gebruiker kan ik via de acties doorheen de wizard panelen navigeren', async () => {

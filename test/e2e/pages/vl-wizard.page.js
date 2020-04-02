@@ -17,6 +17,28 @@ class VlWizardPage extends Page {
     async load() {
         await super.load(Config.baseUrl + '/demo/vl-wizard.html');
     }
+
+    async reset() {
+        await this._resetWizard();
+        await this._resetCheckboxWizard();
+    }
+
+    async _resetWizard() {
+        const wizard = await this.getWizard();
+        const progressBar = await wizard.getProgressBar();
+        const progressBarStep1 = await progressBar.getStep(1);
+        await progressBarStep1.click();
+    }
+
+    async _resetCheckboxWizard() {
+        const wizard = await this.getCheckboxWizard();
+        const progressBar = await wizard.getProgressBar();
+        const progressBarStep1 = await progressBar.getStep(1);
+        const checkboxes = await wizard.findElements(By.css('vl-checkbox'));
+        checkboxes.filter(checkbox => !checkbox.checked).forEach(checkbox => checkbox.toggle());
+        await progressBarStep1.click();
+        checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => checkbox.toggle());
+    }
 }
 
 module.exports = VlWizardPage;
