@@ -73,7 +73,7 @@
         sandbox.spy(vl.wizard, 'dress');
         customElements.whenDefined('vl-wizard').then(() => {
           setTimeout(() => {
-            const element = wizard.shadowRoot.querySelector('#vl-wizard-id');
+            const element = wizard.shadowRoot.querySelector('.vl-wizard');
             const callback = wizard.callback;
             const panes = wizard.querySelectorAll('vl-wizard-pane');
             const progressBar = wizard.shadowRoot.querySelector('vl-progress-bar');
