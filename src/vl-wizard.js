@@ -20,6 +20,10 @@ export class VlWizard extends VlElement(HTMLElement) {
         super(`
             <style>
                 @import '/src/style.css';
+
+                .vl-wizard__panes {
+                    overflow: hidden;
+                }
             </style>
             <section id="vl-wizard-id" class="vl-wizard" data-vl-wizard>
                 <header class="vl-wizard__heading" role="none">
@@ -28,7 +32,7 @@ export class VlWizard extends VlElement(HTMLElement) {
                 </header>
                 <vl-progress-bar></vl-progress-bar>
                 <div class="vl-wizard__panes">
-                <slot name="panes"></slot>
+                    <slot name="panes"></slot>
                 </div>
             </section>
         `);
@@ -40,15 +44,38 @@ export class VlWizard extends VlElement(HTMLElement) {
 
     async connectedCallback() {
         await this._processPanes();
+        this._observeProgressBarClick();
         this._dress();
     }
 
+    /**
+     * Geeft de callback functie die bepaalt of er naar de volgende/vorige pagina mag genavigeerd worden.
+     * 
+     * @return {Function}
+     */
+    get callback() {
+        return this.__callback;
+    }
+
+    /**
+     * Callback setter die bepaalt of er naar de volgende/vorige pagina mag genavigeerd worden.
+     * 
+     * @param {Function} callback
+     */
     set callback(callback) {
         this.__callback.callbackFn = callback;
     }
 
     get _panes() {
         return this.querySelectorAll('vl-wizard-pane');
+    }
+
+    get _activePane() {
+        return [... this._panes].find(pane => pane.isActive);
+    }
+
+    get _activePaneNumber() {
+        return [... this._panes].findIndex(pane => pane.isActive) + 1;
     }
 
     get _progressBar() {
@@ -68,18 +95,30 @@ export class VlWizard extends VlElement(HTMLElement) {
     }
 
     async _processPanes() {
-        return customElements.whenDefined('vl-progress-bar-step').then(() => {
-            this._panes.forEach(pane => {
-                this._progressBar.appendChild(this._getProgressBarStepTemplate(pane.title));
-            });
+        this._panes.forEach(pane => {
+            this._progressBar.appendChild(this._getProgressBarStepTemplate(pane.title));
         });
     }
 
     _dress() {
         setTimeout(() => {
-            vl.wizard.dress(this._element, this.__callback, this._panes, this._progressBar.buttons, this._progressBar.element);
+            vl.wizard.dress(this._element, this.callback, this._panes, this._progressBar.buttons, this._progressBar.element);
+        });
+    }
+
+    _observeProgressBarClick() {
+        this._progressBar.buttons.forEach(button => button.onclick = (event) => {
+            const number = event.target.getAttribute('data-vl-index');
+            if (number < this._activePaneNumber) {
+                this.__callback.callbackFn = this._activePane.isPreviousPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
+            }
+            if (number > this._activePaneNumber) {
+                this.__callback.callbackFn = this._activePane.isNextPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
+            }
         });
     }
 }
 
-define('vl-wizard', VlWizard);
+Promise.all([customElements.whenDefined('vl-progress-bar'), customElements.whenDefined('vl-progress-bar-step')]).then(() => {
+    define('vl-wizard', VlWizard);
+});

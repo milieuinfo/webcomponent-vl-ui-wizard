@@ -48,103 +48,72 @@
                 <div slot="panes">
                     <vl-wizard-pane>
                         <h3 is="vl-h3" slot="title">Stap 1</h3>
-                        <div is="vl-grid" is-stacked slot="content">
-                            <div is="vl-column" size="12">
-                                <div is="vl-form-grid" is-stacked>
-                                    <div is="vl-form-column" size="12">
-                                        <label is="vl-form-label" for="naam" block>Naam</label>
-                                        <input id="naam" is='vl-input-field' block />
-                                    </div>
-                                    <div is="vl-form-column" size="12">
-                                        <label is="vl-form-label" for="adres" block>Adres</label>
-                                        <input id="adres" is='vl-input-field' block />
-                                    </div>
-                                    <div is="vl-form-column" size="12">
-                                        <label is="vl-form-label" for="telefoon" block>Telefoon</label>
-                                        <input id="telefoon" is='vl-input-field' block />
-                                    </div>
-                                </div>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <label is="vl-form-label" for="naam" block>Naam</label>
+                                <input id="naam" is='vl-input-field' block />
                             </div>
-                            <div is="vl-column" size="12">
-                                <div is="vl-action-group">
-                                    <button is="vl-button" type="button">
-                                        Volgende
-                                    </button>
-                                </div>
+                            <div is="vl-form-column" size="12">
+                                <label is="vl-form-label" for="adres" block>Adres</label>
+                                <input id="adres" is='vl-input-field' block />
+                            </div>
+                            <div is="vl-form-column" size="12">
+                                <label is="vl-form-label" for="telefoon" block>Telefoon</label>
+                                <input id="telefoon" is='vl-input-field' block />
                             </div>
                         </div>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
                     </vl-wizard-pane>
                     <vl-wizard-pane>
                         <h3 is="vl-h3" slot="title">Stap 2</h3>
-                        <div is="vl-grid" is-stacked slot="content">
-                            <div is="vl-column" size="12">
-                                <div is="vl-form-grid" is-stacked>
-                                    <div is="vl-form-column" size="12">
-                                        <label is="vl-form-label" for="years" block>Aantal jaren dienst</label>
-                                        <input id="years" is='vl-input-field' block />
-                                    </div>
-                                </div>
-                            </div>
-                            <div is="vl-column" size="12">
-                                <div is="vl-action-group">
-                                    <button is="vl-button-link" type="button">
-                                        <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
-                                        Vorige
-                                    </button>
-                                    <button is="vl-button" type="button">
-                                        Volgende
-                                    </button>
-                                </div>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <label is="vl-form-label" for="years" block>Aantal jaren dienst</label>
+                                <input id="years" is='vl-input-field' block />
                             </div>
                         </div>
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
                     </vl-wizard-pane>
                     <vl-wizard-pane>
                         <h3 is="vl-h3" slot="title">Stap 3</h3>
-                        <div is="vl-grid" is-stacked slot="content">
-                            <div is="vl-column" size="12">
-                                <div is="vl-form-grid" is-stacked>
-                                    <div is="vl-form-column" size="12">
-                                        <label is="vl-form-label" for="unavailable" block>Periode van afwezigheid</label>
-                                        <input id="unavailable" is='vl-input-field' block />
-                                    </div>
-                                </div>
-                            </div>
-                            <div is="vl-column" size="12">
-                                <div is="vl-action-group">
-                                    <button is="vl-button-link" type="button">
-                                        <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
-                                        Vorige
-                                    </button>
-                                    <button is="vl-button" type="button">
-                                        Volgende
-                                    </button>
-                                </div>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <label is="vl-form-label" for="unavailable" block>Periode van
+                                    afwezigheid</label>
+                                <input id="unavailable" is='vl-input-field' block />
                             </div>
                         </div>
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
                     </vl-wizard-pane>
                     <vl-wizard-pane>
                         <h3 is="vl-h3" slot="title">Stap 4</h3>
-                        <div is="vl-grid" is-stacked slot="content">
-                            <div is="vl-column" size="12">
-                                <div is="vl-form-grid" is-stacked>
-                                    <div is="vl-form-column" size="12">
-                                        <label is="vl-form-label" for="disease" block>Reden van ziekte</label>
-                                        <input id="disease" is='vl-input-field' block />
-                                    </div>
-                                </div>
-                            </div>
-                            <div is="vl-column" size="12">
-                                <div is="vl-action-group">
-                                    <button is="vl-button-link" type="button">
-                                        <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
-                                        Vorige
-                                    </button>
-                                    <button is="vl-button" type="button">
-                                        Versturen
-                                    </button>
-                                </div>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <label is="vl-form-label" for="disease" block>Reden van ziekte</label>
+                                <input id="disease" is='vl-input-field' block />
                             </div>
                         </div>
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Versturen
+                        </button>
                     </vl-wizard-pane>
                 </div>
             </vl-wizard>
@@ -162,72 +131,60 @@
                 <h2 is="vl-h2" slot="title">Wizard title</h2>
                 <p slot="header">You're a wizard Harry</p>
                 <div slot="panes">
-                    <vl-wizard-pane id="vl-wizard-checkbox-pane-1">
+                    <vl-wizard-pane id="vl-wizard-checkbox-pane-1" data-vl-next-pane-disabled>
                         <h3 is="vl-h3" slot="title">Stap 1</h3>
-                        <div is="vl-grid" is-stacked slot="content">
-                            <div is="vl-column" size="12">
-                                <div is="vl-form-grid" is-stacked>
-                                    <div is="vl-form-column" size="12">
-                                        <vl-checkbox id="vl-wizard-checkbox-pane-1-next" label="Volgende toegelaten"></vl-checkbox>
-                                    </div>
-                                </div>
-                            </div>
-                            <div is="vl-column" size="12">
-                                <div is="vl-action-group">
-                                    <button is="vl-button" type="button">
-                                        Volgende
-                                    </button>
-                                </div>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <vl-checkbox id="vl-wizard-checkbox-pane-1-next" label="Volgende toegelaten"></vl-checkbox>
                             </div>
                         </div>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
                     </vl-wizard-pane>
-                    <vl-wizard-pane id="vl-wizard-checkbox-pane-2">
+                    <vl-wizard-pane id="vl-wizard-checkbox-pane-2" data-vl-previous-pane-disabled data-vl-next-pane-disabled>
                         <h3 is="vl-h3" slot="title">Stap 2</h3>
-                        <div is="vl-grid" is-stacked slot="content">
-                            <div is="vl-column" size="12">
-                                <div is="vl-form-grid" is-stacked>
-                                    <div is="vl-form-column" size="12">
-                                        <vl-checkbox id="vl-wizard-checkbox-pane-2-previous" label="Vorige toegelaten"></vl-checkbox>
-                                    </div>
-                                </div>
-                            </div>
-                            <div is="vl-column" size="12">
-                                <div is="vl-action-group">
-                                    <button is="vl-button-link" type="button">
-                                        <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
-                                        Vorige
-                                    </button>
-                                    <button is="vl-button" type="button">
-                                        Volgende
-                                    </button>
-                                </div>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <vl-checkbox id="vl-wizard-checkbox-pane-2-previous" label="Vorige toegelaten"></vl-checkbox>
+                                <vl-checkbox id="vl-wizard-checkbox-pane-2-next" label="Volgende toegelaten"></vl-checkbox>
                             </div>
                         </div>
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
+                    </vl-wizard-pane>
+                    <vl-wizard-pane id="vl-wizard-checkbox-pane-3" data-vl-previous-pane-disabled data-vl-next-pane-disabled>
+                        <h3 is="vl-h3" slot="title">Stap 3</h3>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <vl-checkbox id="vl-wizard-checkbox-pane-3-previous" label="Vorige toegelaten"></vl-checkbox>
+                            </div>
+                        </div>
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Versturen
+                        </button>
                     </vl-wizard-pane>
                 </div>
             </vl-wizard>
             <script>
-                customElements.whenDefined('vl-wizard').then(() => {
-                    document.getElementById('vl-wizard-checkbox').callback = new Promise((resolve, reject) => {});
+                customElements.whenDefined('vl-wizard-pane').then(() => {
+                    const pane1 = document.getElementById('vl-wizard-checkbox-pane-1');
+                    const pane2 = document.getElementById('vl-wizard-checkbox-pane-2');
+                    const pane3 = document.getElementById('vl-wizard-checkbox-pane-3');
+                    document.getElementById('vl-wizard-checkbox-pane-1-next').oninput = event => event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
+                    document.getElementById('vl-wizard-checkbox-pane-2-previous').oninput = event => event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
+                    document.getElementById('vl-wizard-checkbox-pane-2-next').oninput = event => event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
+                    document.getElementById('vl-wizard-checkbox-pane-3-previous').oninput = event => event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
                 });
-                document.getElementById('vl-wizard-checkbox-pane-1-next').oninput = (event) => {
-                    if (event.detail) {
-                        document.getElementById('vl-wizard-checkbox').callback = new Promise((resolve, reject) => {
-                            resolve();
-                        });
-                    } else {
-                        document.getElementById('vl-wizard-checkbox').callback = new Promise((resolve, reject) => {});
-                    }
-                };
-                document.getElementById('vl-wizard-checkbox-pane-2-previous').oninput = (event) => {
-                    if (event.detail) {
-                        document.getElementById('vl-wizard-checkbox').callback = new Promise((resolve, reject) => {
-                            resolve(true);
-                        });
-                    } else {
-                        document.getElementById('vl-wizard-checkbox').callback = new Promise((resolve, reject) => {});
-                    }
-                };
             </script>
         </div>
     </div>
