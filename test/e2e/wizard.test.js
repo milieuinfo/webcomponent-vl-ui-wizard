@@ -52,6 +52,7 @@ describe('vl-wizard', async () => {
         let pane = await wizard.getActivePane();
         let title = await new VlH3(driver, (await pane.getTitleSlotElements())[0]);
         await assert.eventually.equal(title.getText(), 'Stap 1');
+
         await progressBarStep2.click();
         await assert.eventually.isFalse(progressBarStep1.isActive());
         await assert.eventually.isTrue(progressBarStep2.isActive());
@@ -60,6 +61,7 @@ describe('vl-wizard', async () => {
         pane = await wizard.getActivePane();
         title = await new VlH3(driver, (await pane.getTitleSlotElements())[0]);
         await assert.eventually.equal(title.getText(), 'Stap 2');
+
         await progressBarStep3.click();
         await assert.eventually.isFalse(progressBarStep1.isActive());
         await assert.eventually.isFalse(progressBarStep2.isActive());
@@ -68,6 +70,7 @@ describe('vl-wizard', async () => {
         pane = await wizard.getActivePane();
         title = await new VlH3(driver, (await pane.getTitleSlotElements())[0]);
         await assert.eventually.equal(title.getText(), 'Stap 3');
+
         await progressBarStep4.click();
         await assert.eventually.isFalse(progressBarStep1.isActive());
         await assert.eventually.isFalse(progressBarStep2.isActive());
@@ -83,10 +86,12 @@ describe('vl-wizard', async () => {
         pane = await wizard.getActivePane();
         title = await new VlH3(driver, (await pane.getTitleSlotElements())[0]);
         await assert.eventually.equal(title.getText(), 'Stap 1');
+
         await wizard.next();
         pane = await wizard.getActivePane();
         title = await new VlH3(driver, (await pane.getTitleSlotElements())[0]);
         await assert.eventually.equal(title.getText(), 'Stap 2');
+
         await wizard.previous();
         pane = await wizard.getActivePane();
         title = await new VlH3(driver, (await pane.getTitleSlotElements())[0]);
@@ -99,11 +104,13 @@ describe('vl-wizard', async () => {
         const pane2 = await wizard.getPane(2);
         const pane3 = await wizard.getPane(3);
         let activePane = await wizard.getActivePane();
+
         await assert.eventually.isTrue(activePane.equals(pane1));
         await wizard.next();
         await activePane.equals(pane1);
         let content = (await activePane.getContentSlotElements())[0];
         let checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-1-next'));
+
         await checkbox.click();
         await wizard.next();
         activePane = await wizard.getActivePane();
@@ -114,6 +121,7 @@ describe('vl-wizard', async () => {
         await assert.eventually.isTrue(activePane.equals(pane2));
         content = (await activePane.getContentSlotElements())[0];
         checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-2-previous'));
+
         await checkbox.click();
         await wizard.previous();
         activePane = await wizard.getActivePane();
@@ -122,6 +130,7 @@ describe('vl-wizard', async () => {
         activePane = await wizard.getActivePane();
         content = (await activePane.getContentSlotElements())[0];
         checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-2-next'));
+
         await checkbox.click();
         await wizard.next();
         activePane = await wizard.getActivePane();
@@ -138,11 +147,13 @@ describe('vl-wizard', async () => {
         const pane2 = await wizard.getPane(2);
         const pane3 = await wizard.getPane(3);
         let activePane = await wizard.getActivePane();
+
         await assert.eventually.isTrue(activePane.equals(pane1));
         await progressBarStep2.click();
         await activePane.equals(pane1);
         let content = (await activePane.getContentSlotElements())[0];
         let checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-1-next'));
+
         await checkbox.click();
         await progressBarStep2.click();
         activePane = await wizard.getActivePane();
@@ -153,6 +164,7 @@ describe('vl-wizard', async () => {
         await assert.eventually.isTrue(activePane.equals(pane2));
         content = (await activePane.getContentSlotElements())[0];
         checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-2-previous'));
+
         await checkbox.click();
         await progressBarStep1.click();
         activePane = await wizard.getActivePane();
@@ -161,6 +173,7 @@ describe('vl-wizard', async () => {
         activePane = await wizard.getActivePane();
         content = (await activePane.getContentSlotElements())[0];
         checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-2-next'));
+        
         await checkbox.click();
         await progressBarStep3.click();
         activePane = await wizard.getActivePane();
