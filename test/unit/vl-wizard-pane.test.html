@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-wizard.js"></script>
+  <script type="module" src="../../src/vl-wizard-pane.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-wizard-pane-fixture">
+    <template>
+      <vl-wizard-pane>
+        <h3 slot="title">Stap 1</h3>
+        <div slot="content"></div>
+        <button type="button" slot="previous-action">Vorige</button>
+        <button type="button" slot="next-action">Volgende</button>
+      </vl-wizard-pane>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-wizard-pane-without-actions-fixture">
+    <template>
+      <vl-wizard-pane>
+        <h3 slot="title">Stap 1</h3>
+        <div slot="content"></div>
+      </vl-wizard-pane>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-wizard-fixture">
+    <template>
+      <vl-wizard>
+        <vl-wizard-pane>
+          <h3 slot="title">Stap 1</h3>
+          <button type="button" slot="previous-action">Vorige</button>
+          <button type="button" slot="next-action">Volgende</button>
+        </vl-wizard-pane>
+      </vl-wizard>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('<vl-wizard-pane>', () => {
+      const should = chai.should();
+
+      setup((done) => {
+        customElements.whenDefined('vl-wizard').then(done);
+      });
+
+      test('bevat een titel element', () => {
+        const pane = fixture('vl-wizard-pane-fixture');
+        const title = pane.shadowRoot.querySelector('slot[name="title"]').assignedElements()[0];
+        should.exist(title);
+        assert.equal(title.innerText, pane.querySelector('[slot="title"]').innerText);
+      });
+
+      test('het titel element krijgt een wizard focus attribuut', () => {
+        const pane = fixture('vl-wizard-pane-fixture');
+        const title = pane.shadowRoot.querySelector('slot[name="title"]').assignedElements()[0];
+        assert.isTrue(title.hasAttribute('data-vl-wizard-focus'));
+      });
+
+      test('de titel tekst kan opgevraagd worden', () => {
+        const pane = fixture('vl-wizard-pane-fixture');
+        assert.equal(pane.title, pane.querySelector('[slot="title"]').innerText);
+      });
+
+      test('bevat een grid met een content en acties element', () => {
+        const pane = fixture('vl-wizard-pane-fixture');
+        const grid = pane.shadowRoot.querySelector('[is="vl-grid"]');
+        should.exist(grid);
+        assert(grid.hasAttribute('is-stacked'));
+        const columns = grid.querySelectorAll('[is="vl-column"]');
+        assert.lengthOf(columns, 2);
+        columns.forEach(column => assert.equal(column.getAttribute('size'), 12));
+        const content = columns[0].querySelector('slot[name="content"]').assignedElements()[0];
+        assert.equal(content, pane.querySelector('[slot="content"]'));
+        const actionGroup = columns[1].querySelector('[is="vl-action-group"]');
+        should.exist(actionGroup);
+        const previousAction = actionGroup.querySelector('slot[name="previous-action"]').assignedElements()[0];
+        const nextAction = actionGroup.querySelector('slot[name="next-action"]').assignedElements()[0];
+        assert.equal(previousAction, pane.querySelector('[slot="previous-action"]'));
+        assert.equal(nextAction, pane.querySelector('[slot="next-action"]'));
+      });
+
+      test('de acties elementen krijgen een wizard next/previous attribuut', () => {
+        const pane = fixture('vl-wizard-pane-fixture');
+        const grid = pane.shadowRoot.querySelector('[is="vl-grid"]');
+        const columns = grid.querySelectorAll('[is="vl-column"]');
+        const actionGroup = columns[1].querySelector('[is="vl-action-group"]');
+        const previousAction = actionGroup.querySelector('slot[name="previous-action"]').assignedElements()[0];
+        const nextAction = actionGroup.querySelector('slot[name="next-action"]').assignedElements()[0];
+        assert.isTrue(previousAction.hasAttribute('data-vl-wizard-prev'));
+        assert.isTrue(nextAction.hasAttribute('data-vl-wizard-next'));
+      });
+
+      test('voorziet geen slot elementen indien de acties niet aanwezig zijn', () => {
+        const pane = fixture('vl-wizard-pane-without-actions-fixture');
+        const grid = pane.shadowRoot.querySelector('[is="vl-grid"]');
+        const columns = grid.querySelectorAll('[is="vl-column"]');
+        const actionGroup = columns[1].querySelector('[is="vl-action-group"]');
+        const previousAction = actionGroup.querySelector('slot[name="previous-action"]');
+        const nextAction = actionGroup.querySelector('slot[name="next-action"]');
+        should.not.exist(previousAction);
+        should.not.exist(nextAction);
+      });
+
+      test('de next/previous pane disabled attributen bepalen bij de wizard of er genavigeerd kan worden naar een vorige/volgende pagina', (done) => {
+        // unresolved Promise = next/previous not allowed
+        // resolved Promise = previous not allowed but next allowed
+        // resolved Promise with true boolean = next/previous allowed
+        // resolved Promise with false boolean = previous not allowed but next allowed
+        const wizard = fixture('vl-wizard-fixture');
+        const pane = wizard.querySelector('vl-wizard-pane');
+        const previousAction = pane._previousAction;
+        const nextAction = pane._nextAction;
+        wizard.callback.callbackFn.then((value) => {
+          assert.isTrue(value);
+          pane.setAttribute('data-vl-previous-pane-disabled', '');
+          previousAction.onclick = () => {
+            wizard.callback.callbackFn.then((value) => {
+              assert.fail('promise mag niet resolven');
+            });
+            setTimeout(() => {
+              nextAction.onclick = () => {
+                wizard.callback.callbackFn.then((value) => {
+                  assert.isUndefined();
+                  done();
+                });
+              };
+              nextAction.click();
+            });
+          };
+          previousAction.click();
+        });
+      });
+
+      test('er kan opgevraagd worden of de wizard pagina actief is', () => {
+        const pane = fixture('vl-wizard-pane-fixture');
+        assert.isFalse(pane.isActive);
+        pane.classList.add('is-selected');
+        assert.isTrue(pane.isActive);
+        pane.classList.add('not-selected');
+        assert.isFalse(pane.isActive);
+      });
+
+      test('er kan opgevraagd worden of de vorige/volgende pagina bereikt kan worden', () => {
+        const pane = fixture('vl-wizard-pane-fixture');
+        assert.isFalse(pane.isPreviousPaneDisabled);
+        assert.isFalse(pane.isNextPaneDisabled);
+        pane.setAttribute('data-vl-previous-pane-disabled', '');
+        assert.isTrue(pane.isPreviousPaneDisabled);
+        assert.isFalse(pane.isNextPaneDisabled);
+        pane.setAttribute('data-vl-next-pane-disabled', '');
+        assert.isTrue(pane.isPreviousPaneDisabled);
+        assert.isTrue(pane.isNextPaneDisabled);
+      });
+
+      test('navigatie toelaten naar de vorige/volgende pagina kan gewijzigd worden', () => {
+        const wizard = fixture('vl-wizard-fixture');
+        const pane = wizard.querySelector('vl-wizard-pane');
+        assert.isFalse(pane.isPreviousPaneDisabled);
+        assert.isFalse(pane.isNextPaneDisabled);
+        pane.disablePreviousPane();
+        assert.isTrue(pane.isPreviousPaneDisabled);
+        assert.isFalse(pane.isNextPaneDisabled);
+        pane.disableNextPane();
+        assert.isTrue(pane.isPreviousPaneDisabled);
+        assert.isTrue(pane.isNextPaneDisabled);
+        pane.enableNextPane();
+        assert.isTrue(pane.isPreviousPaneDisabled);
+        assert.isFalse(pane.isNextPaneDisabled);
+        pane.enablePreviousPane();
+        assert.isFalse(pane.isPreviousPaneDisabled);
+        assert.isFalse(pane.isNextPaneDisabled);
+      });
+    });
+  </script>
+</body>
+
+</html>
