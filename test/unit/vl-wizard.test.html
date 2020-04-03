@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-wizard.js"></script>
+  <script type="module" src="../../src/vl-wizard-pane.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-wizard-fixture">
+    <template>
+      <vl-wizard>
+        <h2 is="vl-h2" slot="title">Wizard title</h2>
+        <p slot="header">You're a wizard Harry</p>
+        <div slot="panes">
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 1</h3>
+          </vl-wizard-pane>
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 2</h3>
+          </vl-wizard-pane>
+        </div>
+      </vl-wizard>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('<vl-wizard>', () => {
+      const should = chai.should();
+      const sandbox = sinon.sandbox.create();
+
+      setup((done) => {
+        customElements.whenDefined('vl-wizard').then(done);
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('bevat een header met titel en content', () => {
+        const wizard = fixture('vl-wizard-fixture');
+        const title = wizard.shadowRoot.querySelector('slot[name="title"]').assignedElements()[0];
+        const header = wizard.shadowRoot.querySelector('slot[name="header"]').assignedElements()[0];
+        should.exist(title);
+        should.exist(header);
+        assert.equal(title, wizard.querySelector('[slot="title"]'));
+        assert.equal(header, wizard.querySelector('[slot="header"]'));
+      });
+
+      test('bevat een progress bar met een step voor elke pagina met de titel als tooltip', () => {
+        const wizard = fixture('vl-wizard-fixture');
+        const progressBar = wizard.shadowRoot.querySelector('vl-progress-bar');
+        const progressBarSteps = progressBar.querySelectorAll('vl-progress-bar-step');
+        assert.lengthOf(progressBarSteps, wizard.querySelectorAll('vl-wizard-pane').length);
+        progressBarSteps.forEach((step, index) => {
+          assert.equal(step.innerText.trim(), `Stap ${++index}`);
+        });
+      });
+
+      test('toont de wizard pagina elementen in een container', () => {
+        const wizard = fixture('vl-wizard-fixture');
+        const container = wizard.shadowRoot.querySelector('.vl-wizard__panes');
+        const panes = container.querySelector('slot[name="panes"]').assignedElements()[0];
+        assert.lengthOf(panes.querySelectorAll('vl-wizard-pane'), wizard.querySelectorAll('vl-wizard-pane').length);
+      });
+
+      test('de wizard dress functie wordt correct aangeroepen', (done) => {
+        const wizard = fixture('vl-wizard-fixture');
+        sandbox.spy(vl.wizard, 'dress');
+        customElements.whenDefined('vl-wizard').then(() => {
+          setTimeout(() => {
+            const element = wizard.shadowRoot.querySelector('.vl-wizard');
+            const callback = wizard.callback;
+            const panes = wizard.querySelectorAll('vl-wizard-pane');
+            const progressBar = wizard.shadowRoot.querySelector('vl-progress-bar');
+            assert(vl.wizard.dress.calledWith(element, callback, panes, progressBar.buttons, progressBar.element));
+            done();
+          });
+        });
+      });
+
+      test('standaard bevat de wizard callback functie een resolved Promise zodat navigeren naar vorige en volgende stappen toegelaten is', (done) => {
+        const wizard = fixture('vl-wizard-fixture');
+        wizard.callback.callbackFn.then((value) => {
+          assert.isTrue(value);
+          done();
+        });
+      });
+
+      test('de wizard callback functie kan aangepast worden via de callback setter', (done) => {
+        const wizard = fixture('vl-wizard-fixture');
+        const text = 'custom callback';
+        wizard.callback = Promise.resolve(text);
+        wizard.callback.callbackFn.then((value) => {
+          assert.equal(value, text);
+          done();
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
