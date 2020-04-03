@@ -1,5 +1,7 @@
 const VlWizard = require('../components/vl-wizard');
+const { By } = require('vl-ui-core').Test.Setup;
 const { Page, Config } = require('vl-ui-core').Test;
+const { VlCheckbox } = require('vl-ui-checkbox').Test;
 
 class VlWizardPage extends Page {
     async getWizard() {
@@ -34,10 +36,13 @@ class VlWizardPage extends Page {
         const wizard = await this.getCheckboxWizard();
         const progressBar = await wizard.getProgressBar();
         const progressBarStep1 = await progressBar.getStep(1);
-        const checkboxes = await wizard.findElements(By.css('vl-checkbox'));
-        checkboxes.filter(checkbox => !checkbox.checked).forEach(checkbox => checkbox.toggle());
+        let checkboxes = await wizard.findElements(By.css('vl-checkbox'));
+        checkboxes = await Promise.all(checkboxes.map(element => new VlCheckbox(this.driver, element)));
+        const isChecked = await Promise.all(checkboxes.map(checkbox => checkbox.isChecked()));
+        const uncheckedCheckboxes = checkboxes.filter((checkbox, index) => !isChecked[index]);
+        await Promise.all(uncheckedCheckboxes.map(checkbox => this.driver.executeScript('return arguments[0].toggle()', checkbox)));
         await progressBarStep1.click();
-        checkboxes.filter(checkbox => checkbox.checked).forEach(checkbox => checkbox.toggle());
+        await Promise.all(checkboxes.map(checkbox => this.driver.executeScript('return arguments[0].toggle()', checkbox)));
     }
 }
 

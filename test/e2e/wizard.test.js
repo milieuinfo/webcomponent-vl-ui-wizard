@@ -1,7 +1,6 @@
 const { assert, driver, By } = require('vl-ui-core').Test.Setup;
 const { VlH2, VlH3 } = require('vl-ui-titles').Test.VlTitles;
 const { VlElement } = require('vl-ui-core').Test;
-const { VlCheckbox } = require('vl-ui-checkbox').Test;
 const VlWizardPage = require('./pages/vl-wizard.page');
 
 describe('vl-wizard', async () => {
@@ -103,8 +102,8 @@ describe('vl-wizard', async () => {
         const pane1 = await wizard.getPane(1);
         const pane2 = await wizard.getPane(2);
         const pane3 = await wizard.getPane(3);
-        let activePane = await wizard.getActivePane();
 
+        let activePane = await wizard.getActivePane();
         await assert.eventually.isTrue(activePane.equals(pane1));
         await wizard.next();
         await activePane.equals(pane1);
@@ -146,8 +145,8 @@ describe('vl-wizard', async () => {
         const pane1 = await wizard.getPane(1);
         const pane2 = await wizard.getPane(2);
         const pane3 = await wizard.getPane(3);
-        let activePane = await wizard.getActivePane();
 
+        let activePane = await wizard.getActivePane();
         await assert.eventually.isTrue(activePane.equals(pane1));
         await progressBarStep2.click();
         await activePane.equals(pane1);
