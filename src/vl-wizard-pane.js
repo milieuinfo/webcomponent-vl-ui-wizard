@@ -1,7 +1,6 @@
 import { VlElement, define } from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-grid/dist/vl-grid.js';
 import '/node_modules/vl-ui-action-group/dist/vl-action-group.js';
-import '/node_modules/vl-ui-button/dist/vl-button.js';
 
 /**
  * VlWizardPane
@@ -25,7 +24,6 @@ export class VlWizardPane extends VlElement(HTMLElement) {
                 @import '/src/style.css';
                 @import '/node_modules/vl-ui-action-group/dist/style.css';
                 @import '/node_modules/vl-ui-grid/dist/style.css';
-                @import '/node_modules/vl-ui-button/dist/style.css';
 
                 :host {
                     width: 100%;
