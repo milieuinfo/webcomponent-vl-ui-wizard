@@ -60,10 +60,10 @@ export class VlWizard extends VlElement(HTMLElement) {
     /**
      * Callback setter die bepaalt of er naar de volgende/vorige pagina mag genavigeerd worden.
      * 
-     * @param {Function} callback
+     * @param {Promise} promise
      */
-    set callback(callback) {
-        this.__callback.callbackFn = callback;
+    set callback(promise) {
+        this.__callback.callbackFn = promise;
     }
 
     get _panes() {
