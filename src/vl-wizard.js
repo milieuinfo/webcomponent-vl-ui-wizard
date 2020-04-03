@@ -115,6 +115,4 @@ export class VlWizard extends VlElement(HTMLElement) {
     }
 }
 
-Promise.all([customElements.whenDefined('vl-progress-bar'), customElements.whenDefined('vl-progress-bar-step')]).then(() => {
-    define('vl-wizard', VlWizard);
-});
+define('vl-wizard', VlWizard);
