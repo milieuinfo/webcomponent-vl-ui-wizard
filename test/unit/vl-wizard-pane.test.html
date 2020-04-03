@@ -111,8 +111,9 @@
 
       test('de next/previous pane disabled attributen bepalen bij de wizard of er genavigeerd kan worden naar een vorige/volgende pagina', (done) => {
         // unresolved Promise = next/previous not allowed
-        // resolved Promise = next allowed but previous not allowed
+        // resolved Promise = previous not allowed but next allowed
         // resolved Promise with true boolean = next/previous allowed
+        // resolved Promise with false boolean = previous not allowed but next allowed
         const wizard = fixture('vl-wizard-fixture');
         const pane = wizard.querySelector('vl-wizard-pane');
         const previousAction = pane._previousAction;
