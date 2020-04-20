@@ -56,7 +56,7 @@
 		"vl-ui-grid": "^3.0.2"
 	},
 	"devDependencies": {
-		"@govflanders/vl-ui-util": "3.9.1",
+		"@govflanders/vl-ui-util": "3.9.2",
 		"@govflanders/vl-ui-wizard": "3.9.1",
 		"vl-ui-util": "5.1.6",
 		"vl-ui-titles": "^3.0.1",
