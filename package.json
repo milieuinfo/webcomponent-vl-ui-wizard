@@ -58,14 +58,14 @@
 	"devDependencies": {
 		"@govflanders/vl-ui-util": "3.9.2",
 		"@govflanders/vl-ui-wizard": "3.9.1",
-		"vl-ui-util": "5.1.7",
-		"vl-ui-titles": "^3.0.1",
+		"vl-ui-button": "^5.0.1",
+		"vl-ui-checkbox": "^3.0.2",
 		"vl-ui-form-grid": "^3.0.2",
 		"vl-ui-form-message": "^5.0.1",
-		"vl-ui-input-field": "^3.1.1",
-		"vl-ui-button": "^5.0.1",
-		"vl-ui-link": "^4.0.1",
 		"vl-ui-icon": "^5.0.1",
-		"vl-ui-checkbox": "^3.0.2"
+		"vl-ui-input-field": "^3.1.1",
+		"vl-ui-link": "^4.0.1",
+		"vl-ui-titles": "^3.0.1",
+		"vl-ui-util": "github:milieuinfo/webcomponent-vl-ui-util#deleted-demo-code"
 	}
 }
