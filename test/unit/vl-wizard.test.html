@@ -17,10 +17,10 @@
         <h2 is="vl-h2" slot="title">Wizard title</h2>
         <p slot="header">You're a wizard Harry</p>
         <div slot="panes">
-          <vl-wizard-pane>
+          <vl-wizard-pane id="pane1">
             <h3 slot="title">Stap 1</h3>
           </vl-wizard-pane>
-          <vl-wizard-pane>
+          <vl-wizard-pane id="pane2">
             <h3 slot="title">Stap 2</h3>
           </vl-wizard-pane>
         </div>
@@ -28,7 +28,9 @@
     </template>
   </test-fixture>
 
-  <script>
+  <script type="module">
+    import {awaitUntil} from '../../node_modules/vl-ui-core/dist/vl-core.src.js';
+
     suite('<vl-wizard>', () => {
       const should = chai.should();
       const sandbox = sinon.sandbox.create();
@@ -99,6 +101,20 @@
           assert.equal(value, text);
           done();
         });
+      });
+
+      test('standaard is het eerste pane actief', async () => {
+        const wizard = fixture('vl-wizard-fixture');
+
+        // FIXME if you uncomment this, the test will work because the wizard will be properly dressed...
+        // await awaitUntil(() =>
+        //     wizard.shadowRoot.querySelector(".vl-wizard").getAttribute('data-vl-wizard-dressed') === 'true');
+
+        const pane1 = wizard.querySelector('#pane1');
+        const pane2 = wizard.querySelector('#pane2');
+
+        assert.isTrue(pane1.isActive);
+        assert.isFalse(pane2.isActive);
       });
     });
   </script>
