@@ -46,7 +46,9 @@
     </template>
   </test-fixture>
 
-  <script>
+  <script type="module">
+    import { awaitUntil } from 'vl-ui-core/dist/vl-core';
+
     suite('<vl-wizard-pane>', () => {
       const should = chai.should();
 
@@ -191,10 +193,9 @@
             <p>Dit is dynamische data</p>
             <p>Dit is dynamische data</p>
           `);
-          setTimeout(() => {
-            assert.isFalse(hasOverflow(panes));
-            done();
-          });
+          awaitUntil(() => {
+            return !hasOverflow(panes);
+          }).then(() => done());
         });
       });
     });
