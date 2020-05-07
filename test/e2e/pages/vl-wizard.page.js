@@ -8,8 +8,12 @@ class VlWizardPage extends Page {
         return this._getWizard('#vl-wizard');
     }
 
-    async getCheckboxWizard() {
-        return this._getWizard('#vl-wizard-checkbox');
+    async getDisabledWizard() {
+        return this._getWizard('#vl-wizard-disabled');
+    }
+
+    async getDisabledAttributeWizard() {
+        return this._getWizard('#vl-wizard-disabled-attribute');
     }
 
     async _getWizard(selector) {
@@ -22,7 +26,8 @@ class VlWizardPage extends Page {
 
     async reset() {
         await this._resetWizard();
-        await this._resetCheckboxWizard();
+        await this._resetWizard(await this.getDisabledWizard());
+        await this._resetWizard(await this.getDisabledAttributeWizard());
     }
 
     async _resetWizard() {
@@ -32,8 +37,7 @@ class VlWizardPage extends Page {
         await progressBarStep1.click();
     }
 
-    async _resetCheckboxWizard() {
-        const wizard = await this.getCheckboxWizard();
+    async _resetDisabledWizard(wizard) {
         const progressBar = await wizard.getProgressBar();
         const progressBarStep1 = await progressBar.getStep(1);
         let checkboxes = await wizard.findElements(By.css('vl-checkbox'));

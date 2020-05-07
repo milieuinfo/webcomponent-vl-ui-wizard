@@ -118,6 +118,30 @@
           done();
         });
       });
+
+      test('via een attribuut kan de navigatie naar de volgende stap overal uitgeschakeld worden', () => {
+        const wizard = fixture('vl-wizard-fixture');
+        wizard._panes.forEach(pane => {
+          sandbox.spy(pane, 'disableNextPane');
+          sandbox.spy(pane, 'enableNextPane');
+        });
+        wizard.setAttribute('data-vl-next-panes-disabled', '');
+        wizard._panes.forEach(pane => assert(pane.disableNextPane.called));
+        wizard.removeAttribute('data-vl-next-panes-disabled');
+        wizard._panes.forEach(pane => assert(pane.enableNextPane.called));
+      });
+
+      test('via een attribuut kan de navigatie naar de vorige stap overal uitgeschakeld worden', () => {
+        const wizard = fixture('vl-wizard-fixture');
+        wizard._panes.forEach(pane => {
+          sandbox.spy(pane, 'disablePreviousPane');
+          sandbox.spy(pane, 'enablePreviousPane');
+        });
+        wizard.setAttribute('data-vl-previous-panes-disabled', '');
+        wizard._panes.forEach(pane => assert(pane.disablePreviousPane.called));
+        wizard.removeAttribute('data-vl-previous-panes-disabled');
+        wizard._panes.forEach(pane => assert(pane.enablePreviousPane.called));
+      });
     });
   </script>
 </body>

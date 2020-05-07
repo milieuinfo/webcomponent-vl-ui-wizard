@@ -10,12 +10,19 @@ import './vl-wizard-pane.js';
  * 
  * @extends VlElement
  * 
+ * @property {boolean} data-vl-next-panes-disabled - Attribuut zorgt ervoor dat de gebruiker niet verder kan naar de volgende stappen.
+ * @property {boolean} data-vl-previous-panes-disabled - Attribuut zorgt ervoor dat de gebruiker niet verder kan naar de vorige stappen.
+ * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-wizard/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-wizard/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-wizard.html|Demo}
  * 
  */
 export class VlWizard extends VlElement(HTMLElement) {
+    static get _observedAttributes() {
+        return ['next-panes-disabled', 'previous-panes-disabled'];
+    }
+
     constructor() {
         super(`
             <style>
@@ -128,6 +135,14 @@ export class VlWizard extends VlElement(HTMLElement) {
                 }
             });
         });
+    }
+
+    _next_panes_disabledChangedCallback(oldValue, newValue) {
+        this._panes.forEach(pane => newValue != undefined ? pane.disableNextPane() : pane.enableNextPane());
+    }
+
+    _previous_panes_disabledChangedCallback(oldValue, newValue) {
+        this._panes.forEach(pane => newValue != undefined ? pane.disablePreviousPane() : pane.enablePreviousPane());
     }
 }
 
