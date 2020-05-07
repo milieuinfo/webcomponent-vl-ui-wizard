@@ -66,6 +66,20 @@ export class VlWizard extends VlElement(HTMLElement) {
         this.__callback.callbackFn = promise;
     }
 
+    /**
+     * Navigeer naar de volgende pagina.
+     */
+    next() {
+        this._activePane.next();
+    }
+
+    /**
+     * Navigeer naar de vorige pagina.
+     */
+    previous() {
+        this._activePane.previous();
+    }
+
     get _panes() {
         return this.querySelectorAll('vl-wizard-pane');
     }
