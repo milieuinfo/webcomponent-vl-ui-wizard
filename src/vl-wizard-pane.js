@@ -57,7 +57,6 @@ export class VlWizardPane extends VlElement(HTMLElement) {
     }
 
     connectedCallback() {
-        this._processTitle();
         this._processActions();
         this._observeActionsClick();
     }
@@ -167,12 +166,6 @@ export class VlWizardPane extends VlElement(HTMLElement) {
 
     _setPreviousPaneDisabledAttribute(value) {
         this.toggleAttribute('data-vl-previous-pane-disabled', value);
-    }
-
-    _processTitle() {
-        if (this._titleSlot) {
-            this._titleSlot.setAttribute('data-vl-wizard-focus', '');
-        }
     }
 
     _processActions() {
