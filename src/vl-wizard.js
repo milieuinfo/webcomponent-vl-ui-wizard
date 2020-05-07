@@ -42,8 +42,8 @@ export class VlWizard extends VlElement(HTMLElement) {
         };
     }
 
-    async connectedCallback() {
-        await this._processPanes();
+    connectedCallback() {
+        this._processPanes();
         this._observeProgressBarClick();
         this._dress();
     }
@@ -90,7 +90,7 @@ export class VlWizard extends VlElement(HTMLElement) {
         `);
     }
 
-    async _processPanes() {
+    _processPanes() {
         this._panes.forEach(pane => {
             this._progressBar.appendChild(this._getProgressBarStepTemplate(pane.title));
         });
