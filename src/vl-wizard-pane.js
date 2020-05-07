@@ -32,6 +32,10 @@ export class VlWizardPane extends VlElement(HTMLElement) {
                 slot[name="previous-action"], slot[name="next-action"] {
                     display: inline-block;
                 }
+
+                [hidden] {
+                    display: none !important;
+                }
             </style>
             <section class="vl-wizard__pane">
                 <slot name="title"></slot>
@@ -70,7 +74,8 @@ export class VlWizardPane extends VlElement(HTMLElement) {
      * @return {String}
      */
     get title() {
-        return this._titleSlot ? this._titleSlot.innerText : undefined;
+        const element = this._progressBarTitleSlot || this._titleSlot;
+        return element ? element.innerText : undefined;
     }
 
     /**
@@ -140,6 +145,10 @@ export class VlWizardPane extends VlElement(HTMLElement) {
 
     get _titleSlot() {
         return this.querySelector('[slot="title"]');
+    }
+
+    get _progressBarTitleSlot() {
+        return this.querySelector('[slot="progress-bar-title"]');
     }
 
     get _actionsColumn() {
