@@ -18,6 +18,12 @@ import '/node_modules/vl-ui-action-group/dist/vl-action-group.js';
  * 
  */
 export class VlWizardPane extends VlElement(HTMLElement) {
+    static get EVENTS() {
+        return {
+            activated: 'activated'
+        };
+    }
+
     constructor() {
         super(`
             <style>
@@ -57,6 +63,11 @@ export class VlWizardPane extends VlElement(HTMLElement) {
     connectedCallback() {
         this._processActions();
         this._observeActionsClick();
+        this._activeObserver = this._observeActiveClass(() => this._dispatchActiveEvent());
+    }
+
+    disconnectedCallback() {
+        this._activeObserver.disconnect();
     }
 
     /**
@@ -238,6 +249,20 @@ export class VlWizardPane extends VlElement(HTMLElement) {
                 this.isNextPaneDisabled ? this.disableNextPane() : this.enableNextPane();
             });
         }
+    }
+
+    _observeActiveClass(callback) {
+        const observer = new MutationObserver((mutations) => {
+            if (mutations.some(mutation => mutation.target.isActive)) {
+                callback();
+            }
+        });
+        observer.observe(this, {attributeFilter: ['class']});
+        return observer; 
+    }
+
+    _dispatchActiveEvent() {
+        this.dispatchEvent(new Event(VlWizardPane.EVENTS.activated));
     }
 }
 
