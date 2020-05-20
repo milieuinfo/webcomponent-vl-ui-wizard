@@ -76,7 +76,7 @@ export class VlWizardPane extends VlElement(HTMLElement) {
      * @return {Boolean}
      */
     get isActive() {
-        return this.classList.contains('is-selected') && !this.classList.contains('not-selected');
+        return this._isActive([... this.classList]);
     }
 
     /**
@@ -200,6 +200,10 @@ export class VlWizardPane extends VlElement(HTMLElement) {
         return this.closest('vl-wizard');
     }
 
+    _isActive(classes) {
+        return classes.includes('is-selected') && !classes.includes('not-selected');
+    }
+
     _setNextPaneDisabledAttribute(value) {
         this.toggleAttribute('data-vl-next-pane-disabled', value);
     }
@@ -253,11 +257,13 @@ export class VlWizardPane extends VlElement(HTMLElement) {
 
     _observeActiveClass(callback) {
         const observer = new MutationObserver((mutations) => {
-            if (mutations.some(mutation => mutation.target.isActive)) {
+            const wasActive = (mutation) => this._isActive(mutation.oldValue ? mutation.oldValue.split(' ') : []);
+            const isActive = (mutation) => mutation.target.isActive;
+            if (mutations.some(mutation => !wasActive(mutation) && isActive(mutation))) {
                 callback();
             }
         });
-        observer.observe(this, {attributeFilter: ['class']});
+        observer.observe(this, {attributeFilter: ['class'], attributeOldValue: true});
         return observer; 
     }
 

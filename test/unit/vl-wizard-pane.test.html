@@ -235,11 +235,19 @@
         assert.isTrue(pane._previousAction.click.called);
       });
 
-      test('wanneer een wizard pagina actief wordt, zal er een event gegooid worden', (done) => {
+      test('alleen wanneer een wizard pagina actief wordt, zal er een event gegooid worden', (done) => {
         const wizard = fixture('vl-wizard-panes-fixture');
         const panes = wizard.querySelectorAll('vl-wizard-pane');
         setTimeout(() => {
-          panes[1].addEventListener(VlWizardPane.EVENTS.activated, () => done());
+          let counter = 0;
+          const addClass = () => panes[1].classList.add(`test-${++counter}`);
+          panes[1].addEventListener(VlWizardPane.EVENTS.activated, addClass);
+          panes[1].addEventListener(VlWizardPane.EVENTS.activated, () => {
+            setTimeout(() => {
+              assert.equal(counter, 1);
+              done();
+            });
+          });
           panes[0].next();
         });
       });
