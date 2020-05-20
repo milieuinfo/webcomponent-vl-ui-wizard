@@ -183,17 +183,11 @@ export class VlWizardPane extends VlElement(HTMLElement) {
     }
 
     get _previousAction() {
-        const slot = this._previousActionSlotPlaceholder;
-        if (slot && slot.assignedElements() && slot.assignedElements().length > 0) {
-            return slot.assignedElements()[0];
-        }
+        return this._getAssignedElementByIndex(this._previousActionSlotPlaceholder, 0);
     }
 
     get _nextAction() {
-        const slot = this._nextActionSlotPlaceholder;
-        if (slot && slot.assignedElements() && slot.assignedElements().length > 0) {
-            return slot.assignedElements()[0];
-        }
+        return this._getAssignedElementByIndex(this._nextActionSlotPlaceholder, 0);
     }
 
     get _wizard() {
@@ -202,6 +196,12 @@ export class VlWizardPane extends VlElement(HTMLElement) {
 
     _isActive(classes) {
         return classes.includes('is-selected') && !classes.includes('not-selected');
+    }
+
+    _getAssignedElementByIndex(slot, index) {
+        if (slot && slot.assignedElements() && slot.assignedElements().length > 0) {
+            return slot.assignedElements()[index];
+        }
     }
 
     _setNextPaneDisabledAttribute(value) {
