@@ -102,7 +102,7 @@ describe('vl-wizard', async () => {
         const wizard2 = await vlWizardPage.getDisabledAttributeWizard();
         
         [wizard1, wizard2].forEach(async (wizard) => {
-            const id = await wizard.getId();
+            const id = await wizard.getAttribute('id');
 
             const pane1 = await wizard.getPane(1);
             const pane2 = await wizard.getPane(2);
@@ -147,7 +147,7 @@ describe('vl-wizard', async () => {
         const wizard2 = await vlWizardPage.getDisabledAttributeWizard();
         
         [wizard1, wizard2].forEach(async (wizard) => {
-            const id = await wizard.getId();
+            const id = await wizard.getAttribute('id');
 
             const progressBar = await wizard.getProgressBar();
             const progressBarStep1 = await progressBar.getStep(1);
