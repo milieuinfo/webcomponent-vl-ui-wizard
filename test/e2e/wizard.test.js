@@ -113,9 +113,9 @@ describe('vl-wizard', async () => {
             await wizard.next();
             await activePane.equals(pane1);
             let content = (await activePane.getContentSlotElements())[0];
-            let checkbox = await content.findElement(By.css(`#${id}-pane-1-next`));
+            let activateNextPaneNavigation = await content.findElement(By.css(`#${id}-pane-1-next`));
 
-            await checkbox.click();
+            await activateNextPaneNavigation.click();
             await wizard.next();
             activePane = await wizard.getActivePane();
             await assert.eventually.isTrue(activePane.equals(pane2));
@@ -124,18 +124,18 @@ describe('vl-wizard', async () => {
             await wizard.next();
             await assert.eventually.isTrue(activePane.equals(pane2));
             content = (await activePane.getContentSlotElements())[0];
-            checkbox = await content.findElement(By.css(`#${id}-pane-2-previous`));
-
-            await checkbox.click();
+            
+            const activatePreviousPaneNavigation = await content.findElement(By.css(`#${id}-pane-2-previous`));
+            await activatePreviousPaneNavigation.click();
             await wizard.previous();
             activePane = await wizard.getActivePane();
             await assert.eventually.isTrue(activePane.equals(pane1));
             await wizard.next();
             activePane = await wizard.getActivePane();
             content = (await activePane.getContentSlotElements())[0];
-            checkbox = await content.findElement(By.css(`#${id}-pane-2-next`));
-
-            await checkbox.click();
+            
+            activateNextPaneNavigation = await content.findElement(By.css(`#${id}-pane-2-next`));
+            await activateNextPaneNavigation.click();
             await wizard.next();
             activePane = await wizard.getActivePane();
             await assert.eventually.isTrue(activePane.equals(pane3));
@@ -162,9 +162,9 @@ describe('vl-wizard', async () => {
             await progressBarStep2.click();
             await activePane.equals(pane1);
             let content = (await activePane.getContentSlotElements())[0];
-            let checkbox = await content.findElement(By.css(`#${id}-pane-1-next`));
+            let activateNextPaneNavigation = await content.findElement(By.css(`#${id}-pane-1-next`));
 
-            await checkbox.click();
+            await activateNextPaneNavigation.click();
             await progressBarStep2.click();
             activePane = await wizard.getActivePane();
             await assert.eventually.isTrue(activePane.equals(pane2));
@@ -173,18 +173,18 @@ describe('vl-wizard', async () => {
             await progressBarStep3.click();
             await assert.eventually.isTrue(activePane.equals(pane2));
             content = (await activePane.getContentSlotElements())[0];
-            checkbox = await content.findElement(By.css(`#${id}-pane-2-previous`));
-
-            await checkbox.click();
+            
+            const activatePreviousPaneNavigation = await content.findElement(By.css(`#${id}-pane-2-previous`));
+            await activatePreviousPaneNavigation.click();
             await progressBarStep1.click();
             activePane = await wizard.getActivePane();
             await assert.eventually.isTrue(activePane.equals(pane1));
             await progressBarStep2.click();
             activePane = await wizard.getActivePane();
             content = (await activePane.getContentSlotElements())[0];
-            checkbox = await content.findElement(By.css(`#${id}-pane-2-next`));
             
-            await checkbox.click();
+            activateNextPaneNavigation = await content.findElement(By.css(`#${id}-pane-2-next`));
+            await activateNextPaneNavigation.click();
             await progressBarStep3.click();
             activePane = await wizard.getActivePane();
             await assert.eventually.isTrue(activePane.equals(pane3));
