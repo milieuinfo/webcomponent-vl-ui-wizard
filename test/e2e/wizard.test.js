@@ -97,7 +97,7 @@ describe('vl-wizard', async () => {
         await assert.eventually.equal(title.getText(), 'Stap 1');
     });
 
-    it('als gebruiker kan ik via de actie knoppen alleen door de panelen van de wizard navigeren wanneer ik de checkbox aanzet', async () => {
+    it('als gebruiker kan ik via de actie knoppen alleen door de panelen van de wizard navigeren wanneer ik navigeren naar het vorige/volgende wizard paneel activeer via een checkbox', async () => {
         const wizard1 = await vlWizardPage.getDisabledWizard();
         const wizard2 = await vlWizardPage.getDisabledAttributeWizard();
         
