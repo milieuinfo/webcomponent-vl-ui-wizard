@@ -126,12 +126,16 @@ export class VlWizard extends VlElement(HTMLElement) {
     _observeProgressBarClick() {
         setTimeout(() => {
             this._progressBar.buttons.forEach(button => button.onclick = (event) => {
+                const panes = [... this._panes];
                 const number = event.target.getAttribute('data-vl-index');
                 if (number < this._activePaneNumber) {
-                    this.__callback.callbackFn = this._activePane.isPreviousPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
-                }
-                if (number > this._activePaneNumber) {
-                    this.__callback.callbackFn = this._activePane.isNextPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
+                    const panesBetween = panes.slice(Number(number) - 1, panes.indexOf(this._activePane));
+                    const allPanesBetweenAreEnabled = panesBetween.every(pane => !pane.isPreviousPaneDisabled);
+                    this.__callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
+                } else {
+                    const panesBetween = panes.slice(panes.indexOf(this._activePane), Number(number) - 1)
+                    const allPanesBetweenAreEnabled = panesBetween.every(pane => !pane.isNextPaneDisabled);
+                    this.__callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
                 }
             });
         });
