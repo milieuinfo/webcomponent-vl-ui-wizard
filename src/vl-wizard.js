@@ -129,9 +129,13 @@ export class VlWizard extends VlElement(HTMLElement) {
                 const number = event.target.getAttribute('data-vl-index');
                 if (number < this._activePaneNumber) {
                     this.__callback.callbackFn = this._activePane.isPreviousPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
-                }
-                if (number > this._activePaneNumber) {
-                    this.__callback.callbackFn = this._activePane.isNextPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
+                } else {
+                    const panes = [... this._panes];
+                    if (panes.slice(panes.indexOf(this._activePane), Number(number)-1).every(pane => !pane.isNextPaneDisabled)) {
+                        this.__callback.callbackFn = Promise.resolve(true);
+                    } else {
+                        this.__callback.callbackFn = new Promise(() => { });
+                    }
                 }
             });
         });

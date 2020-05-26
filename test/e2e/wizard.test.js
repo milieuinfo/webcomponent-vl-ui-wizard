@@ -161,6 +161,8 @@ describe('vl-wizard', async () => {
             await assert.eventually.isTrue(activePane.equals(pane1));
             await progressBarStep2.click();
             await activePane.equals(pane1);
+            await progressBarStep3.click();
+            await activePane.equals(pane1);
             let content = (await activePane.getContentSlotElements())[0];
             let activateNextPaneNavigation = await content.findElement(By.css(`#${id}-pane-1-next`));
 
