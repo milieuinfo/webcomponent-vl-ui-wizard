@@ -42,9 +42,8 @@ export class VlWizard extends VlElement(HTMLElement) {
         };
     }
 
-    async connectedCallback() {
-        await this._processPanes();
-        this._observeProgressBarClick();
+    connectedCallback() {
+        this._processPanes();
         this._dress();
     }
 
@@ -90,10 +89,11 @@ export class VlWizard extends VlElement(HTMLElement) {
         `);
     }
 
-    async _processPanes() {
+    _processPanes() {
         this._panes.forEach(pane => {
             this._progressBar.appendChild(this._getProgressBarStepTemplate(pane.title));
         });
+        this._observeProgressBarClick();
     }
 
     _dress() {
@@ -103,14 +103,16 @@ export class VlWizard extends VlElement(HTMLElement) {
     }
 
     _observeProgressBarClick() {
-        this._progressBar.buttons.forEach(button => button.onclick = (event) => {
-            const number = event.target.getAttribute('data-vl-index');
-            if (number < this._activePaneNumber) {
-                this.__callback.callbackFn = this._activePane.isPreviousPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
-            }
-            if (number > this._activePaneNumber) {
-                this.__callback.callbackFn = this._activePane.isNextPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
-            }
+        setTimeout(() => {
+            this._progressBar.buttons.forEach(button => button.onclick = (event) => {
+                const number = event.target.getAttribute('data-vl-index');
+                if (number < this._activePaneNumber) {
+                    this.__callback.callbackFn = this._activePane.isPreviousPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
+                }
+                if (number > this._activePaneNumber) {
+                    this.__callback.callbackFn = this._activePane.isNextPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
+                }
+            });
         });
     }
 }

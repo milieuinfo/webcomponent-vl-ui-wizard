@@ -34,16 +34,21 @@
   <test-fixture id="vl-wizard-fixture">
     <template>
       <vl-wizard>
-        <vl-wizard-pane>
-          <h3 slot="title">Stap 1</h3>
-          <button type="button" slot="previous-action">Vorige</button>
-          <button type="button" slot="next-action">Volgende</button>
-        </vl-wizard-pane>
+        <div slot="panes">
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 1</h3>
+            <div slot="content"></div>
+            <button type="button" slot="previous-action">Vorige</button>
+            <button type="button" slot="next-action">Volgende</button>
+          </vl-wizard-pane>
+        </div>
       </vl-wizard>
     </template>
   </test-fixture>
 
-  <script>
+  <script type="module">
+    import { awaitUntil } from 'vl-ui-core/dist/vl-core';
+
     suite('<vl-wizard-pane>', () => {
       const should = chai.should();
 
@@ -171,6 +176,27 @@
         pane.enablePreviousPane();
         assert.isFalse(pane.isPreviousPaneDisabled);
         assert.isFalse(pane.isNextPaneDisabled);
+      });
+
+      test('wanneer er dynamisch elementen toegevoegd worden aan de content, zullen de onderste elementen nog steeds zichtbaar zijn', (done) => {
+        const hasOverflow = element => element.scrollHeight > element.clientHeight;
+        const wizard = fixture('vl-wizard-fixture');
+
+        setTimeout(() => {
+          const panes = wizard.querySelector('[slot="panes"]');
+          assert.isFalse(hasOverflow(panes));
+
+          const pane = wizard.querySelector('vl-wizard-pane');
+          const content = pane.shadowRoot.querySelector('slot[name="content"]').assignedElements()[0];
+          content.insertAdjacentHTML('afterbegin', `
+            <p>Dit is dynamische data</p>
+            <p>Dit is dynamische data</p>
+            <p>Dit is dynamische data</p>
+          `);
+          awaitUntil(() => {
+            return !hasOverflow(panes);
+          }).then(() => done());
+        });
       });
     });
   </script>
