@@ -98,84 +98,96 @@ describe('vl-wizard', async () => {
     });
 
     it('als gebruiker kan ik via de actie knoppen alleen door de panelen van de wizard navigeren wanneer ik de checkbox aanzet', async () => {
-        const wizard = await vlWizardPage.getCheckboxWizard();
-        const pane1 = await wizard.getPane(1);
-        const pane2 = await wizard.getPane(2);
-        const pane3 = await wizard.getPane(3);
+        const wizard1 = await vlWizardPage.getDisabledWizard();
+        const wizard2 = await vlWizardPage.getDisabledAttributeWizard();
+        
+        [wizard1, wizard2].forEach(async (wizard) => {
+            const id = await wizard.getId();
 
-        let activePane = await wizard.getActivePane();
-        await assert.eventually.isTrue(activePane.equals(pane1));
-        await wizard.next();
-        await activePane.equals(pane1);
-        let content = (await activePane.getContentSlotElements())[0];
-        let checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-1-next'));
+            const pane1 = await wizard.getPane(1);
+            const pane2 = await wizard.getPane(2);
+            const pane3 = await wizard.getPane(3);
 
-        await checkbox.click();
-        await wizard.next();
-        activePane = await wizard.getActivePane();
-        await assert.eventually.isTrue(activePane.equals(pane2));
-        await wizard.previous();
-        await activePane.equals(pane2);
-        await wizard.next();
-        await assert.eventually.isTrue(activePane.equals(pane2));
-        content = (await activePane.getContentSlotElements())[0];
-        checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-2-previous'));
+            let activePane = await wizard.getActivePane();
+            await assert.eventually.isTrue(activePane.equals(pane1));
+            await wizard.next();
+            await activePane.equals(pane1);
+            let content = (await activePane.getContentSlotElements())[0];
+            let checkbox = await content.findElement(By.css(`#${id}-pane-1-next`));
 
-        await checkbox.click();
-        await wizard.previous();
-        activePane = await wizard.getActivePane();
-        await assert.eventually.isTrue(activePane.equals(pane1));
-        await wizard.next();
-        activePane = await wizard.getActivePane();
-        content = (await activePane.getContentSlotElements())[0];
-        checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-2-next'));
+            await checkbox.click();
+            await wizard.next();
+            activePane = await wizard.getActivePane();
+            await assert.eventually.isTrue(activePane.equals(pane2));
+            await wizard.previous();
+            await activePane.equals(pane2);
+            await wizard.next();
+            await assert.eventually.isTrue(activePane.equals(pane2));
+            content = (await activePane.getContentSlotElements())[0];
+            checkbox = await content.findElement(By.css(`#${id}-pane-2-previous`));
 
-        await checkbox.click();
-        await wizard.next();
-        activePane = await wizard.getActivePane();
-        await assert.eventually.isTrue(activePane.equals(pane3));
+            await checkbox.click();
+            await wizard.previous();
+            activePane = await wizard.getActivePane();
+            await assert.eventually.isTrue(activePane.equals(pane1));
+            await wizard.next();
+            activePane = await wizard.getActivePane();
+            content = (await activePane.getContentSlotElements())[0];
+            checkbox = await content.findElement(By.css(`#${id}-pane-2-next`));
+
+            await checkbox.click();
+            await wizard.next();
+            activePane = await wizard.getActivePane();
+            await assert.eventually.isTrue(activePane.equals(pane3));
+        });
     });
 
     it('als gebruiker kan ik via de progress bar alleen door de panelen van de wizard navigeren wanneer ik de checkbox aanzet', async () => {
-        const wizard = await vlWizardPage.getCheckboxWizard();
-        const progressBar = await wizard.getProgressBar();
-        const progressBarStep1 = await progressBar.getStep(1);
-        const progressBarStep2 = await progressBar.getStep(2);
-        const progressBarStep3 = await progressBar.getStep(3);
-        const pane1 = await wizard.getPane(1);
-        const pane2 = await wizard.getPane(2);
-        const pane3 = await wizard.getPane(3);
-
-        let activePane = await wizard.getActivePane();
-        await assert.eventually.isTrue(activePane.equals(pane1));
-        await progressBarStep2.click();
-        await activePane.equals(pane1);
-        let content = (await activePane.getContentSlotElements())[0];
-        let checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-1-next'));
-
-        await checkbox.click();
-        await progressBarStep2.click();
-        activePane = await wizard.getActivePane();
-        await assert.eventually.isTrue(activePane.equals(pane2));
-        await progressBarStep1.click();
-        await activePane.equals(pane2);
-        await progressBarStep3.click();
-        await assert.eventually.isTrue(activePane.equals(pane2));
-        content = (await activePane.getContentSlotElements())[0];
-        checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-2-previous'));
-
-        await checkbox.click();
-        await progressBarStep1.click();
-        activePane = await wizard.getActivePane();
-        await assert.eventually.isTrue(activePane.equals(pane1));
-        await progressBarStep2.click();
-        activePane = await wizard.getActivePane();
-        content = (await activePane.getContentSlotElements())[0];
-        checkbox = await content.findElement(By.css('#vl-wizard-checkbox-pane-2-next'));
+        const wizard1 = await vlWizardPage.getDisabledWizard();
+        const wizard2 = await vlWizardPage.getDisabledAttributeWizard();
         
-        await checkbox.click();
-        await progressBarStep3.click();
-        activePane = await wizard.getActivePane();
-        await assert.eventually.isTrue(activePane.equals(pane3));
+        [wizard1, wizard2].forEach(async (wizard) => {
+            const id = await wizard.getId();
+
+            const progressBar = await wizard.getProgressBar();
+            const progressBarStep1 = await progressBar.getStep(1);
+            const progressBarStep2 = await progressBar.getStep(2);
+            const progressBarStep3 = await progressBar.getStep(3);
+            const pane1 = await wizard.getPane(1);
+            const pane2 = await wizard.getPane(2);
+            const pane3 = await wizard.getPane(3);
+
+            let activePane = await wizard.getActivePane();
+            await assert.eventually.isTrue(activePane.equals(pane1));
+            await progressBarStep2.click();
+            await activePane.equals(pane1);
+            let content = (await activePane.getContentSlotElements())[0];
+            let checkbox = await content.findElement(By.css(`#${id}-pane-1-next`));
+
+            await checkbox.click();
+            await progressBarStep2.click();
+            activePane = await wizard.getActivePane();
+            await assert.eventually.isTrue(activePane.equals(pane2));
+            await progressBarStep1.click();
+            await activePane.equals(pane2);
+            await progressBarStep3.click();
+            await assert.eventually.isTrue(activePane.equals(pane2));
+            content = (await activePane.getContentSlotElements())[0];
+            checkbox = await content.findElement(By.css(`#${id}-pane-2-previous`));
+
+            await checkbox.click();
+            await progressBarStep1.click();
+            activePane = await wizard.getActivePane();
+            await assert.eventually.isTrue(activePane.equals(pane1));
+            await progressBarStep2.click();
+            activePane = await wizard.getActivePane();
+            content = (await activePane.getContentSlotElements())[0];
+            checkbox = await content.findElement(By.css(`#${id}-pane-2-next`));
+            
+            await checkbox.click();
+            await progressBarStep3.click();
+            activePane = await wizard.getActivePane();
+            await assert.eventually.isTrue(activePane.equals(pane3));
+        });
     });
 });
