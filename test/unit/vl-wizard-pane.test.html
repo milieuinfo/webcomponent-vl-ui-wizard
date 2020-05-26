@@ -58,12 +58,6 @@
         assert.equal(title.innerText, pane.querySelector('[slot="title"]').innerText);
       });
 
-      test('het titel element krijgt een wizard focus attribuut', () => {
-        const pane = fixture('vl-wizard-pane-fixture');
-        const title = pane.shadowRoot.querySelector('slot[name="title"]').assignedElements()[0];
-        assert.isTrue(title.hasAttribute('data-vl-wizard-focus'));
-      });
-
       test('de titel tekst kan opgevraagd worden', () => {
         const pane = fixture('vl-wizard-pane-fixture');
         assert.equal(pane.title, pane.querySelector('[slot="title"]').innerText);
