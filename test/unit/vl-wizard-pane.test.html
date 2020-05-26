@@ -69,6 +69,14 @@
         assert.equal(pane.title, pane.querySelector('[slot="title"]').innerText);
       });
 
+      test('de titel tekst geeft voorrang aan het progress bar titel slot element', () => {
+        const pane = fixture('vl-wizard-pane-fixture');
+        assert.equal(pane.title, pane.querySelector('[slot="title"]').innerText);
+        const text = 'progress bar title';
+        pane.insertAdjacentHTML('afterbegin', `<span slot="progress-bar-title">${text}</span>`);
+        assert.equal(pane.title, text);
+      });
+
       test('bevat een grid met een content en acties element', () => {
         const pane = fixture('vl-wizard-pane-fixture');
         const grid = pane.shadowRoot.querySelector('[is="vl-grid"]');

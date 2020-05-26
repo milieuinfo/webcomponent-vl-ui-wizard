@@ -16,6 +16,10 @@ class VlWizardPage extends Page {
         return this._getWizard('#vl-wizard-disabled-attribute');
     }
 
+    async getProgressBarTitleWizard() {
+        return this._getWizard('#vl-wizard-progress-bar-title');
+    }
+
     async _getWizard(selector) {
         return new VlWizard(this.driver, selector);
     }

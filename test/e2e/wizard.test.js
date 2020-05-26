@@ -190,4 +190,12 @@ describe('vl-wizard', async () => {
             await assert.eventually.isTrue(activePane.equals(pane3));
         });
     });
+
+    it('als gebruiker kan ik de titel van het progress bar element zien', async () => {
+        const wizard = await vlWizardPage.getProgressBarTitleWizard();
+        const progressBar = await wizard.getProgressBar();
+        const progressBarStep = await progressBar.getStep(1);
+        const tooltip = await progressBarStep.getTooltip();
+        await assert.eventually.equal(tooltip.getText(), '1');
+    });
 });
