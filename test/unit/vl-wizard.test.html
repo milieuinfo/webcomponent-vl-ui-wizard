@@ -100,6 +100,24 @@
           done();
         });
       });
+
+      test('er kan programmatisch genavigeerd worden naar de vorige/volgende pagina', (done) => {
+        const wizard = fixture('vl-wizard-fixture');
+        setTimeout(() => {
+          let pane = wizard._activePane;
+          sandbox.spy(pane, 'next');
+          sandbox.spy(pane, 'previous');
+          assert.isFalse(pane.next.called);
+          assert.isFalse(pane.previous.called);
+          wizard.next();
+          pane = wizard._activePane;
+          assert.isTrue(pane.next.called);
+          assert.isFalse(pane.previous.called);
+          wizard.previous();
+          assert.isTrue(pane.previous.called);
+          done();
+        });
+      });
     });
   </script>
 </body>

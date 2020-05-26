@@ -51,6 +51,7 @@
 
     suite('<vl-wizard-pane>', () => {
       const should = chai.should();
+      const sandbox = sinon.sandbox.create();
 
       setup((done) => {
         customElements.whenDefined('vl-wizard').then(done);
@@ -88,24 +89,17 @@
 
       test('de acties elementen krijgen een wizard next/previous attribuut', () => {
         const pane = fixture('vl-wizard-pane-fixture');
-        const grid = pane.shadowRoot.querySelector('[is="vl-grid"]');
-        const columns = grid.querySelectorAll('[is="vl-column"]');
-        const actionGroup = columns[1].querySelector('[is="vl-action-group"]');
-        const previousAction = actionGroup.querySelector('slot[name="previous-action"]').assignedElements()[0];
-        const nextAction = actionGroup.querySelector('slot[name="next-action"]').assignedElements()[0];
-        assert.isTrue(previousAction.hasAttribute('data-vl-wizard-prev'));
-        assert.isTrue(nextAction.hasAttribute('data-vl-wizard-next'));
+        assert.isTrue(pane._previousAction.hasAttribute('data-vl-wizard-prev'));
+        assert.isTrue(pane._nextAction.hasAttribute('data-vl-wizard-next'));
       });
 
-      test('voorziet geen slot elementen indien de acties niet aanwezig zijn', () => {
+      test('voorziet verborgen actie elementen indien er geen acties aanwezig zijn', () => {
         const pane = fixture('vl-wizard-pane-without-actions-fixture');
-        const grid = pane.shadowRoot.querySelector('[is="vl-grid"]');
-        const columns = grid.querySelectorAll('[is="vl-column"]');
-        const actionGroup = columns[1].querySelector('[is="vl-action-group"]');
-        const previousAction = actionGroup.querySelector('slot[name="previous-action"]');
-        const nextAction = actionGroup.querySelector('slot[name="next-action"]');
-        should.not.exist(previousAction);
-        should.not.exist(nextAction);
+        should.exist(pane._previousAction);
+        should.exist(pane._nextAction);
+        assert.isTrue(pane._actionsColumn.hidden);
+        assert.isTrue(pane._previousAction.hidden);
+        assert.isTrue(pane._nextAction.hidden);
       });
 
       test('de next/previous pane disabled attributen bepalen bij de wizard of er genavigeerd kan worden naar een vorige/volgende pagina', (done) => {
@@ -197,6 +191,20 @@
             return !hasOverflow(panes);
           }).then(() => done());
         });
+      });
+
+      test('er kan programmatisch genavigeerd worden naar de vorige/volgende pagina', () => {
+        const wizard = fixture('vl-wizard-fixture');
+        const pane = wizard.querySelector('vl-wizard-pane');
+        sandbox.spy(pane._nextAction, 'click');
+        sandbox.spy(pane._previousAction, 'click');
+        assert.isFalse(pane._nextAction.click.called);
+        assert.isFalse(pane._previousAction.click.called);
+        pane.next();
+        assert.isTrue(pane._nextAction.click.called);
+        assert.isFalse(pane._previousAction.click.called);
+        pane.previous();
+        assert.isTrue(pane._previousAction.click.called);
       });
     });
   </script>
