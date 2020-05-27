@@ -30,8 +30,8 @@ class VlWizardPage extends Page {
 
     async reset() {
         await this._resetWizard();
-        await this._resetWizard(await this.getDisabledWizard());
-        await this._resetWizard(await this.getDisabledAttributeWizard());
+        await this._resetDisabledWizard(await this.getDisabledWizard());
+        await this._resetDisabledWizard(await this.getDisabledAttributeWizard());
     }
 
     async _resetWizard() {
@@ -39,6 +39,18 @@ class VlWizardPage extends Page {
         const progressBar = await wizard.getProgressBar();
         const progressBarStep1 = await progressBar.getStep(1);
         await progressBarStep1.click();
+    }
+
+    async _resetDisabledWizard(wizard) {
+        const progressBar = await wizard.getProgressBar();
+        const progressBarStep1 = await progressBar.getStep(1);
+        const panes = await wizard.getPanes();
+        let checkboxes = (await Promise.all(panes.map(pane => pane.findElements(By.css('vl-checkbox'))))).flat();
+        checkboxes = await Promise.all(checkboxes.map(element => new VlCheckbox(this.driver, element)));
+        const inputs = await Promise.all(checkboxes.map(checkbox => checkbox.shadowRoot.findElement(By.css('input'))));
+        await Promise.all(inputs.map(input => this.driver.executeScript('return arguments[0].checked = true;', input)));
+        await progressBarStep1.click();
+        await Promise.all(inputs.map(input => this.driver.executeScript('return arguments[0].checked = false;', input)));
     }
 
     async _resetDisabledWizard(wizard) {
