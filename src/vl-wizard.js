@@ -131,11 +131,11 @@ export class VlWizard extends VlElement(HTMLElement) {
                 if (number < this._activePaneNumber) {
                     const panesBetween = panes.slice(Number(number) - 1, panes.indexOf(this._activePane));
                     const allPanesBetweenAreEnabled = panesBetween.every(pane => !pane.isPreviousPaneDisabled);
-                    this.__callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
+                    this.callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
                 } else {
                     const panesBetween = panes.slice(panes.indexOf(this._activePane), Number(number) - 1)
                     const allPanesBetweenAreEnabled = panesBetween.every(pane => !pane.isNextPaneDisabled);
-                    this.__callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
+                    this.callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
                 }
             });
         });

@@ -109,27 +109,27 @@ describe('vl-wizard', async () => {
             const pane3 = await wizard.getPane(3);
 
             let activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane1));
+            await assert.eventually.equal(activePane, pane1);
             await wizard.next();
-            await activePane.equals(pane1);
+            await assert.eventually.equal(activePane, pane1);
             let content = (await activePane.getContentSlotElements())[0];
             let activateNextPaneNavigation = await content.findElement(By.css(`#${id}-pane-1-next`));
 
             await activateNextPaneNavigation.click();
             await wizard.next();
             activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane2));
+            await assert.eventually.equal(activePane, pane2);
             await wizard.previous();
-            await activePane.equals(pane2);
+            await assert.eventually.equal(activePane, pane2);
             await wizard.next();
-            await assert.eventually.isTrue(activePane.equals(pane2));
+            await assert.eventually.equal(activePane, pane2);
             content = (await activePane.getContentSlotElements())[0];
             
             const activatePreviousPaneNavigation = await content.findElement(By.css(`#${id}-pane-2-previous`));
             await activatePreviousPaneNavigation.click();
             await wizard.previous();
             activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane1));
+            await assert.eventually.equal(activePane, pane1);
             await wizard.next();
             activePane = await wizard.getActivePane();
             content = (await activePane.getContentSlotElements())[0];
@@ -138,7 +138,7 @@ describe('vl-wizard', async () => {
             await activateNextPaneNavigation.click();
             await wizard.next();
             activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane3));
+            await assert.eventually.equal(activePane, pane3);
         });
     });
 
@@ -158,33 +158,33 @@ describe('vl-wizard', async () => {
             const pane3 = await wizard.getPane(3);
 
             let activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane1));
+            await assert.eventually.equal(activePane, pane1);
             await progressBarStep2.click();
             activePane = await wizard.getActivePane();
-            await activePane.equals(pane1);
+            await assert.eventually.equal(activePane, pane1);
             let content = (await activePane.getContentSlotElements())[0];
             let activateNextPaneNavigation = await content.findElement(By.css(`#${id}-pane-1-next`));
 
             await activateNextPaneNavigation.click();
             await progressBarStep3.click();
             activePane = await wizard.getActivePane();
-            await activePane.equals(pane1);
+            await assert.eventually.equal(activePane, pane1);
             await progressBarStep2.click();
             activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane2));
+            await assert.eventually.equal(activePane, pane2);
             await progressBarStep1.click();
             activePane = await wizard.getActivePane();
-            await activePane.equals(pane2);
+            await assert.eventually.equal(activePane, pane2);
             await progressBarStep3.click();
             activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane2));
+            await assert.eventually.equal(activePane, pane2);
             content = (await activePane.getContentSlotElements())[0];
             
             let activatePreviousPaneNavigation = await content.findElement(By.css(`#${id}-pane-2-previous`));
             await activatePreviousPaneNavigation.click();
             await progressBarStep1.click();
             activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane1));
+            await assert.eventually.equal(activePane, pane1);
             await progressBarStep2.click();
             activePane = await wizard.getActivePane();
             content = (await activePane.getContentSlotElements())[0];
@@ -193,17 +193,17 @@ describe('vl-wizard', async () => {
             await activateNextPaneNavigation.click();
             await progressBarStep3.click();
             activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane3));
+            await assert.eventually.equal(activePane, pane3);
             content = (await activePane.getContentSlotElements())[0];
 
             activatePreviousPaneNavigation = await content.findElement(By.css(`#${id}-pane-3-previous`));
             await activatePreviousPaneNavigation.click();
             await progressBarStep1.click();
             activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane3));
+            await assert.eventually.equal(activePane, pane3);
             await progressBarStep2.click();
             activePane = await wizard.getActivePane();
-            await assert.eventually.isTrue(activePane.equals(pane2));
+            await assert.eventually.equal(activePane, pane3);
         });
     });
 
