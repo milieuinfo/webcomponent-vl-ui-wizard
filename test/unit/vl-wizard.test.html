@@ -23,6 +23,9 @@
           <vl-wizard-pane>
             <h3 slot="title">Stap 2</h3>
           </vl-wizard-pane>
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 3</h3>
+          </vl-wizard-pane>
         </div>
       </vl-wizard>
     </template>
@@ -141,6 +144,38 @@
         wizard._panes.forEach(pane => assert(pane.disablePreviousPane.called));
         wizard.removeAttribute('data-vl-previous-panes-disabled');
         wizard._panes.forEach(pane => assert(pane.enablePreviousPane.called));
+      });
+
+      test('de callback functie wordt correct gezet bij het klikken op een progress bar step', (done) => {
+        const wizard = fixture('vl-wizard-fixture');
+        const progressBar = wizard.shadowRoot.querySelector('vl-progress-bar');
+        wizard.setAttribute('data-vl-next-panes-disabled', '');
+        wizard.setAttribute('data-vl-previous-panes-disabled', '');
+        setTimeout(() => {
+          progressBar.buttons[1].click();
+          wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+          progressBar.buttons[2].click();
+          wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+          wizard._activePane.enableNextPane();
+          progressBar.buttons[2].click();
+          wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+          progressBar.buttons[1].click();
+          wizard.callback.callbackFn.then((value) => {
+            assert.isTrue(value);
+            progressBar.buttons[0].click();
+            wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+            progressBar.buttons[1].click();
+            wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+            wizard._activePane.enablePreviousPane();
+            progressBar.buttons[0].click();
+            wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+            progressBar.buttons[1].click();
+            wizard.callback.callbackFn.then((value) => {
+              assert.isTrue(value);
+              done();
+            });
+          });
+        });
       });
     });
   </script>
