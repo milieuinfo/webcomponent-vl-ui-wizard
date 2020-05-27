@@ -50,7 +50,6 @@ class VlWizardPage extends Page {
         await Promise.all(inputs.map(input => this.driver.executeScript('return arguments[0].checked = true;', input)));
         await progressBarStep1.click();
         await Promise.all(inputs.map(input => this.driver.executeScript('return arguments[0].checked = false;', input)));
-        console.log('boem patat');
     }
 }
 
