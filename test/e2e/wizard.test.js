@@ -102,7 +102,7 @@ describe('vl-wizard', async () => {
         const wizard2 = await vlWizardPage.getDisabledAttributeWizard();
         
         [wizard1, wizard2].forEach(async (wizard) => {
-            const id = await wizard.getId();
+            const id = await wizard.getAttribute('id');
 
             const pane1 = await wizard.getPane(1);
             const pane2 = await wizard.getPane(2);
@@ -124,17 +124,17 @@ describe('vl-wizard', async () => {
             await wizard.next();
             await assert.eventually.isTrue(activePane.equals(pane2));
             content = (await activePane.getContentSlotElements())[0];
-            activateNextPaneNavigation = await content.findElement(By.css(`#${id}-pane-2-previous`));
-
-            await activateNextPaneNavigation.click();
+            
+            const activatePreviousPaneNavigation = await content.findElement(By.css(`#${id}-pane-2-previous`));
+            await activatePreviousPaneNavigation.click();
             await wizard.previous();
             activePane = await wizard.getActivePane();
             await assert.eventually.isTrue(activePane.equals(pane1));
             await wizard.next();
             activePane = await wizard.getActivePane();
             content = (await activePane.getContentSlotElements())[0];
+            
             activateNextPaneNavigation = await content.findElement(By.css(`#${id}-pane-2-next`));
-
             await activateNextPaneNavigation.click();
             await wizard.next();
             activePane = await wizard.getActivePane();
