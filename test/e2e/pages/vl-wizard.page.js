@@ -30,8 +30,8 @@ class VlWizardPage extends Page {
 
     async reset() {
         await this._resetWizard();
-        await this._resetWizard(await this.getDisabledWizard());
-        await this._resetWizard(await this.getDisabledAttributeWizard());
+        await this._resetDisabledWizard(await this.getDisabledWizard());
+        await this._resetDisabledWizard(await this.getDisabledAttributeWizard());
     }
 
     async _resetWizard() {
@@ -50,7 +50,7 @@ class VlWizardPage extends Page {
         const uncheckedCheckboxes = checkboxes.filter((checkbox, index) => !isChecked[index]);
         await Promise.all(uncheckedCheckboxes.map(checkbox => this.driver.executeScript('return arguments[0].toggle()', checkbox)));
         await progressBarStep1.click();
-        await Promise.all(checkboxes.map(checkbox => this.driver.executeScript('return arguments[0].toggle()', checkbox)));
+        await Promise.all(checkboxes.map(checkbox => this.driver.executeScript('return arguments[0].checked = false;', checkbox)));
     }
 }
 

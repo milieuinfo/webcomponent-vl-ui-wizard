@@ -129,7 +129,7 @@ export class VlWizard extends VlElement(HTMLElement) {
                 const panes = [... this._panes];
                 const number = event.target.getAttribute('data-vl-index');
                 if (number < this._activePaneNumber) {
-                    const panesBetween = panes.slice(Number(number) - 1, panes.indexOf(this._activePane));
+                    const panesBetween = panes.slice(Number(number), panes.indexOf(this._activePane) + 1);
                     const allPanesBetweenAreEnabled = panesBetween.every(pane => !pane.isPreviousPaneDisabled);
                     this.callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
                 } else {
