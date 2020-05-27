@@ -151,15 +151,6 @@ describe('vl-wizard', async () => {
             await assert.eventually.isFalse(pane1.isActive());
             await assert.eventually.isFalse(pane2.isActive());
             await assert.eventually.isTrue(pane3.isActive());
-            activePane = await wizard.getActivePane();
-            content = (await activePane.getContentSlotElements())[0];
-            
-            activatePreviousPaneNavigation = await content.findElement(By.css(`#${id}-pane-3-previous`));
-            await activatePreviousPaneNavigation.click();
-            await wizard.previous();
-            await assert.eventually.isFalse(pane1.isActive());
-            await assert.eventually.isTrue(pane2.isActive());
-            await assert.eventually.isFalse(pane3.isActive());
         }));
     });
 
