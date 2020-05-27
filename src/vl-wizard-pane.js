@@ -18,6 +18,12 @@ import '/node_modules/vl-ui-action-group/dist/vl-action-group.js';
  * 
  */
 export class VlWizardPane extends VlElement(HTMLElement) {
+    static get EVENTS() {
+        return {
+            activated: 'activated'
+        };
+    }
+
     constructor() {
         super(`
             <style>
@@ -57,6 +63,11 @@ export class VlWizardPane extends VlElement(HTMLElement) {
     connectedCallback() {
         this._processActions();
         this._observeActionsClick();
+        this._activeObserver = this._observeActiveClass(() => this._dispatchActiveEvent());
+    }
+
+    disconnectedCallback() {
+        this._activeObserver.disconnect();
     }
 
     /**
@@ -65,7 +76,7 @@ export class VlWizardPane extends VlElement(HTMLElement) {
      * @return {Boolean}
      */
     get isActive() {
-        return this.classList.contains('is-selected') && !this.classList.contains('not-selected');
+        return this._isActive([... this.classList]);
     }
 
     /**
@@ -172,21 +183,25 @@ export class VlWizardPane extends VlElement(HTMLElement) {
     }
 
     get _previousAction() {
-        const slot = this._previousActionSlotPlaceholder;
-        if (slot && slot.assignedElements() && slot.assignedElements().length > 0) {
-            return slot.assignedElements()[0];
-        }
+        return this._getAssignedElementByIndex(this._previousActionSlotPlaceholder, 0);
     }
 
     get _nextAction() {
-        const slot = this._nextActionSlotPlaceholder;
-        if (slot && slot.assignedElements() && slot.assignedElements().length > 0) {
-            return slot.assignedElements()[0];
-        }
+        return this._getAssignedElementByIndex(this._nextActionSlotPlaceholder, 0);
     }
 
     get _wizard() {
         return this.closest('vl-wizard');
+    }
+
+    _isActive(classes) {
+        return classes.includes('is-selected') && !classes.includes('not-selected');
+    }
+
+    _getAssignedElementByIndex(slot, index) {
+        if (slot && slot.assignedElements() && slot.assignedElements().length > 0) {
+            return slot.assignedElements()[index];
+        }
     }
 
     _setNextPaneDisabledAttribute(value) {
@@ -238,6 +253,22 @@ export class VlWizardPane extends VlElement(HTMLElement) {
                 this.isNextPaneDisabled ? this.disableNextPane() : this.enableNextPane();
             });
         }
+    }
+
+    _observeActiveClass(callback) {
+        const observer = new MutationObserver((mutations) => {
+            const wasActive = (mutation) => this._isActive(mutation.oldValue ? mutation.oldValue.split(' ') : []);
+            const isActive = (mutation) => mutation.target.isActive;
+            if (mutations.some(mutation => !wasActive(mutation) && isActive(mutation))) {
+                callback();
+            }
+        });
+        observer.observe(this, {attributeFilter: ['class'], attributeOldValue: true});
+        return observer; 
+    }
+
+    _dispatchActiveEvent() {
+        this.dispatchEvent(new Event(VlWizardPane.EVENTS.activated));
     }
 }
 

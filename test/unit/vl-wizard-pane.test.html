@@ -46,8 +46,28 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="vl-wizard-panes-fixture">
+    <template>
+      <vl-wizard>
+        <div slot="panes">
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 1</h3>
+            <div slot="content"></div>
+            <button type="button" slot="next-action">Volgende</button>
+          </vl-wizard-pane>
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 2</h3>
+            <div slot="content"></div>
+            <button type="button" slot="previous-action">Vorige</button>
+          </vl-wizard-pane>
+        </div>
+      </vl-wizard>
+    </template>
+  </test-fixture>
+
   <script type="module">
     import { awaitUntil } from 'vl-ui-core/dist/vl-core';
+    import { VlWizardPane } from '../../src/vl-wizard-pane.js';
 
     suite('<vl-wizard-pane>', () => {
       const should = chai.should();
@@ -213,6 +233,23 @@
         assert.isFalse(pane._previousAction.click.called);
         pane.previous();
         assert.isTrue(pane._previousAction.click.called);
+      });
+
+      test('alleen wanneer een wizard pagina actief wordt, zal er een event gegooid worden', (done) => {
+        const wizard = fixture('vl-wizard-panes-fixture');
+        const panes = wizard.querySelectorAll('vl-wizard-pane');
+        setTimeout(() => {
+          let counter = 0;
+          const addClass = () => panes[1].classList.add(`test-${++counter}`);
+          panes[1].addEventListener(VlWizardPane.EVENTS.activated, addClass);
+          panes[1].addEventListener(VlWizardPane.EVENTS.activated, () => {
+            setTimeout(() => {
+              assert.equal(counter, 1);
+              done();
+            });
+          });
+          panes[0].next();
+        });
       });
     });
   </script>
