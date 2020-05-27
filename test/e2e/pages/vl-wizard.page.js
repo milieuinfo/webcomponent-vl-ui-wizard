@@ -45,11 +45,24 @@ class VlWizardPage extends Page {
         const progressBar = await wizard.getProgressBar();
         const progressBarStep1 = await progressBar.getStep(1);
         const panes = await wizard.getPanes();
-        const checkboxes = await Promise.all(panes.map(pane => pane.findElements(By.css('vl-checkbox'))));
-        const inputs = await Promise.all(checkboxes.map(checkbox => checkbox.shadowRoot.findElement('input[type="checkbox"]')));
+        let checkboxes = (await Promise.all(panes.map(pane => pane.findElements(By.css('vl-checkbox'))))).flat();
+        checkboxes = await Promise.all(checkboxes.map(element => new VlCheckbox(this.driver, element)));
+        const inputs = await Promise.all(checkboxes.map(checkbox => checkbox.shadowRoot.findElement(By.css('input'))));
         await Promise.all(inputs.map(input => this.driver.executeScript('return arguments[0].checked = true;', input)));
         await progressBarStep1.click();
         await Promise.all(inputs.map(input => this.driver.executeScript('return arguments[0].checked = false;', input)));
+    }
+
+    async _resetDisabledWizard(wizard) {
+        const progressBar = await wizard.getProgressBar();
+        const progressBarStep1 = await progressBar.getStep(1);
+        let checkboxes = await wizard.findElements(By.css('vl-checkbox'));
+        checkboxes = await Promise.all(checkboxes.map(element => new VlCheckbox(this.driver, element)));
+        const isChecked = await Promise.all(checkboxes.map(checkbox => checkbox.isChecked()));
+        const uncheckedCheckboxes = checkboxes.filter((checkbox, index) => !isChecked[index]);
+        await Promise.all(uncheckedCheckboxes.map(checkbox => this.driver.executeScript('return arguments[0].toggle()', checkbox)));
+        await progressBarStep1.click();
+        await Promise.all(checkboxes.map(checkbox => this.driver.executeScript('return arguments[0].toggle()', checkbox)));
     }
 }
 
