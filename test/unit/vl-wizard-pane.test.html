@@ -71,7 +71,7 @@
 
     suite('<vl-wizard-pane>', () => {
       const should = chai.should();
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
 
       setup((done) => {
         customElements.whenDefined('vl-wizard').then(done);
