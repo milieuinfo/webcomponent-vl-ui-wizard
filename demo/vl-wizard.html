@@ -311,13 +311,13 @@
             </vl-wizard>
             <script>
                 customElements.whenDefined('vl-wizard-pane').then(() => {
-                    const pane1 = document.getElementById('vl-wizard-disabled-pane-1');
-                    const pane2 = document.getElementById('vl-wizard-disabled-pane-2');
-                    const pane3 = document.getElementById('vl-wizard-disabled-pane-3');
-                    document.getElementById('vl-wizard-disabled-pane-1-next').oninput = event => event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
-                    document.getElementById('vl-wizard-disabled-pane-2-previous').oninput = event => event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
-                    document.getElementById('vl-wizard-disabled-pane-2-next').oninput = event => event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
-                    document.getElementById('vl-wizard-disabled-pane-3-previous').oninput = event => event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
+                  const pane1 = document.getElementById('vl-wizard-disabled-pane-1');
+                  const pane2 = document.getElementById('vl-wizard-disabled-pane-2');
+                  const pane3 = document.getElementById('vl-wizard-disabled-pane-3');
+                  document.getElementById('vl-wizard-disabled-pane-1-next').oninput = (event) => event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
+                  document.getElementById('vl-wizard-disabled-pane-2-previous').oninput = (event) => event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
+                  document.getElementById('vl-wizard-disabled-pane-2-next').oninput = (event) => event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
+                  document.getElementById('vl-wizard-disabled-pane-3-previous').oninput = (event) => event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
                 });
             </script>
         </div>
@@ -439,13 +439,13 @@
             </vl-wizard>
             <script>
                 customElements.whenDefined('vl-wizard-pane').then(() => {
-                    const pane1 = document.getElementById('vl-wizard-disabled-attribute-pane-1');
-                    const pane2 = document.getElementById('vl-wizard-disabled-attribute-pane-2');
-                    const pane3 = document.getElementById('vl-wizard-disabled-attribute-pane-3');
-                    document.getElementById('vl-wizard-disabled-attribute-pane-1-next').oninput = event => event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
-                    document.getElementById('vl-wizard-disabled-attribute-pane-2-previous').oninput = event => event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
-                    document.getElementById('vl-wizard-disabled-attribute-pane-2-next').oninput = event => event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
-                    document.getElementById('vl-wizard-disabled-attribute-pane-3-previous').oninput = event => event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
+                  const pane1 = document.getElementById('vl-wizard-disabled-attribute-pane-1');
+                  const pane2 = document.getElementById('vl-wizard-disabled-attribute-pane-2');
+                  const pane3 = document.getElementById('vl-wizard-disabled-attribute-pane-3');
+                  document.getElementById('vl-wizard-disabled-attribute-pane-1-next').oninput = (event) => event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
+                  document.getElementById('vl-wizard-disabled-attribute-pane-2-previous').oninput = (event) => event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
+                  document.getElementById('vl-wizard-disabled-attribute-pane-2-next').oninput = (event) => event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
+                  document.getElementById('vl-wizard-disabled-attribute-pane-3-previous').oninput = (event) => event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
                 });
             </script>
         </div>
