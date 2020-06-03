@@ -66,8 +66,8 @@
   </test-fixture>
 
   <script type="module">
-    import { awaitUntil } from 'vl-ui-core/dist/vl-core';
-    import { VlWizardPane } from '../../src/vl-wizard-pane.js';
+    import {awaitUntil} from 'vl-ui-core/dist/vl-core';
+    import {VlWizardPane} from '../../src/vl-wizard-pane.js';
 
     suite('<vl-wizard-pane>', () => {
       const should = chai.should();
@@ -104,7 +104,7 @@
         assert(grid.hasAttribute('is-stacked'));
         const columns = grid.querySelectorAll('[is="vl-column"]');
         assert.lengthOf(columns, 2);
-        columns.forEach(column => assert.equal(column.getAttribute('size'), 12));
+        columns.forEach((column) => assert.equal(column.getAttribute('size'), 12));
         const content = columns[0].querySelector('slot[name="content"]').assignedElements()[0];
         assert.equal(content, pane.querySelector('[slot="content"]'));
         const actionGroup = columns[1].querySelector('[is="vl-action-group"]');
@@ -201,7 +201,7 @@
       });
 
       test('wanneer er dynamisch elementen toegevoegd worden aan de content, zullen de onderste elementen nog steeds zichtbaar zijn', (done) => {
-        const hasOverflow = element => element.scrollHeight > element.clientHeight;
+        const hasOverflow = (element) => element.scrollHeight > element.clientHeight;
         const wizard = fixture('vl-wizard-fixture');
 
         setTimeout(() => {
