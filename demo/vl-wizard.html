@@ -110,32 +110,93 @@
             </vl-wizard>
         </vl-demo>
 
-        <vl-demo data-vl-title="Wizard met navigatie beperkingen">
-            <vl-wizard id="vl-wizard-checkbox">
+    <div>
+        <h2>Wizard met navigatie beperkingen</h2>
+        <pre>
+            <code class="line-numbers language-markup">
+                &lt;vl-wizard id="vl-wizard-disabled"&gt;
+                    &lt;h2 is="vl-h2" slot="title"&gt;Wizard title&lt;/h2&gt;
+                    &lt;p slot="header"&gt;You're a wizard Harry&lt;/p&gt;
+                    &lt;div slot="panes"&gt;
+                        &lt;vl-wizard-pane id="vl-wizard-disabled-pane-1" data-vl-next-pane-disabled&gt;
+                            &lt;h3 is="vl-h3" slot="title"&gt;Stap 1&lt;/h3&gt;
+                            &lt;div is="vl-form-grid" is-stacked slot="content"&gt;
+                                &lt;div is="vl-form-column" size="12"&gt;
+                                    &lt;vl-checkbox id="vl-wizard-disabled-pane-1-next" label="Volgende toegelaten"&gt;&lt;/vl-checkbox&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;button is="vl-button" type="button" slot="next-action"&gt;
+                                Volgende
+                            &lt;/button&gt;
+                        &lt;/vl-wizard-pane&gt;
+                        &lt;vl-wizard-pane id="vl-wizard-disabled-pane-2" data-vl-previous-pane-disabled data-vl-next-pane-disabled&gt;
+                            &lt;h3 is="vl-h3" slot="title"&gt;Stap 2&lt;/h3&gt;
+                            &lt;div is="vl-form-grid" is-stacked slot="content"&gt;
+                                &lt;div is="vl-form-column" size="12"&gt;
+                                    &lt;vl-checkbox id="vl-wizard-disabled-pane-2-previous" label="Vorige toegelaten"&gt;&lt;/vl-checkbox&gt;
+                                    &lt;vl-checkbox id="vl-wizard-disabled-pane-2-next" label="Volgende toegelaten"&gt;&lt;/vl-checkbox&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;button is="vl-button-link" type="button" slot="previous-action"&gt;
+                                &lt;span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before&gt;&lt;/span&gt;
+                                Vorige
+                            &lt;/button&gt;
+                            &lt;button is="vl-button" type="button" slot="next-action"&gt;
+                                Volgende
+                            &lt;/button&gt;
+                        &lt;/vl-wizard-pane&gt;
+                        &lt;vl-wizard-pane id="vl-wizard-disabled-pane-3" data-vl-previous-pane-disabled data-vl-next-pane-disabled&gt;
+                            &lt;h3 is="vl-h3" slot="title"&gt;Stap 3&lt;/h3&gt;
+                            &lt;div is="vl-form-grid" is-stacked slot="content"&gt;
+                                &lt;div is="vl-form-column" size="12"&gt;
+                                    &lt;vl-checkbox id="vl-wizard-disabled-pane-3-previous" label="Vorige toegelaten"&gt;&lt;/vl-checkbox&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;button is="vl-button-link" type="button" slot="previous-action"&gt;
+                                &lt;span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before&gt;&lt;/span&gt;
+                                Vorige
+                            &lt;/button&gt;
+                            &lt;button is="vl-button" type="button" slot="next-action"&gt;
+                                Versturen
+                            &lt;/button&gt;
+                        &lt;/vl-wizard-pane&gt;
+                    &lt;/div&gt;
+                &lt;/vl-wizard&gt;
+                &lt;script&gt;
+                    customElements.whenDefined('vl-wizard-pane').then(() =&gt; {
+                        const pane1 = document.getElementById('vl-wizard-disabled-pane-1');
+                        const pane2 = document.getElementById('vl-wizard-disabled-pane-2');
+                        const pane3 = document.getElementById('vl-wizard-disabled-pane-3');
+                        document.getElementById('vl-wizard-disabled-pane-1-next').oninput = event =&gt; event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
+                        document.getElementById('vl-wizard-disabled-pane-2-previous').oninput = event =&gt; event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
+                        document.getElementById('vl-wizard-disabled-pane-2-next').oninput = event =&gt; event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
+                        document.getElementById('vl-wizard-disabled-pane-3-previous').oninput = event =&gt; event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
+                    });
+                &lt;/script&gt;
+            </code>
+        </pre>
+        <div class="demo">
+            <vl-wizard id="vl-wizard-disabled">
                 <h2 is="vl-h2" slot="title">Wizard title</h2>
                 <p slot="header">You're a wizard Harry</p>
                 <div slot="panes">
-                    <vl-wizard-pane id="vl-wizard-checkbox-pane-1" data-vl-next-pane-disabled>
+                    <vl-wizard-pane id="vl-wizard-disabled-pane-1" data-vl-next-pane-disabled>
                         <h3 is="vl-h3" slot="title">Stap 1</h3>
                         <div is="vl-form-grid" is-stacked slot="content">
                             <div is="vl-form-column" size="12">
-                                <vl-checkbox id="vl-wizard-checkbox-pane-1-next" label="Volgende toegelaten">
-                                </vl-checkbox>
+                                <vl-checkbox id="vl-wizard-disabled-pane-1-next" label="Volgende toegelaten"></vl-checkbox>
                             </div>
                         </div>
                         <button is="vl-button" type="button" slot="next-action">
                             Volgende
                         </button>
                     </vl-wizard-pane>
-                    <vl-wizard-pane id="vl-wizard-checkbox-pane-2" data-vl-previous-pane-disabled
-                        data-vl-next-pane-disabled>
+                    <vl-wizard-pane id="vl-wizard-disabled-pane-2" data-vl-previous-pane-disabled data-vl-next-pane-disabled>
                         <h3 is="vl-h3" slot="title">Stap 2</h3>
                         <div is="vl-form-grid" is-stacked slot="content">
                             <div is="vl-form-column" size="12">
-                                <vl-checkbox id="vl-wizard-checkbox-pane-2-previous" label="Vorige toegelaten">
-                                </vl-checkbox>
-                                <vl-checkbox id="vl-wizard-checkbox-pane-2-next" label="Volgende toegelaten">
-                                </vl-checkbox>
+                                <vl-checkbox id="vl-wizard-disabled-pane-2-previous" label="Vorige toegelaten"></vl-checkbox>
+                                <vl-checkbox id="vl-wizard-disabled-pane-2-next" label="Volgende toegelaten"></vl-checkbox>
                             </div>
                         </div>
                         <button is="vl-button-link" type="button" slot="previous-action">
@@ -146,13 +207,11 @@
                             Volgende
                         </button>
                     </vl-wizard-pane>
-                    <vl-wizard-pane id="vl-wizard-checkbox-pane-3" data-vl-previous-pane-disabled
-                        data-vl-next-pane-disabled>
+                    <vl-wizard-pane id="vl-wizard-disabled-pane-3" data-vl-previous-pane-disabled data-vl-next-pane-disabled>
                         <h3 is="vl-h3" slot="title">Stap 3</h3>
                         <div is="vl-form-grid" is-stacked slot="content">
                             <div is="vl-form-column" size="12">
-                                <vl-checkbox id="vl-wizard-checkbox-pane-3-previous" label="Vorige toegelaten">
-                                </vl-checkbox>
+                                <vl-checkbox id="vl-wizard-disabled-pane-3-previous" label="Vorige toegelaten"></vl-checkbox>
                             </div>
                         </div>
                         <button is="vl-button-link" type="button" slot="previous-action">
@@ -167,17 +226,217 @@
             </vl-wizard>
             <script>
                 customElements.whenDefined('vl-wizard-pane').then(() => {
-                    const pane1 = document.getElementById('vl-wizard-checkbox-pane-1');
-                    const pane2 = document.getElementById('vl-wizard-checkbox-pane-2');
-                    const pane3 = document.getElementById('vl-wizard-checkbox-pane-3');
-                    document.getElementById('vl-wizard-checkbox-pane-1-next').oninput = event => event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
-                    document.getElementById('vl-wizard-checkbox-pane-2-previous').oninput = event => event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
-                    document.getElementById('vl-wizard-checkbox-pane-2-next').oninput = event => event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
-                    document.getElementById('vl-wizard-checkbox-pane-3-previous').oninput = event => event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
+                    const pane1 = document.getElementById('vl-wizard-disabled-pane-1');
+                    const pane2 = document.getElementById('vl-wizard-disabled-pane-2');
+                    const pane3 = document.getElementById('vl-wizard-disabled-pane-3');
+                    document.getElementById('vl-wizard-disabled-pane-1-next').oninput = event => event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
+                    document.getElementById('vl-wizard-disabled-pane-2-previous').oninput = event => event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
+                    document.getElementById('vl-wizard-disabled-pane-2-next').oninput = event => event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
+                    document.getElementById('vl-wizard-disabled-pane-3-previous').oninput = event => event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
                 });
             </script>
-        </vl-demo>
-    </vl-demo-page>
+        </div>
+    </div>
+
+    <div>
+        <h2>Wizard met navigatie beperkingen via attribuut</h2>
+        <pre>
+            <code class="line-numbers language-markup">
+                &lt;vl-wizard id="vl-wizard-disabled-attribute" data-vl-next-panes-disabled data-vl-previous-panes-disabled&gt;
+                    &lt;h2 is="vl-h2" slot="title"&gt;Wizard title&lt;/h2&gt;
+                    &lt;p slot="header"&gt;You're a wizard Harry&lt;/p&gt;
+                    &lt;div slot="panes"&gt;
+                        &lt;vl-wizard-pane id="vl-wizard-disabled-attribute-pane-1"&gt;
+                            &lt;h3 is="vl-h3" slot="title"&gt;Stap 1&lt;/h3&gt;
+                            &lt;div is="vl-form-grid" is-stacked slot="content"&gt;
+                                &lt;div is="vl-form-column" size="12"&gt;
+                                    &lt;vl-checkbox id="vl-wizard-disabled-attribute-pane-1-next" label="Volgende toegelaten"&gt;&lt;/vl-checkbox&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;button is="vl-button" type="button" slot="next-action"&gt;
+                                Volgende
+                            &lt;/button&gt;
+                        &lt;/vl-wizard-pane&gt;
+                        &lt;vl-wizard-pane id="vl-wizard-disabled-attribute-pane-2"&gt;
+                            &lt;h3 is="vl-h3" slot="title"&gt;Stap 2&lt;/h3&gt;
+                            &lt;div is="vl-form-grid" is-stacked slot="content"&gt;
+                                &lt;div is="vl-form-column" size="12"&gt;
+                                    &lt;vl-checkbox id="vl-wizard-disabled-attribute-pane-2-previous" label="Vorige toegelaten"&gt;&lt;/vl-checkbox&gt;
+                                    &lt;vl-checkbox id="vl-wizard-disabled-attribute-pane-2-next" label="Volgende toegelaten"&gt;&lt;/vl-checkbox&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;button is="vl-button-link" type="button" slot="previous-action"&gt;
+                                &lt;span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before&gt;&lt;/span&gt;
+                                Vorige
+                            &lt;/button&gt;
+                            &lt;button is="vl-button" type="button" slot="next-action"&gt;
+                                Volgende
+                            &lt;/button&gt;
+                        &lt;/vl-wizard-pane&gt;
+                        &lt;vl-wizard-pane id="vl-wizard-disabled-attribute-pane-3"&gt;
+                            &lt;h3 is="vl-h3" slot="title"&gt;Stap 3&lt;/h3&gt;
+                            &lt;div is="vl-form-grid" is-stacked slot="content"&gt;
+                                &lt;div is="vl-form-column" size="12"&gt;
+                                    &lt;vl-checkbox id="vl-wizard-disabled-attribute-pane-3-previous" label="Vorige toegelaten"&gt;&lt;/vl-checkbox&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;button is="vl-button-link" type="button" slot="previous-action"&gt;
+                                &lt;span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before&gt;&lt;/span&gt;
+                                Vorige
+                            &lt;/button&gt;
+                            &lt;button is="vl-button" type="button" slot="next-action"&gt;
+                                Versturen
+                            &lt;/button&gt;
+                        &lt;/vl-wizard-pane&gt;
+                    &lt;/div&gt;
+                &lt;/vl-wizard&gt;
+                &lt;script&gt;
+                    customElements.whenDefined('vl-wizard-pane').then(() =&gt; {
+                        const pane1 = document.getElementById('vl-wizard-disabled-attribute-pane-1');
+                        const pane2 = document.getElementById('vl-wizard-disabled-attribute-pane-2');
+                        const pane3 = document.getElementById('vl-wizard-disabled-attribute-pane-3');
+                        document.getElementById('vl-wizard-disabled-attribute-pane-1-next').oninput = event =&gt; event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
+                        document.getElementById('vl-wizard-disabled-attribute-pane-2-previous').oninput = event =&gt; event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
+                        document.getElementById('vl-wizard-disabled-attribute-pane-2-next').oninput = event =&gt; event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
+                        document.getElementById('vl-wizard-disabled-attribute-pane-3-previous').oninput = event =&gt; event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
+                    });
+                &lt;/script&gt;
+            </code>
+        </pre>
+        <div class="demo">
+            <vl-wizard id="vl-wizard-disabled-attribute" data-vl-next-panes-disabled data-vl-previous-panes-disabled>
+                <h2 is="vl-h2" slot="title">Wizard title</h2>
+                <p slot="header">You're a wizard Harry</p>
+                <div slot="panes">
+                    <vl-wizard-pane id="vl-wizard-disabled-attribute-pane-1">
+                        <h3 is="vl-h3" slot="title">Stap 1</h3>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <vl-checkbox id="vl-wizard-disabled-attribute-pane-1-next" label="Volgende toegelaten"></vl-checkbox>
+                            </div>
+                        </div>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
+                    </vl-wizard-pane>
+                    <vl-wizard-pane id="vl-wizard-disabled-attribute-pane-2">
+                        <h3 is="vl-h3" slot="title">Stap 2</h3>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <vl-checkbox id="vl-wizard-disabled-attribute-pane-2-previous" label="Vorige toegelaten"></vl-checkbox>
+                                <vl-checkbox id="vl-wizard-disabled-attribute-pane-2-next" label="Volgende toegelaten"></vl-checkbox>
+                            </div>
+                        </div>
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
+                    </vl-wizard-pane>
+                    <vl-wizard-pane id="vl-wizard-disabled-attribute-pane-3">
+                        <h3 is="vl-h3" slot="title">Stap 3</h3>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <vl-checkbox id="vl-wizard-disabled-attribute-pane-3-previous" label="Vorige toegelaten"></vl-checkbox>
+                            </div>
+                        </div>
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Versturen
+                        </button>
+                    </vl-wizard-pane>
+                </div>
+            </vl-wizard>
+            <script>
+                customElements.whenDefined('vl-wizard-pane').then(() => {
+                    const pane1 = document.getElementById('vl-wizard-disabled-attribute-pane-1');
+                    const pane2 = document.getElementById('vl-wizard-disabled-attribute-pane-2');
+                    const pane3 = document.getElementById('vl-wizard-disabled-attribute-pane-3');
+                    document.getElementById('vl-wizard-disabled-attribute-pane-1-next').oninput = event => event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
+                    document.getElementById('vl-wizard-disabled-attribute-pane-2-previous').oninput = event => event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
+                    document.getElementById('vl-wizard-disabled-attribute-pane-2-next').oninput = event => event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
+                    document.getElementById('vl-wizard-disabled-attribute-pane-3-previous').oninput = event => event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
+                });
+            </script>
+        </div>
+    </div>
+
+    <div>
+        <h2>Wizard met afwijkende progress bar titel</h2>
+        <pre>
+            <code class="line-numbers language-markup">
+                &lt;vl-wizard id="vl-wizard-progress-bar-title"&gt;
+                    &lt;h2 is="vl-h2" slot="title"&gt;Wizard title&lt;/h2&gt;
+                    &lt;p slot="header"&gt;You're a wizard Harry&lt;/p&gt;
+                    &lt;div slot="panes"&gt;
+                        &lt;vl-wizard-pane&gt;
+                            &lt;h3 is="vl-h3" slot="title"&gt;Stap 1&lt;/h3&gt;
+                            &lt;h3 is="vl-h3" slot="progress-bar-title"&gt;1&lt;/h3&gt;
+                            &lt;div is="vl-form-grid" is-stacked slot="content"&gt;
+                                &lt;div is="vl-form-column" size="12"&gt;
+                                    &lt;span&gt;Dit is stap 1&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;button is="vl-button" type="button" slot="next-action"&gt;
+                                Volgende
+                            &lt;/button&gt;
+                        &lt;/vl-wizard-pane&gt;
+                        &lt;vl-wizard-pane&gt;
+                            &lt;h3 is="vl-h3" slot="title"&gt;Stap 2&lt;/h3&gt;
+                            &lt;h3 is="vl-h3" slot="progress-bar-title"&gt;2&lt;/h3&gt;
+                            &lt;div is="vl-form-grid" is-stacked slot="content"&gt;
+                                &lt;div is="vl-form-column" size="12"&gt;
+                                    &lt;span&gt;Dit is stap 2&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;button is="vl-button-link" type="button" slot="previous-action"&gt;
+                                &lt;span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before&gt;&lt;/span&gt;
+                                Vorige
+                            &lt;/button&gt;
+                        &lt;/vl-wizard-pane&gt;
+                    &lt;/div&gt;
+                &lt;/vl-wizard&gt;
+            </code>
+        </pre>
+        <div class="demo">
+            <vl-wizard id="vl-wizard-progress-bar-title">
+                <h2 is="vl-h2" slot="title">Wizard title</h2>
+                <p slot="header">You're a wizard Harry</p>
+                <div slot="panes">
+                    <vl-wizard-pane>
+                        <h3 is="vl-h3" slot="title">Stap 1</h3>
+                        <h3 is="vl-h3" slot="progress-bar-title">1</h3>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <span>Dit is stap 1</span>
+                            </div>
+                        </div>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
+                    </vl-wizard-pane>
+                    <vl-wizard-pane>
+                        <h3 is="vl-h3" slot="title">Stap 2</h3>
+                        <h3 is="vl-h3" slot="progress-bar-title">2</h3>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <span>Dit is stap 2</span>
+                            </div>
+                        </div>
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                    </vl-wizard-pane>
+                </div>
+            </vl-wizard>
+        </div>
+    </div>
 </body>
 
 </html>

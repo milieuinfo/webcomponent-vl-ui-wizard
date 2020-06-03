@@ -29,20 +29,20 @@ class VlWizard extends VlElement {
         return new VlProgressBar(this.driver, element);
     }
 
+    async getPanes() {
+        const elements = await this.findElements(By.css('vl-wizard-pane'));
+        return Promise.all(elements.map(element => new VlWizardPane(this.driver, element)));
+    }
+
     async getPane(number) {
-        const panes = await this._getPanes();
+        const panes = await this.getPanes();
         return panes[--number];
     }
 
     async getActivePane() {
-        const panes = await this._getPanes();
+        const panes = await this.getPanes();
         const isActive = await Promise.all(panes.map(pane => pane.isActive()));
         return panes.find((pane, index) => isActive[index]);
-    }
-
-    async _getPanes() {
-        const elements = await this.findElements(By.css('vl-wizard-pane'));
-        return Promise.all(elements.map(element => new VlWizardPane(this.driver, element)));
     }
 }
 

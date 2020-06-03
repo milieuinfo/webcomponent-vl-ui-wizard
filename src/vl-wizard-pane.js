@@ -18,6 +18,12 @@ import '/node_modules/vl-ui-action-group/dist/vl-action-group.js';
  * 
  */
 export class VlWizardPane extends VlElement(HTMLElement) {
+    static get EVENTS() {
+        return {
+            activated: 'activated'
+        };
+    }
+
     constructor() {
         super(`
             <style>
@@ -32,6 +38,10 @@ export class VlWizardPane extends VlElement(HTMLElement) {
                 slot[name="previous-action"], slot[name="next-action"] {
                     display: inline-block;
                 }
+
+                [hidden] {
+                    display: none !important;
+                }
             </style>
             <section class="vl-wizard__pane">
                 <slot name="title"></slot>
@@ -39,7 +49,7 @@ export class VlWizardPane extends VlElement(HTMLElement) {
                     <div is="vl-column" size="12">
                         <slot name="content"></slot>
                     </div>
-                    <div is="vl-column" size="12">
+                    <div id="actions-column" is="vl-column" size="12">
                         <div is="vl-action-group">
                             <slot name="previous-action"></slot>
                             <slot name="next-action"></slot>
@@ -48,18 +58,16 @@ export class VlWizardPane extends VlElement(HTMLElement) {
                 </div>
             </section>
         `);
-        if (!this._previousActionSlot) {
-            this._shadow.querySelector('slot[name="previous-action"]').remove();
-        }
-        if (!this._nextActionSlot) {
-            this._shadow.querySelector('slot[name="next-action"]').remove();
-        }
     }
 
     connectedCallback() {
-        this._processTitle();
         this._processActions();
         this._observeActionsClick();
+        this._activeObserver = this._observeActiveClass(() => this._dispatchActiveEvent());
+    }
+
+    disconnectedCallback() {
+        this._activeObserver.disconnect();
     }
 
     /**
@@ -68,7 +76,7 @@ export class VlWizardPane extends VlElement(HTMLElement) {
      * @return {Boolean}
      */
     get isActive() {
-        return this.classList.contains('is-selected') && !this.classList.contains('not-selected');
+        return this._isActive([... this.classList]);
     }
 
     /**
@@ -77,7 +85,8 @@ export class VlWizardPane extends VlElement(HTMLElement) {
      * @return {String}
      */
     get title() {
-        return this._titleSlot ? this._titleSlot.innerText : undefined;
+        const element = this._progressBarTitleSlot || this._titleSlot;
+        return element ? element.innerText : undefined;
     }
 
     /**
@@ -131,34 +140,68 @@ export class VlWizardPane extends VlElement(HTMLElement) {
         this._wizard.callback = new Promise(() => { });
     }
 
+    /**
+     * Navigeer naar de volgende pagina.
+     */
+    next() {
+        this._nextAction.click();
+    }
+
+    /**
+     * Navigeer naar de vorige pagina.
+     */
+    previous() {
+        this._previousAction.click();
+    }
+
     get _titleSlot() {
         return this.querySelector('[slot="title"]');
+    }
+
+    get _progressBarTitleSlot() {
+        return this.querySelector('[slot="progress-bar-title"]');
+    }
+
+    get _actionsColumn() {
+        return this._shadow.querySelector('#actions-column');
     }
 
     get _nextActionSlot() {
         return this.querySelector('[slot="next-action"]');
     }
 
+    get _nextActionSlotPlaceholder() {
+        return this._shadow.querySelector('slot[name="next-action"]');
+    }
+
     get _previousActionSlot() {
         return this.querySelector('[slot="previous-action"]');
     }
 
+    get _previousActionSlotPlaceholder() {
+        return this._shadow.querySelector('slot[name="previous-action"]');
+    }
+
     get _previousAction() {
-        const slot = this._shadow.querySelector('slot[name="previous-action"]');
-        if (slot && slot.assignedElements() && slot.assignedElements().length > 0) {
-            return slot.assignedElements()[0];
-        }
+        return this._getAssignedElementByIndex(this._previousActionSlotPlaceholder, 0);
     }
 
     get _nextAction() {
-        const slot = this._shadow.querySelector('slot[name="next-action"]');
-        if (slot && slot.assignedElements() && slot.assignedElements().length > 0) {
-            return slot.assignedElements()[0];
-        }
+        return this._getAssignedElementByIndex(this._nextActionSlotPlaceholder, 0);
     }
 
     get _wizard() {
         return this.closest('vl-wizard');
+    }
+
+    _isActive(classes) {
+        return classes.includes('is-selected') && !classes.includes('not-selected');
+    }
+
+    _getAssignedElementByIndex(slot, index) {
+        if (slot && slot.assignedElements() && slot.assignedElements().length > 0) {
+            return slot.assignedElements()[index];
+        }
     }
 
     _setNextPaneDisabledAttribute(value) {
@@ -169,13 +212,26 @@ export class VlWizardPane extends VlElement(HTMLElement) {
         this.toggleAttribute('data-vl-previous-pane-disabled', value);
     }
 
-    _processTitle() {
-        if (this._titleSlot) {
-            this._titleSlot.setAttribute('data-vl-wizard-focus', '');
+    _prepareActions() {
+        if (!this._previousActionSlot && !this._nextActionSlot) {
+            this._actionsColumn.hidden = true;
+        }
+        if (!this._previousActionSlot) {
+            this._previousActionSlotPlaceholder.hidden = true;
+            this.insertAdjacentHTML('beforeend', `
+                <button type="button" slot="previous-action" hidden></button>
+            `);
+        }
+        if (!this._nextActionSlot) {
+            this._nextActionSlotPlaceholder.hidden = true;
+            this.insertAdjacentHTML('beforeend', `
+                <button type="button" slot="next-action" hidden></button>
+            `);
         }
     }
 
     _processActions() {
+        this._prepareActions();
         if (this._previousAction) {
             this._previousAction.setAttribute('data-vl-wizard-prev', '');
         }
@@ -197,6 +253,22 @@ export class VlWizardPane extends VlElement(HTMLElement) {
                 this.isNextPaneDisabled ? this.disableNextPane() : this.enableNextPane();
             });
         }
+    }
+
+    _observeActiveClass(callback) {
+        const observer = new MutationObserver((mutations) => {
+            const wasActive = (mutation) => this._isActive(mutation.oldValue ? mutation.oldValue.split(' ') : []);
+            const isActive = (mutation) => mutation.target.isActive;
+            if (mutations.some(mutation => !wasActive(mutation) && isActive(mutation))) {
+                callback();
+            }
+        });
+        observer.observe(this, {attributeFilter: ['class'], attributeOldValue: true});
+        return observer; 
+    }
+
+    _dispatchActiveEvent() {
+        this.dispatchEvent(new Event(VlWizardPane.EVENTS.activated));
     }
 }
 

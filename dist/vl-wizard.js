@@ -10,12 +10,19 @@ import './vl-wizard-pane.js';
  * 
  * @extends VlElement
  * 
+ * @property {boolean} data-vl-next-panes-disabled - Attribuut zorgt ervoor dat de gebruiker niet verder kan naar de volgende stappen.
+ * @property {boolean} data-vl-previous-panes-disabled - Attribuut zorgt ervoor dat de gebruiker niet verder kan naar de vorige stappen.
+ * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-wizard/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-wizard/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-wizard.html|Demo}
  * 
  */
 export class VlWizard extends VlElement(HTMLElement) {
+    static get _observedAttributes() {
+        return ['next-panes-disabled', 'previous-panes-disabled'];
+    }
+
     constructor() {
         super(`
             <style>
@@ -42,9 +49,8 @@ export class VlWizard extends VlElement(HTMLElement) {
         };
     }
 
-    async connectedCallback() {
-        await this._processPanes();
-        this._observeProgressBarClick();
+    connectedCallback() {
+        this._processPanes();
         this._dress();
     }
 
@@ -64,6 +70,20 @@ export class VlWizard extends VlElement(HTMLElement) {
      */
     set callback(promise) {
         this.__callback.callbackFn = promise;
+    }
+
+    /**
+     * Navigeer naar de volgende pagina.
+     */
+    next() {
+        this._activePane.next();
+    }
+
+    /**
+     * Navigeer naar de vorige pagina.
+     */
+    previous() {
+        this._activePane.previous();
     }
 
     get _panes() {
@@ -90,10 +110,11 @@ export class VlWizard extends VlElement(HTMLElement) {
         `);
     }
 
-    async _processPanes() {
+    _processPanes() {
         this._panes.forEach(pane => {
             this._progressBar.appendChild(this._getProgressBarStepTemplate(pane.title));
         });
+        this._observeProgressBarClick();
     }
 
     _dress() {
@@ -103,15 +124,29 @@ export class VlWizard extends VlElement(HTMLElement) {
     }
 
     _observeProgressBarClick() {
-        this._progressBar.buttons.forEach(button => button.onclick = (event) => {
-            const number = event.target.getAttribute('data-vl-index');
-            if (number < this._activePaneNumber) {
-                this.__callback.callbackFn = this._activePane.isPreviousPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
-            }
-            if (number > this._activePaneNumber) {
-                this.__callback.callbackFn = this._activePane.isNextPaneDisabled ? new Promise(() => {}) : Promise.resolve(true);
-            }
+        setTimeout(() => {
+            this._progressBar.buttons.forEach(button => button.onclick = (event) => {
+                const panes = [... this._panes];
+                const number = event.target.getAttribute('data-vl-index');
+                if (number < this._activePaneNumber) {
+                    const panesBetween = panes.slice(Number(number), panes.indexOf(this._activePane) + 1);
+                    const allPanesBetweenAreEnabled = panesBetween.every(pane => !pane.isPreviousPaneDisabled);
+                    this.callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
+                } else {
+                    const panesBetween = panes.slice(panes.indexOf(this._activePane), Number(number) - 1)
+                    const allPanesBetweenAreEnabled = panesBetween.every(pane => !pane.isNextPaneDisabled);
+                    this.callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
+                }
+            });
         });
+    }
+
+    _next_panes_disabledChangedCallback(oldValue, newValue) {
+        this._panes.forEach(pane => newValue != undefined ? pane.disableNextPane() : pane.enableNextPane());
+    }
+
+    _previous_panes_disabledChangedCallback(oldValue, newValue) {
+        this._panes.forEach(pane => newValue != undefined ? pane.disablePreviousPane() : pane.enablePreviousPane());
     }
 }
 

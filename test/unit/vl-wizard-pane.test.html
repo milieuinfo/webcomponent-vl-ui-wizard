@@ -34,18 +34,44 @@
   <test-fixture id="vl-wizard-fixture">
     <template>
       <vl-wizard>
-        <vl-wizard-pane>
-          <h3 slot="title">Stap 1</h3>
-          <button type="button" slot="previous-action">Vorige</button>
-          <button type="button" slot="next-action">Volgende</button>
-        </vl-wizard-pane>
+        <div slot="panes">
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 1</h3>
+            <div slot="content"></div>
+            <button type="button" slot="previous-action">Vorige</button>
+            <button type="button" slot="next-action">Volgende</button>
+          </vl-wizard-pane>
+        </div>
       </vl-wizard>
     </template>
   </test-fixture>
 
-  <script>
+  <test-fixture id="vl-wizard-panes-fixture">
+    <template>
+      <vl-wizard>
+        <div slot="panes">
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 1</h3>
+            <div slot="content"></div>
+            <button type="button" slot="next-action">Volgende</button>
+          </vl-wizard-pane>
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 2</h3>
+            <div slot="content"></div>
+            <button type="button" slot="previous-action">Vorige</button>
+          </vl-wizard-pane>
+        </div>
+      </vl-wizard>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+    import { awaitUntil } from 'vl-ui-core/dist/vl-core';
+    import { VlWizardPane } from '../../src/vl-wizard-pane.js';
+
     suite('<vl-wizard-pane>', () => {
       const should = chai.should();
+      const sandbox = sinon.sandbox.create();
 
       setup((done) => {
         customElements.whenDefined('vl-wizard').then(done);
@@ -58,15 +84,17 @@
         assert.equal(title.innerText, pane.querySelector('[slot="title"]').innerText);
       });
 
-      test('het titel element krijgt een wizard focus attribuut', () => {
-        const pane = fixture('vl-wizard-pane-fixture');
-        const title = pane.shadowRoot.querySelector('slot[name="title"]').assignedElements()[0];
-        assert.isTrue(title.hasAttribute('data-vl-wizard-focus'));
-      });
-
       test('de titel tekst kan opgevraagd worden', () => {
         const pane = fixture('vl-wizard-pane-fixture');
         assert.equal(pane.title, pane.querySelector('[slot="title"]').innerText);
+      });
+
+      test('de titel tekst geeft voorrang aan het progress bar titel slot element', () => {
+        const pane = fixture('vl-wizard-pane-fixture');
+        assert.equal(pane.title, pane.querySelector('[slot="title"]').innerText);
+        const text = 'progress bar title';
+        pane.insertAdjacentHTML('afterbegin', `<span slot="progress-bar-title">${text}</span>`);
+        assert.equal(pane.title, text);
       });
 
       test('bevat een grid met een content en acties element', () => {
@@ -89,24 +117,17 @@
 
       test('de acties elementen krijgen een wizard next/previous attribuut', () => {
         const pane = fixture('vl-wizard-pane-fixture');
-        const grid = pane.shadowRoot.querySelector('[is="vl-grid"]');
-        const columns = grid.querySelectorAll('[is="vl-column"]');
-        const actionGroup = columns[1].querySelector('[is="vl-action-group"]');
-        const previousAction = actionGroup.querySelector('slot[name="previous-action"]').assignedElements()[0];
-        const nextAction = actionGroup.querySelector('slot[name="next-action"]').assignedElements()[0];
-        assert.isTrue(previousAction.hasAttribute('data-vl-wizard-prev'));
-        assert.isTrue(nextAction.hasAttribute('data-vl-wizard-next'));
+        assert.isTrue(pane._previousAction.hasAttribute('data-vl-wizard-prev'));
+        assert.isTrue(pane._nextAction.hasAttribute('data-vl-wizard-next'));
       });
 
-      test('voorziet geen slot elementen indien de acties niet aanwezig zijn', () => {
+      test('voorziet verborgen actie elementen indien er geen acties aanwezig zijn', () => {
         const pane = fixture('vl-wizard-pane-without-actions-fixture');
-        const grid = pane.shadowRoot.querySelector('[is="vl-grid"]');
-        const columns = grid.querySelectorAll('[is="vl-column"]');
-        const actionGroup = columns[1].querySelector('[is="vl-action-group"]');
-        const previousAction = actionGroup.querySelector('slot[name="previous-action"]');
-        const nextAction = actionGroup.querySelector('slot[name="next-action"]');
-        should.not.exist(previousAction);
-        should.not.exist(nextAction);
+        should.exist(pane._previousAction);
+        should.exist(pane._nextAction);
+        assert.isTrue(pane._actionsColumn.hidden);
+        assert.isTrue(pane._previousAction.hidden);
+        assert.isTrue(pane._nextAction.hidden);
       });
 
       test('de next/previous pane disabled attributen bepalen bij de wizard of er genavigeerd kan worden naar een vorige/volgende pagina', (done) => {
@@ -177,6 +198,58 @@
         pane.enablePreviousPane();
         assert.isFalse(pane.isPreviousPaneDisabled);
         assert.isFalse(pane.isNextPaneDisabled);
+      });
+
+      test('wanneer er dynamisch elementen toegevoegd worden aan de content, zullen de onderste elementen nog steeds zichtbaar zijn', (done) => {
+        const hasOverflow = element => element.scrollHeight > element.clientHeight;
+        const wizard = fixture('vl-wizard-fixture');
+
+        setTimeout(() => {
+          const panes = wizard.querySelector('[slot="panes"]');
+          assert.isFalse(hasOverflow(panes));
+
+          const pane = wizard.querySelector('vl-wizard-pane');
+          const content = pane.shadowRoot.querySelector('slot[name="content"]').assignedElements()[0];
+          content.insertAdjacentHTML('afterbegin', `
+            <p>Dit is dynamische data</p>
+            <p>Dit is dynamische data</p>
+            <p>Dit is dynamische data</p>
+          `);
+          awaitUntil(() => {
+            return !hasOverflow(panes);
+          }).then(() => done());
+        });
+      });
+
+      test('er kan programmatisch genavigeerd worden naar de vorige/volgende pagina', () => {
+        const wizard = fixture('vl-wizard-fixture');
+        const pane = wizard.querySelector('vl-wizard-pane');
+        sandbox.spy(pane._nextAction, 'click');
+        sandbox.spy(pane._previousAction, 'click');
+        assert.isFalse(pane._nextAction.click.called);
+        assert.isFalse(pane._previousAction.click.called);
+        pane.next();
+        assert.isTrue(pane._nextAction.click.called);
+        assert.isFalse(pane._previousAction.click.called);
+        pane.previous();
+        assert.isTrue(pane._previousAction.click.called);
+      });
+
+      test('alleen wanneer een wizard pagina actief wordt, zal er een event gegooid worden', (done) => {
+        const wizard = fixture('vl-wizard-panes-fixture');
+        const panes = wizard.querySelectorAll('vl-wizard-pane');
+        setTimeout(() => {
+          let counter = 0;
+          const addClass = () => panes[1].classList.add(`test-${++counter}`);
+          panes[1].addEventListener(VlWizardPane.EVENTS.activated, addClass);
+          panes[1].addEventListener(VlWizardPane.EVENTS.activated, () => {
+            setTimeout(() => {
+              assert.equal(counter, 1);
+              done();
+            });
+          });
+          panes[0].next();
+        });
       });
     });
   </script>

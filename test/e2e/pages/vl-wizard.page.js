@@ -8,8 +8,16 @@ class VlWizardPage extends Page {
         return this._getWizard('#vl-wizard');
     }
 
-    async getCheckboxWizard() {
-        return this._getWizard('#vl-wizard-checkbox');
+    async getDisabledWizard() {
+        return this._getWizard('#vl-wizard-disabled');
+    }
+
+    async getDisabledAttributeWizard() {
+        return this._getWizard('#vl-wizard-disabled-attribute');
+    }
+
+    async getProgressBarTitleWizard() {
+        return this._getWizard('#vl-wizard-progress-bar-title');
     }
 
     async _getWizard(selector) {
@@ -22,7 +30,8 @@ class VlWizardPage extends Page {
 
     async reset() {
         await this._resetWizard();
-        await this._resetCheckboxWizard();
+        await this._resetDisabledWizard(await this.getDisabledWizard());
+        await this._resetDisabledWizard(await this.getDisabledAttributeWizard());
     }
 
     async _resetWizard() {
@@ -32,8 +41,19 @@ class VlWizardPage extends Page {
         await progressBarStep1.click();
     }
 
-    async _resetCheckboxWizard() {
-        const wizard = await this.getCheckboxWizard();
+    async _resetDisabledWizard(wizard) {
+        const progressBar = await wizard.getProgressBar();
+        const progressBarStep1 = await progressBar.getStep(1);
+        const panes = await wizard.getPanes();
+        let checkboxes = (await Promise.all(panes.map(pane => pane.findElements(By.css('vl-checkbox'))))).flat();
+        checkboxes = await Promise.all(checkboxes.map(element => new VlCheckbox(this.driver, element)));
+        const inputs = await Promise.all(checkboxes.map(checkbox => checkbox.shadowRoot.findElement(By.css('input'))));
+        await Promise.all(inputs.map(input => this.driver.executeScript('return arguments[0].checked = true;', input)));
+        await progressBarStep1.click();
+        await Promise.all(inputs.map(input => this.driver.executeScript('return arguments[0].checked = false;', input)));
+    }
+
+    async _resetDisabledWizard(wizard) {
         const progressBar = await wizard.getProgressBar();
         const progressBarStep1 = await progressBar.getStep(1);
         let checkboxes = await wizard.findElements(By.css('vl-checkbox'));
