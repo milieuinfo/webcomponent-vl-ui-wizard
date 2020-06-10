@@ -8,7 +8,6 @@ import '/node_modules/vl-ui-action-group/dist/vl-action-group.js';
  * @classdesc Gebruik de wizard pane om een stap in de wizard voor te stellen.
  *
  * @extends HTMLElement
- * @mixin vlElement
  *
  * @property {boolean} data-vl-next-pane-disabled - Attribuut zorgt ervoor dat de gebruiker niet verder kan naar de volgende stap.
  * @property {boolean} data-vl-previous-pane-disabled - Attribuut zorgt ervoor dat de gebruiker niet terug kan naar de vorige stap.
