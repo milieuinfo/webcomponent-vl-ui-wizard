@@ -2,8 +2,6 @@ const VlWizard = require('../components/vl-wizard');
 const {By} = require('vl-ui-core').Test.Setup;
 const {Page, Config} = require('vl-ui-core').Test;
 const {VlCheckbox} = require('vl-ui-checkbox').Test;
-const {VlHeader} = require('vl-ui-header').Test;
-const {VlFooter} = require('vl-ui-footer').Test;
 
 class VlWizardPage extends Page {
   async getWizard() {
@@ -27,11 +25,7 @@ class VlWizardPage extends Page {
   }
 
   async load() {
-    await super.load(Config.baseUrl + '/demo/vl-wizard.html');
-    const header = await new VlHeader(this.driver);
-    const footer = await new VlFooter(this.driver);
-    await header.remove();
-    await footer.remove();
+    await super.load(Config.baseUrl + '/demo/vl-wizard.html?no-header=true&no-footer=true');
   }
 
   async reset() {
