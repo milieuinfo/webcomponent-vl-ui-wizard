@@ -1,0 +1,164 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
+
+    <script type="module" src="/src/vl-wizard.js"></script>
+    <script type="module" src="/src/test-component.js"></script>
+    <script type="module" src="/node_modules/vl-ui-titles/dist/vl-titles.js"></script>
+    <script type="module" src="/node_modules/vl-ui-grid/dist/vl-grid.js"></script>
+    <script type="module" src="/node_modules/vl-ui-form-grid/dist/vl-form-grid.js"></script>
+    <script type="module" src="/node_modules/vl-ui-form-message/dist/vl-form-message.js"></script>
+    <script type="module" src="/node_modules/vl-ui-input-field/dist/vl-input-field.js"></script>
+    <script type="module" src="/node_modules/vl-ui-action-group/dist/vl-action-group.js"></script>
+    <script type="module" src="/node_modules/vl-ui-button/dist/vl-button.js"></script>
+    <script type="module" src="/node_modules/vl-ui-link/dist/vl-link.js"></script>
+    <script type="module" src="/node_modules/vl-ui-icon/dist/vl-icon.js"></script>
+    <script type="module" src="/node_modules/vl-ui-checkbox/dist/vl-checkbox.js"></script>
+    <script type="module" src="/node_modules/vl-ui-properties/dist/vl-properties.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-core/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-titles/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-grid/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-form-grid/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-form-message/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-input-field/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-action-group/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-button/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-link/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-icon/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-properties/dist/style.css" />
+
+</head>
+<body>
+     <vl-wizard id="vl-wizard-disabled">
+                <h2 is="vl-h2" slot="title">Wizard title</h2>
+                <p slot="header">You're a wizard Harry</p>
+                <div slot="panes">
+                    <vl-wizard-pane id="vl-wizard-disabled-pane-1">
+                        <h3 is="vl-h3" slot="title">Stap 1</h3>
+                                
+                                <!-- <vl-properties slot="content">
+                                    <dl is="vl-properties-list">
+                                        <dt is="vl-property-term">Voornaam</dt>
+                                        <dd is="vl-property-value">Koen</dd>
+                                        <dt is="vl-property-term">Naam</dt>
+                                        <dd is="vl-property-value">Peeters</dd>
+                                        <dt is="vl-property-term">Geslacht</dt>
+                                        <dd is="vl-property-value">Man</dd>
+                                        <dt is="vl-property-term">Voornaam</dt>
+                                        <dd is="vl-property-value">Koen</dd>
+                                        <dt is="vl-property-term">Naam</dt>
+                                        <dd is="vl-property-value">Peeters</dd>
+                                        <dt is="vl-property-term">Geslacht</dt>
+                                        <dd is="vl-property-value">Man</dd>
+                                        <dt is="vl-property-term">Geslacht</dt>
+                                        <dd is="vl-property-value">Man</dd>
+                                        <dt is="vl-property-term">Geslacht</dt>
+                                        <dd is="vl-property-value">Man</dd>
+                                        <dt is="vl-property-term">Geslacht</dt>
+                                        <dd is="vl-property-value">Man</dd>
+                                        <dt is="vl-property-term">Geslacht</dt>
+                                        <dd is="vl-property-value">Man</dd>
+                                        <dt is="vl-property-term">Geslacht</dt>
+                                        <dd is="vl-property-value">Man</dd>
+                                        <dt is="vl-property-term">Geslacht</dt>
+                                        <dd is="vl-property-value">Man</dd>
+                                        <dt is="vl-property-term">Voornaam</dt>
+                                    </dl>
+                                </vl-properties> -->
+                                <!-- <div id="test" slot='content'>
+                                    <button is="vl-button" type="button" onclick="document.querySelector('#test').append('text', document.createElement('p'))">
+                                                                                AddData
+                                    </button>
+                                    
+                                </div> -->
+                                <test-component slot='content'></test-component>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
+                        
+                    </vl-wizard-pane>
+                    <vl-wizard-pane id="vl-wizard-disabled-pane-2">
+                        <h3 is="vl-h3" slot="title">Stap 2</h3>
+                        <vl-properties slot="content">
+                            <dl is="vl-properties-list">
+                                <dt is="vl-property-term">Voornaam</dt>
+                                <dd is="vl-property-value">Koen</dd>
+                                <dt is="vl-property-term">Naam</dt>
+                                <dd is="vl-property-value">Peeters</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">eind</dd>
+                                <dt is="vl-property-term">Voornaam</dt>
+                                <dd is="vl-property-value">Koen</dd>
+                                <dt is="vl-property-term">Naam</dt>
+                                <dd is="vl-property-value">Peeters</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">Man</dd>
+                                <dt is="vl-property-term">Geslacht</dt>
+                                <dd is="vl-property-value">eind</dd>
+                            </dl>
+                        </vl-properties>
+                        
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Volgende
+                        </button>
+                    </vl-wizard-pane>
+                    <vl-wizard-pane id="vl-wizard-disabled-pane-3" data-vl-previous-pane-disabled data-vl-next-pane-disabled>
+                        <h3 is="vl-h3" slot="title">Stap 3</h3>
+                        <div is="vl-form-grid" is-stacked slot="content">
+                            <div is="vl-form-column" size="12">
+                                <vl-checkbox id="vl-wizard-disabled-pane-3-previous" label="Vorige toegelaten"></vl-checkbox>
+                            </div>
+                        </div>
+                        <button is="vl-button-link" type="button" slot="previous-action">
+                            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
+                            Vorige
+                        </button>
+                        <button is="vl-button" type="button" slot="next-action">
+                            Versturen
+                        </button>
+                    </vl-wizard-pane>
+                </div>
+            </vl-wizard>
+            <script>
+                // customElements.whenDefined('vl-wizard-pane').then(() => {
+                //   const pane1 = document.getElementById('vl-wizard-disabled-pane-1');
+                //   const pane2 = document.getElementById('vl-wizard-disabled-pane-2');
+                //   const pane3 = document.getElementById('vl-wizard-disabled-pane-3');
+                //   document.getElementById('vl-wizard-disabled-pane-1-next').oninput = (event) => event.detail ? pane1.enableNextPane() : pane1.disableNextPane();
+                //   document.getElementById('vl-wizard-disabled-pane-2-previous').oninput = (event) => event.detail ? pane2.enablePreviousPane() : pane2.disablePreviousPane();
+                //   document.getElementById('vl-wizard-disabled-pane-2-next').oninput = (event) => event.detail ? pane2.enableNextPane() : pane2.disableNextPane();
+                //   document.getElementById('vl-wizard-disabled-pane-3-previous').oninput = (event) => event.detail ? pane3.enablePreviousPane() : pane3.disablePreviousPane();
+                // });
+            </script>
+</body>
+</html>
