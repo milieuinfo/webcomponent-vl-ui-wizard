@@ -9,7 +9,6 @@ import './vl-wizard-pane.js';
  * @classdesc Gebruik de wizard om de gebruiker door een proces met meerdere stappen te begeleiden. Een wizard laat je toe om een complex proces op te splitsen in hapklare acties. Een wizard maakt het ook mogelijk om opties afhankelijk te maken van de keuzes in een voorgaande stap.
  *
  * @extends HTMLElement
- * @mixin vlElement
  *
  * @property {boolean} data-vl-next-panes-disabled - Attribuut zorgt ervoor dat de gebruiker niet verder kan naar de volgende stappen.
  * @property {boolean} data-vl-previous-panes-disabled - Attribuut zorgt ervoor dat de gebruiker niet verder kan naar de vorige stappen.
