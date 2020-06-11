@@ -25,7 +25,7 @@ class VlWizardPage extends Page {
   }
 
   async load() {
-    await super.load(Config.baseUrl + '/demo/vl-wizard.html?no-header=true&no-footer=true');
+    await super.load(Config.baseUrl + '/demo/vl-wizard.html');
   }
 
   async reset() {
