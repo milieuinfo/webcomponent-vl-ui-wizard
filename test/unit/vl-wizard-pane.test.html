@@ -236,7 +236,7 @@
         assert.isTrue(pane._previousAction.click.called);
       });
 
-      test('alleen wanneer een wizard pagina actief wordt, zal er een event gegooid worden', (done) => {
+      test('alleen wanneer een wizard pagina actief wordt, zal er een activated event gegooid worden', (done) => {
         const wizard = fixture('vl-wizard-panes-fixture');
         const panes = wizard.querySelectorAll('vl-wizard-pane');
         setTimeout(() => {
@@ -248,6 +248,19 @@
               assert.equal(counter, 1);
               done();
             });
+          });
+          panes[0].next();
+        });
+      });
+
+      test('bij een window resize wordt er geen activated event gegooid', (done) => {
+        const wizard = fixture('vl-wizard-panes-fixture');
+        const panes = wizard.querySelectorAll('vl-wizard-pane');
+        setTimeout(() => {
+          panes[1].addEventListener(VlWizardPane.EVENTS.activated, () => {
+            panes[1].addEventListener(VlWizardPane.EVENTS.activated, () => assert.fail('no activated event expected'));
+            window.dispatchEvent(new Event('resize'));
+            setTimeout(() => done());
           });
           panes[0].next();
         });

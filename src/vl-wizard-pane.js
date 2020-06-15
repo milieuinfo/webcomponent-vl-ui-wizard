@@ -26,37 +26,37 @@ export class VlWizardPane extends vlElement(HTMLElement) {
 
   constructor() {
     super(`
-        <style>
-            @import '/src/style.css';
-            @import '/node_modules/vl-ui-action-group/dist/style.css';
-            @import '/node_modules/vl-ui-grid/dist/style.css';
+      <style>
+        @import '/src/style.css';
+        @import '/node_modules/vl-ui-action-group/dist/style.css';
+        @import '/node_modules/vl-ui-grid/dist/style.css';
 
-            :host {
-                width: 100%;
-            }
+        :host {
+          width: 100%;
+        }
 
-            slot[name="previous-action"], slot[name="next-action"] {
-                display: inline-block;
-            }
+        slot[name="previous-action"], slot[name="next-action"] {
+          display: inline-block;
+        }
 
-            [hidden] {
-                display: none !important;
-            }
-        </style>
-        <section class="vl-wizard__pane">
-            <slot name="title"></slot>
-            <div is="vl-grid" is-stacked>
-                <div is="vl-column" size="12">
-                    <slot name="content"></slot>
-                </div>
-                <div id="actions-column" is="vl-column" size="12">
-                    <div is="vl-action-group">
-                        <slot name="previous-action"></slot>
-                        <slot name="next-action"></slot>
-                    </div>
-                </div>
+        [hidden] {
+          display: none !important;
+        }
+      </style>
+      <section class="vl-wizard__pane">
+        <slot name="title"></slot>
+        <div is="vl-grid" is-stacked>
+          <div is="vl-column" size="12">
+            <slot name="content"></slot>
+          </div>
+          <div id="actions-column" is="vl-column" size="12">
+            <div is="vl-action-group">
+              <slot name="previous-action"></slot>
+              <slot name="next-action"></slot>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
     `);
   }
 
@@ -71,61 +71,61 @@ export class VlWizardPane extends vlElement(HTMLElement) {
   }
 
   /**
-     * Geeft terug of de pagina actief is.
-     *
-     * @return {Boolean}
-     */
+   * Geeft terug of de pagina actief is.
+   *
+   * @return {Boolean}
+   */
   get isActive() {
     return this._isActive([...this.classList]);
   }
 
   /**
-     * Geeft de titel van de pagina terug.
-     *
-     * @return {String}
-     */
+   * Geeft de titel van de pagina terug.
+   *
+   * @return {String}
+   */
   get title() {
     const element = this._progressBarTitleSlot || this._titleSlot;
     return element ? element.innerText : undefined;
   }
 
   /**
-     * Geeft terug of de volgende pagina bereikt mag worden.
-     *
-     * @return {Boolean}
-     */
+   * Geeft terug of de volgende pagina bereikt mag worden.
+   *
+   * @return {Boolean}
+   */
   get isNextPaneDisabled() {
     return this.hasAttribute('data-vl-next-pane-disabled');
   }
 
   /**
-     * Geeft terug of de vorige pagina bereikt mag worden
-     *
-     * @return {Boolean}
-     */
+   * Geeft terug of de vorige pagina bereikt mag worden
+   *
+   * @return {Boolean}
+   */
   get isPreviousPaneDisabled() {
     return this.hasAttribute('data-vl-previous-pane-disabled');
   }
 
   /**
-     * Sta navigatie naar de volgende pagina toe.
-     */
+   * Sta navigatie naar de volgende pagina toe.
+   */
   enableNextPane() {
     this._setNextPaneDisabledAttribute(false);
     this._wizard.callback = Promise.resolve();
   }
 
   /**
-     * Blokkeer navigatie naar de volgende pagina.
-     */
+   * Blokkeer navigatie naar de volgende pagina.
+   */
   disableNextPane() {
     this._setNextPaneDisabledAttribute(true);
     this._wizard.callback = new Promise(() => { });
   }
 
   /**
-     * Sta navigatie naar de vorige pagina toe
-     */
+   * Sta navigatie naar de vorige pagina toe
+   */
   enablePreviousPane() {
     this._setPreviousPaneDisabledAttribute(false);
     this.removeAttribute('data-vl-previous-pane-disabled');
@@ -133,23 +133,23 @@ export class VlWizardPane extends vlElement(HTMLElement) {
   }
 
   /**
-     * Blokkeer navigatie naar de vorige pagina.
-     */
+   * Blokkeer navigatie naar de vorige pagina.
+   */
   disablePreviousPane() {
     this._setPreviousPaneDisabledAttribute(true);
     this._wizard.callback = new Promise(() => { });
   }
 
   /**
-     * Navigeer naar de volgende pagina.
-     */
+   * Navigeer naar de volgende pagina.
+   */
   next() {
     this._nextAction.click();
   }
 
   /**
-     * Navigeer naar de vorige pagina.
-     */
+   * Navigeer naar de vorige pagina.
+   */
   previous() {
     this._previousAction.click();
   }
@@ -219,14 +219,14 @@ export class VlWizardPane extends vlElement(HTMLElement) {
     if (!this._previousActionSlot) {
       this._previousActionSlotPlaceholder.hidden = true;
       this.insertAdjacentHTML('beforeend', `
-                <button type="button" slot="previous-action" hidden></button>
-            `);
+        <button type="button" slot="previous-action" hidden></button>
+      `);
     }
     if (!this._nextActionSlot) {
       this._nextActionSlotPlaceholder.hidden = true;
       this.insertAdjacentHTML('beforeend', `
-                <button type="button" slot="next-action" hidden></button>
-            `);
+        <button type="button" slot="next-action" hidden></button>
+      `);
     }
   }
 
@@ -245,25 +245,28 @@ export class VlWizardPane extends vlElement(HTMLElement) {
     const previousAction = this._previousAction;
     if (previousAction) {
       this._previousAction.addEventListener('click', () => {
-                this.isPreviousPaneDisabled ? this.disablePreviousPane() : this.enablePreviousPane();
+        this.isPreviousPaneDisabled ? this.disablePreviousPane() : this.enablePreviousPane();
       });
     }
     if (nextAction) {
       this._nextAction.addEventListener('click', () => {
-                this.isNextPaneDisabled ? this.disableNextPane() : this.enableNextPane();
+        this.isNextPaneDisabled ? this.disableNextPane() : this.enableNextPane();
       });
     }
   }
 
   _observeActiveClass(callback) {
     const observer = new MutationObserver((mutations) => {
-      const wasActive = (mutation) => this._isActive(mutation.oldValue ? mutation.oldValue.split(' ') : []);
-      const isActive = (mutation) => mutation.target.isActive;
-      if (mutations.some((mutation) => !wasActive(mutation) && isActive(mutation))) {
-        callback();
+      if (this.isActive) {
+        if (!this.__active && mutations.some((mutation) => mutation.target.isActive)) {
+          callback();
+        }
+        this.__active = true;
+      } else {
+        this.__active = false;
       }
     });
-    observer.observe(this, {attributeFilter: ['class'], attributeOldValue: true});
+    observer.observe(this, {attributeFilter: ['class']});
     return observer;
   }
 
