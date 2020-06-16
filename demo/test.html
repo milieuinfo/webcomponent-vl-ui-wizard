@@ -7,6 +7,8 @@
 
     <script type="module" src="/src/vl-wizard.js"></script>
     <script type="module" src="/src/test-component.js"></script>
+    <script type="module" src="/src/wizard-pane-one.js"></script>
+    <script type="module" src="/src/wizard-pane-two.js"></script>
     <script type="module" src="/node_modules/vl-ui-titles/dist/vl-titles.js"></script>
     <script type="module" src="/node_modules/vl-ui-grid/dist/vl-grid.js"></script>
     <script type="module" src="/node_modules/vl-ui-form-grid/dist/vl-form-grid.js"></script>
@@ -75,7 +77,8 @@
                                     </button>
                                     
                                 </div> -->
-                                <test-component slot='content'></test-component>
+                                <!-- <test-component slot='content'></test-component> -->
+                                <wizard-pane-one slot='content'></wizard-pane-one>
                         <button is="vl-button" type="button" slot="next-action">
                             Volgende
                         </button>
@@ -83,7 +86,9 @@
                     </vl-wizard-pane>
                     <vl-wizard-pane id="vl-wizard-disabled-pane-2">
                         <h3 is="vl-h3" slot="title">Stap 2</h3>
-                        <vl-properties slot="content">
+                        <wizard-pane-two slot='content'></wizard-pane-two>
+
+                        <!-- <vl-properties slot="content">
                             <dl is="vl-properties-list">
                                 <dt is="vl-property-term">Voornaam</dt>
                                 <dd is="vl-property-value">Koen</dd>
@@ -122,7 +127,7 @@
                                 <dt is="vl-property-term">Geslacht</dt>
                                 <dd is="vl-property-value">eind</dd>
                             </dl>
-                        </vl-properties>
+                        </vl-properties> -->
                         
                         <button is="vl-button-link" type="button" slot="previous-action">
                             <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
@@ -134,11 +139,8 @@
                     </vl-wizard-pane>
                     <vl-wizard-pane id="vl-wizard-disabled-pane-3" data-vl-previous-pane-disabled data-vl-next-pane-disabled>
                         <h3 is="vl-h3" slot="title">Stap 3</h3>
-                        <div is="vl-form-grid" is-stacked slot="content">
-                            <div is="vl-form-column" size="12">
-                                <vl-checkbox id="vl-wizard-disabled-pane-3-previous" label="Vorige toegelaten"></vl-checkbox>
-                            </div>
-                        </div>
+                        <my-element slot="content">
+                         </my-element>  
                         <button is="vl-button-link" type="button" slot="previous-action">
                             <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span>
                             Vorige

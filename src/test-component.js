@@ -1,9 +1,8 @@
 import {vlElement, define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
 export class TestComponent extends vlElement(HTMLElement) {
-
-    constructor() {
-        super(`
+  constructor() {
+    super(`
         <style>
 
         .vl-wizard__panes {
@@ -14,61 +13,57 @@ export class TestComponent extends vlElement(HTMLElement) {
        <p>Some Content</p>
     </section>
         `);
-        console.log('constructor');
+    console.log('constructor');
 
-          this._whenDefined().then(() => {
+    this._whenDefined().then(() => {
+      // let foo = this._shadow;
+      // let that = this;
+      // setInterval(function() { that._addMoreContent(foo)}, 2000)
 
-            // let foo = this._shadow;
-            // let that = this;
-            // setInterval(function() { that._addMoreContent(foo)}, 2000)
+
+      this._haalDataOp();
+    });
+  }
+
+  async _whenDefined() {
+    return customElements.whenDefined('test-component');
+  }
 
 
-            this._haalDataOp();
+  connectedCallback() {
+    console.log('connectedCallback');
 
-          });
-      }
+    //   this._addMoreContent(this._shadow);
+    //   let foo = this._shadow;
+    //   let that = this;
 
-      async _whenDefined() {
-          return customElements.whenDefined('test-component');
-      }
+    //   setInterval(function() { that._addMoreContent(foo)}, 2000)
+    //   setTimeout(this._addMoreContent,
+    //   2000);
+  }
 
-    
-      connectedCallback() {
-          console.log('connectedCallback');
+  _addMoreContent(element) {
+    const sectie = element.querySelector('#sectie');
+    const p = document.createElement('p');
+    sectie.append('More', p);
 
-        //   this._addMoreContent(this._shadow);
-        //   let foo = this._shadow;
-        //   let that = this;
-         
-        //   setInterval(function() { that._addMoreContent(foo)}, 2000)
-        //   setTimeout(this._addMoreContent, 
-        //   2000);
-      }
+    console.log('adding more content');
+  }
 
-      _addMoreContent(element) {
-          
-          const sectie = element.querySelector('#sectie');
-          const p = document.createElement('p');
-          sectie.append('More', p);
+  _haalDataOp() {
+    fetch('data/data.json')
+        .then((response) => response.json())
+        .then((data) => this._render(data));
+  }
 
-          console.log('adding more content');
-      }
-
-      _haalDataOp() {
-          fetch('data/data.json')
-            .then(response => response.json())
-            .then(data => this._render(data));
-      }
-
-      _render(data) {
-          const sectie = this._shadow.querySelector('#sectie');
-          let codes = data['codes'].map(codes => codes);
-          codes.forEach(element => {
-              const p = document.createElement('p');
-              sectie.append(element.code, p);
-          });
-
-      }
+  _render(data) {
+    const sectie = this._shadow.querySelector('#sectie');
+    const codes = data['codes'].map((codes) => codes);
+    codes.forEach((element) => {
+      const p = document.createElement('p');
+      sectie.append(element.code, p);
+    });
+  }
 }
 
 define('test-component', TestComponent);
