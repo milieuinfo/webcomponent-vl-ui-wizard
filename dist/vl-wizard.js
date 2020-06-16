@@ -1,7 +1,7 @@
 import {vlElement, define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-progress-bar/dist/vl-progress-bar-all.js';
 import '/node_modules/vl-ui-wizard/lib/wizard.js';
-import './vl-wizard-pane.js';
+import {VlWizardPane} from './vl-wizard-pane.js';
 
 /**
  * VlWizard
@@ -50,8 +50,13 @@ export class VlWizard extends vlElement(HTMLElement) {
   }
 
   connectedCallback() {
+    this._observer = this._observePanes(() => this._processPanes());
     this._processPanes();
     this._dress();
+  }
+
+  disconnectedCallback() {
+    this._observer.disconnect();
   }
 
   /**
@@ -102,6 +107,10 @@ export class VlWizard extends vlElement(HTMLElement) {
     return this._shadow.querySelector('vl-progress-bar');
   }
 
+  get _panesSlot() {
+    return this.querySelector('[slot="panes"]');
+  }
+
   _getProgressBarStepTemplate(content) {
     return this._template(`
             <vl-progress-bar-step>
@@ -147,6 +156,25 @@ export class VlWizard extends vlElement(HTMLElement) {
 
   _previousPanesDisabledChangedCallback(oldValue, newValue) {
     this._panes.forEach((pane) => newValue != undefined ? pane.disablePreviousPane() : pane.enablePreviousPane());
+  }
+
+  _observePanes(callback) {
+    const observer = new MutationObserver((mutations) => {
+      const hasPaneMutation = mutations.flatMap((mutation) => [...mutation.addedNodes]).some((node) => node instanceof VlWizardPane);
+      if (hasPaneMutation) {
+        this.constructor._observedAttributes.forEach((attribute) => this._triggerAttribute(attribute));
+        callback();
+      }
+    });
+    observer.observe(this._panesSlot, {childList: true, subtree: true, characterDataOldValue: true});
+    return observer;
+  }
+
+  _triggerAttribute(attribute) {
+    attribute = `${this.constructor.attributePrefix}${attribute}`;
+    if (this.hasAttribute(attribute)) {
+      this.attributeChangedCallback(attribute, null, this.getAttribute(attribute));
+    }
   }
 }
 
