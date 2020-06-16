@@ -148,7 +148,6 @@
       });
 
       test('via een attribuut zal de navigatie van met vertraging toegevoegde stappen uitgeschakeld worden', (done) => {
-        debugger;
         const wizard = fixture('vl-wizard-fixture');
         const panes = wizard.querySelector('[slot="panes"]');
         wizard.setAttribute('data-vl-next-panes-disabled', '');
@@ -171,25 +170,22 @@
         const progressBar = wizard.shadowRoot.querySelector('vl-progress-bar');
         wizard.setAttribute('data-vl-next-panes-disabled', '');
         wizard.setAttribute('data-vl-previous-panes-disabled', '');
+        const fail = () => assert.fail('promise mag niet resolven');
         setTimeout(() => {
           progressBar.buttons[1].click();
-          wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+          wizard.callback.callbackFn.then(() => fail());
           progressBar.buttons[2].click();
-          wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+          wizard.callback.callbackFn.then(() => fail());
           wizard._activePane.enableNextPane();
           progressBar.buttons[2].click();
-          wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+          wizard.callback.callbackFn.then(() => fail());
           progressBar.buttons[1].click();
           wizard.callback.callbackFn.then((value) => {
             assert.isTrue(value);
             progressBar.buttons[0].click();
-            wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
-            progressBar.buttons[1].click();
-            wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+            wizard.callback.callbackFn.then(() => fail());
             wizard._activePane.enablePreviousPane();
             progressBar.buttons[0].click();
-            wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
-            progressBar.buttons[1].click();
             wizard.callback.callbackFn.then((value) => {
               assert.isTrue(value);
               done();
