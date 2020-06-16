@@ -153,7 +153,9 @@
         wizard.setAttribute('data-vl-next-panes-disabled', '');
         wizard.setAttribute('data-vl-previous-panes-disabled', '');
 
+        assert.lengthOf(wizard._panes, 3);
         panes.append(document.createElement('vl-wizard-pane'));
+        assert.lengthOf(wizard._panes, 4);
         wizard._panes.forEach((pane) => {
           sandbox.spy(pane, 'disableNextPane');
           sandbox.spy(pane, 'disablePreviousPane');
