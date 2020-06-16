@@ -160,8 +160,8 @@ export class VlWizard extends vlElement(HTMLElement) {
 
   _observePanes(callback) {
     const observer = new MutationObserver((mutations) => {
-      const hasPaneMutation = mutations.flatMap((mutation) => [...mutation.addedNodes]).some((node) => node instanceof VlWizardPane);
-      if (hasPaneMutation) {
+      const hasNewPane = mutations.flatMap((mutation) => [...mutation.addedNodes]).some((node) => node instanceof VlWizardPane);
+      if (hasNewPane) {
         this.constructor._observedAttributes.forEach((attribute) => this._triggerAttribute(attribute));
         callback();
       }
