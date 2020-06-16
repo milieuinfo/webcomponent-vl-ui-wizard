@@ -162,8 +162,7 @@ export class VlWizard extends vlElement(HTMLElement) {
     const observer = new MutationObserver((mutations) => {
       const hasPaneMutation = mutations.flatMap((mutation) => [...mutation.addedNodes]).some((node) => node instanceof VlWizardPane);
       if (hasPaneMutation) {
-        this._triggerAttribute('next-panes-disabled');
-        this._triggerAttribute('previous-panes-disabled');
+        this.constructor._observedAttributes.forEach((attribute) => this._triggerAttribute(attribute));
         callback();
       }
     });

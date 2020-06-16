@@ -144,9 +144,7 @@
           assert.isTrue(value);
           pane.setAttribute('data-vl-previous-pane-disabled', '');
           previousAction.onclick = () => {
-            wizard.callback.callbackFn.then((value) => {
-              assert.fail('promise mag niet resolven');
-            });
+            wizard.callback.callbackFn.then((value) => assert.fail('promise mag niet resolven'));
             setTimeout(() => {
               nextAction.onclick = () => {
                 wizard.callback.callbackFn.then((value) => {
