@@ -261,12 +261,12 @@ export class VlWizardPane extends vlElement(HTMLElement) {
   _observeActiveClass(callback) {
     const observer = new MutationObserver((mutations) => {
       if (this.isActive) {
-        if (!this.__wasActive && mutations.some((mutation) => mutation.target.isActive)) {
+        if (!this.__active && mutations.some((mutation) => mutation.target.isActive)) {
           callback();
         }
-        this.__wasActive = true;
+        this.__active = true;
       } else {
-        this.__wasActive = false;
+        this.__active = false;
       }
     });
     observer.observe(this, {attributeFilter: ['class']});
