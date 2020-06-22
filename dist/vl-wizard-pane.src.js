@@ -261,12 +261,12 @@ export class VlWizardPane extends vlElement(HTMLElement) {
   _observeActiveClass(callback) {
     const observer = new MutationObserver((mutations) => {
       if (this.isActive) {
-        if (!this.__active && mutations.some((mutation) => mutation.target.isActive)) {
+        if (!this.__wasActive && mutations.some((mutation) => mutation.target.isActive)) {
           callback();
         }
-        this.__active = true;
+        this.__wasActive = true;
       } else {
-        this.__active = false;
+        this.__wasActive = false;
       }
     });
     observer.observe(this, {attributeFilter: ['class']});
@@ -275,6 +275,10 @@ export class VlWizardPane extends vlElement(HTMLElement) {
 
   _dispatchActiveEvent() {
     this.dispatchEvent(new Event(VlWizardPane.EVENTS.activated));
+  }
+
+  static get whenDefined() {
+    return customElements.whenDefined('vl-wizard-pane');
   }
 }
 
