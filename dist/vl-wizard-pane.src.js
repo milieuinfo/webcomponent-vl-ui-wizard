@@ -35,6 +35,7 @@ export class VlWizardPane extends vlElement(HTMLElement) {
 
 
         :host {
+          display: block;
           width: 100%;
         }
 

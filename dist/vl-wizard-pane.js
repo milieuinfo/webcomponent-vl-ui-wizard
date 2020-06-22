@@ -32,6 +32,7 @@ export class VlWizardPane extends vlElement(HTMLElement) {
         @import '/node_modules/vl-ui-grid/dist/style.css';
 
         :host {
+          display: block;
           width: 100%;
         }
 
