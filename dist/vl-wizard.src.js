@@ -1,7 +1,7 @@
 import {vlElement, define} from 'vl-ui-core';
 import 'vl-ui-progress-bar';
 import 'vl-ui-wizard/lib/wizard.js';
-import {VlWizardPane} from './vl-wizard-pane.js';
+import {VlWizardPane} from 'vl-ui-wizard/dist/vl-wizard-pane.src.js';
 
 /**
  * VlWizard
