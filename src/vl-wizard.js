@@ -151,11 +151,23 @@ export class VlWizard extends vlElement(HTMLElement) {
   }
 
   _nextPanesDisabledChangedCallback(oldValue, newValue) {
-    this._panes.forEach((pane) => newValue != undefined ? pane.disableNextPane() : pane.enableNextPane());
+    VlWizardPane.whenDefined.then(() => {
+      if (newValue != undefined) {
+        this._panes.forEach(pane => pane.disableNextPane());
+      } else {
+        this._panes.forEach(pane => pane.enableNextPane());
+      }
+    });
   }
 
   _previousPanesDisabledChangedCallback(oldValue, newValue) {
-    this._panes.forEach((pane) => newValue != undefined ? pane.disablePreviousPane() : pane.enablePreviousPane());
+    VlWizardPane.whenDefined.then(() => {
+      if (newValue != undefined) {
+        this._panes.forEach(pane => pane.disablePreviousPane());
+      } else {
+        this._panes.forEach(pane => pane.enablePreviousPane());
+      }
+    });
   }
 
   _observePanes(callback) {
