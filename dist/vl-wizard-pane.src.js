@@ -277,6 +277,10 @@ export class VlWizardPane extends vlElement(HTMLElement) {
   _dispatchActiveEvent() {
     this.dispatchEvent(new Event(VlWizardPane.EVENTS.activated));
   }
+
+  static get whenDefined() {
+    return customElements.whenDefined('vl-wizard-pane');
+  }
 }
 
 define('vl-wizard-pane', VlWizardPane);

@@ -147,30 +147,47 @@
         wizard._panes.forEach((pane) => assert(pane.enablePreviousPane.called));
       });
 
+      test('via een attribuut zal de navigatie van met vertraging toegevoegde stappen uitgeschakeld worden', (done) => {
+        const wizard = fixture('vl-wizard-fixture');
+        const panes = wizard.querySelector('[slot="panes"]');
+        wizard.setAttribute('data-vl-next-panes-disabled', '');
+        wizard.setAttribute('data-vl-previous-panes-disabled', '');
+
+        assert.lengthOf(wizard._panes, 3);
+        panes.append(document.createElement('vl-wizard-pane'));
+        assert.lengthOf(wizard._panes, 4);
+        wizard._panes.forEach((pane) => {
+          sandbox.spy(pane, 'disableNextPane');
+          sandbox.spy(pane, 'disablePreviousPane');
+        });
+        setTimeout(() => {
+          wizard._panes.forEach((pane) => assert(pane.disableNextPane.called));
+          wizard._panes.forEach((pane) => assert(pane.disablePreviousPane.called));
+          done();
+        });
+      });
+
       test('de callback functie wordt correct gezet bij het klikken op een progress bar step', (done) => {
         const wizard = fixture('vl-wizard-fixture');
         const progressBar = wizard.shadowRoot.querySelector('vl-progress-bar');
         wizard.setAttribute('data-vl-next-panes-disabled', '');
         wizard.setAttribute('data-vl-previous-panes-disabled', '');
+        const fail = () => assert.fail('promise mag niet resolven');
         setTimeout(() => {
           progressBar.buttons[1].click();
-          wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+          wizard.callback.callbackFn.then(() => fail());
           progressBar.buttons[2].click();
-          wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+          wizard.callback.callbackFn.then(() => fail());
           wizard._activePane.enableNextPane();
           progressBar.buttons[2].click();
-          wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+          wizard.callback.callbackFn.then(() => fail());
           progressBar.buttons[1].click();
           wizard.callback.callbackFn.then((value) => {
             assert.isTrue(value);
             progressBar.buttons[0].click();
-            wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
-            progressBar.buttons[1].click();
-            wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
+            wizard.callback.callbackFn.then(() => fail());
             wizard._activePane.enablePreviousPane();
             progressBar.buttons[0].click();
-            wizard.callback.callbackFn.then(() => assert.fail('promise mag niet resolven'));
-            progressBar.buttons[1].click();
             wizard.callback.callbackFn.then((value) => {
               assert.isTrue(value);
               done();
