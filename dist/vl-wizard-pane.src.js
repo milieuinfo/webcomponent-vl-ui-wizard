@@ -43,7 +43,7 @@ export class VlWizardPane extends vlElement(HTMLElement) {
           display: inline-block;
         }
 
-        [hidden] {
+        :host([aria-hidden="true"]), [hidden] {
           display: none !important;
         }
       </style>
