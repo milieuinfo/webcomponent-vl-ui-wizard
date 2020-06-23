@@ -265,10 +265,12 @@ export class VlWizardPane extends vlElement(HTMLElement) {
       if (this.isActive) {
         if (!this.__wasActive && mutations.some((mutation) => mutation.target.isActive)) {
           callback();
+          this.hidden = false;
         }
         this.__wasActive = true;
       } else {
         this.__wasActive = false;
+        this.hidden = true;
       }
     });
     observer.observe(this, {attributeFilter: ['class']});

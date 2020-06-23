@@ -31,12 +31,12 @@ export class VlWizardPane extends vlElement(HTMLElement) {
         @import '/node_modules/vl-ui-action-group/dist/style.css';
         @import '/node_modules/vl-ui-grid/dist/style.css';
 
-        :host(:not([hidden])) {
+        :host(:not(.not-selected)) {
           display: block;
           width: 100%;
         }
 
-        :host([hidden]) {
+        :host(.not-selected) {
           display: none;
         }
 
@@ -265,12 +265,10 @@ export class VlWizardPane extends vlElement(HTMLElement) {
       if (this.isActive) {
         if (!this.__wasActive && mutations.some((mutation) => mutation.target.isActive)) {
           callback();
-          this.hidden = false;
         }
         this.__wasActive = true;
       } else {
         this.__wasActive = false;
-        this.hidden = true;
       }
     });
     observer.observe(this, {attributeFilter: ['class']});
