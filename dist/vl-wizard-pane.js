@@ -31,16 +31,20 @@ export class VlWizardPane extends vlElement(HTMLElement) {
         @import '/node_modules/vl-ui-action-group/dist/style.css';
         @import '/node_modules/vl-ui-grid/dist/style.css';
 
-        :host {
+        :host(:not(.not-selected)) {
           display: block;
           width: 100%;
+        }
+
+        :host(.not-selected) {
+          display: none;
         }
 
         slot[name="previous-action"], slot[name="next-action"] {
           display: inline-block;
         }
 
-        :host([aria-hidden="true"]), [hidden] {
+        [hidden] {
           display: none !important;
         }
       </style>
