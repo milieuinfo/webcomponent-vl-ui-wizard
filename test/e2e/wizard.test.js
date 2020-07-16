@@ -82,8 +82,8 @@ describe('vl-wizard', async () => {
 
   it('als gebruiker kan ik via de acties doorheen de wizard panelen navigeren', async () => {
     const wizard = await vlWizardPage.getWizard();
-    pane = await wizard.getActivePane();
-    title = await new VlH3(driver, (await pane.getTitleSlotElements())[0]);
+    let pane = await wizard.getActivePane();
+    let title = await new VlH3(driver, (await pane.getTitleSlotElements())[0]);
     await assert.eventually.equal(title.getText(), 'Stap 1');
 
     await wizard.next();
