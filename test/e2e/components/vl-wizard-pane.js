@@ -5,11 +5,13 @@ const {By} = require('vl-ui-core').Test.Setup;
 class VlWizardPane extends VlElement {
   async next() {
     const action = await this._getNextAction();
+    await action.scrollIntoView();
     return action.click();
   }
 
   async previous() {
     const action = await this._getPreviousAction();
+    await action.scrollIntoView();
     return action.click();
   }
 
