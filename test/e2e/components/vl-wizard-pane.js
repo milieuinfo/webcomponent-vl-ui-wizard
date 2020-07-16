@@ -1,4 +1,5 @@
 const {VlElement} = require('vl-ui-core').Test;
+const {VlButton} = require('vl-ui-button').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 
 class VlWizardPane extends VlElement {
@@ -27,11 +28,13 @@ class VlWizardPane extends VlElement {
   }
 
   async _getNextAction() {
-    return this.findElement(By.css('[data-vl-wizard-next]'));
+    const element = await this.findElement(By.css('[data-vl-wizard-next]'));
+    return new VlButton(this.driver, element);
   }
 
   async _getPreviousAction() {
-    return this.findElement(By.css('[data-vl-wizard-prev]'));
+    const element = await this.findElement(By.css('[data-vl-wizard-prev]'));
+    return new VlButton(this.driver, element);
   }
 }
 
