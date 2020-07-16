@@ -25,23 +25,23 @@ export class VlWizard extends vlElement(HTMLElement) {
 
   constructor() {
     super(`
-        <style>
-            @import '/src/style.css';
+      <style>
+        @import '/src/style.css';
 
-            .vl-wizard__panes {
-                overflow: hidden;
-            }
-        </style>
-        <section class="vl-wizard" data-vl-wizard>
-            <header class="vl-wizard__heading" role="none">
-                <slot name="title"></slot>
-                <slot name="header"></slot>
-            </header>
-            <vl-progress-bar></vl-progress-bar>
-            <div class="vl-wizard__panes">
-                <slot name="panes"></slot>
-            </div>
-        </section>
+        .vl-wizard__panes {
+          overflow: hidden;
+        }
+      </style>
+      <section class="vl-wizard" data-vl-wizard>
+        <header class="vl-wizard__heading" role="none">
+          <slot name="title"></slot>
+          <slot name="header"></slot>
+        </header>
+        <vl-progress-bar></vl-progress-bar>
+        <div class="vl-wizard__panes">
+          <slot name="panes"></slot>
+        </div>
+      </section>
     `);
 
     this.__callback = {
@@ -60,33 +60,33 @@ export class VlWizard extends vlElement(HTMLElement) {
   }
 
   /**
-     * Geeft de callback functie die bepaalt of er naar de volgende/vorige pagina mag genavigeerd worden.
-     *
-     * @return {Function}
-     */
+   * Geeft de callback functie die bepaalt of er naar de volgende/vorige pagina mag genavigeerd worden.
+   *
+   * @return {Function}
+   */
   get callback() {
     return this.__callback;
   }
 
   /**
-     * Callback setter die bepaalt of er naar de volgende/vorige pagina mag genavigeerd worden.
-     *
-     * @param {Promise} promise
-     */
+   * Callback setter die bepaalt of er naar de volgende/vorige pagina mag genavigeerd worden.
+   *
+   * @param {Promise} promise
+   */
   set callback(promise) {
     this.__callback.callbackFn = promise;
   }
 
   /**
-     * Navigeer naar de volgende pagina.
-     */
+   * Navigeer naar de volgende pagina.
+   */
   next() {
     this._activePane.next();
   }
 
   /**
-     * Navigeer naar de vorige pagina.
-     */
+   * Navigeer naar de vorige pagina.
+   */
   previous() {
     this._activePane.previous();
   }
@@ -113,10 +113,10 @@ export class VlWizard extends vlElement(HTMLElement) {
 
   _getProgressBarStepTemplate(content) {
     return this._template(`
-            <vl-progress-bar-step>
-                ${content}
-            </vl-progress-bar-step>
-        `);
+      <vl-progress-bar-step>
+        ${content}
+      </vl-progress-bar-step>
+    `);
   }
 
   _processPanes() {

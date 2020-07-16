@@ -34,6 +34,7 @@ export class VlWizardPane extends vlElement(HTMLElement) {
         :host(:not(.not-selected)) {
           display: block;
           width: 100%;
+          left: 0% !important;
         }
 
         :host(.not-selected) {

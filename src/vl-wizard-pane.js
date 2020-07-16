@@ -34,14 +34,11 @@ export class VlWizardPane extends vlElement(HTMLElement) {
         :host(:not(.not-selected)) {
           display: block;
           width: 100%;
+          left: 0% !important;
         }
 
         :host(.not-selected) {
           display: none;
-        }
-
-        :host([aria-hidden="false"]) {
-          left: 0% !important;
         }
 
         slot[name="previous-action"], slot[name="next-action"] {
