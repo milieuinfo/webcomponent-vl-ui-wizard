@@ -1,6 +1,6 @@
 {
 	"name": "vl-ui-wizard",
-	"version": "1.1.2",
+	"version": "1.2.0",
 	"description": "Gebruik de wizard om de gebruiker door een proces met meerdere stappen te begeleiden. Een wizard laat je toe om een complex proces op te splitsen in hapklare acties. Een wizard maakt het ook mogelijk om opties afhankelijk te maken van de keuzes in een voorgaande stap.",
 	"author": "DIDM",
 	"license": "MIT",
