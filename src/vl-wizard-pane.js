@@ -40,6 +40,10 @@ export class VlWizardPane extends vlElement(HTMLElement) {
           display: none;
         }
 
+        :host([aria-hidden="false"]) {
+          left: 0% !important;
+        }
+
         slot[name="previous-action"], slot[name="next-action"] {
           display: inline-block;
         }
