@@ -6,7 +6,7 @@ const VlWizardPage = require('./pages/vl-wizard.page');
 describe('vl-wizard', async () => {
   const vlWizardPage = new VlWizardPage(driver);
 
-  before(() => {
+  before(async () => {
     return vlWizardPage.load();
   });
 
