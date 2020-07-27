@@ -205,6 +205,31 @@
           });
         });
       });
+
+      test('bij een mouseover van de progress-bar zullen de correcte disabled attributen gezet worden op de progress-bar-step elementen', (done) => {
+        const wizard = fixture('vl-wizard-fixture');
+        const progressBar = wizard.shadowRoot.querySelector('vl-progress-bar');
+        wizard.setAttribute('data-vl-next-panes-disabled', '');
+        wizard.setAttribute('data-vl-previous-panes-disabled', '');
+        setTimeout(() => {
+          assert.isFalse(progressBar.buttons[0].parentElement.hasAttribute('disabled'));
+          assert.isFalse(progressBar.buttons[1].parentElement.hasAttribute('disabled'));
+          assert.isFalse(progressBar.buttons[2].parentElement.hasAttribute('disabled'));
+          progressBar.dispatchEvent(new Event('mouseover'));
+          assert.isTrue(progressBar.buttons[0].parentElement.hasAttribute('disabled'));
+          assert.isTrue(progressBar.buttons[1].parentElement.hasAttribute('disabled'));
+          assert.isTrue(progressBar.buttons[2].parentElement.hasAttribute('disabled'));
+          wizard._activePane.enableNextPane();
+          assert.isTrue(progressBar.buttons[0].parentElement.hasAttribute('disabled'));
+          assert.isTrue(progressBar.buttons[1].parentElement.hasAttribute('disabled'));
+          assert.isTrue(progressBar.buttons[2].parentElement.hasAttribute('disabled'));
+          progressBar.dispatchEvent(new Event('mouseover'));
+          assert.isTrue(progressBar.buttons[0].parentElement.hasAttribute('disabled'));
+          assert.isFalse(progressBar.buttons[1].parentElement.hasAttribute('disabled'));
+          assert.isTrue(progressBar.buttons[2].parentElement.hasAttribute('disabled'));
+          done();
+        });
+      });
     });
   </script>
 </body>
