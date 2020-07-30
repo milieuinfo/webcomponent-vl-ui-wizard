@@ -30,6 +30,7 @@ export class VlWizard extends vlElement(HTMLElement) {
 
 
         .vl-wizard__panes {
+          position: relative;
           overflow: hidden;
         }
       </style>
