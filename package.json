@@ -50,7 +50,7 @@
 	},
 	"devDependencies": {
 		"@govflanders/vl-ui-util": "^3.10.1",
-		"@govflanders/vl-ui-wizard": "3.9.1",
+		"@govflanders/vl-ui-wizard": "3.11.5",
 		"vl-ui-button": "^5.0.5",
 		"vl-ui-checkbox": "^3.1.1",
 		"vl-ui-footer": "^3.1.3",
