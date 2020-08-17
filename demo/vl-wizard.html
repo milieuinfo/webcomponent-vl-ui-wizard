@@ -4,8 +4,7 @@
 <head>
     <title>vl-wizard voorbeeld</title>
     <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
-
-    <script type="module" src="/src/vl-wizard.js"></script>
+    <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
     <script type="module" src="/node_modules/vl-ui-titles/dist/vl-titles.js"></script>
     <script type="module" src="/node_modules/vl-ui-grid/dist/vl-grid.js"></script>
     <script type="module" src="/node_modules/vl-ui-form-grid/dist/vl-form-grid.js"></script>
@@ -17,7 +16,9 @@
     <script type="module" src="/node_modules/vl-ui-icon/dist/vl-icon.js"></script>
     <script type="module" src="/node_modules/vl-ui-checkbox/dist/vl-checkbox.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-core/dist/style.css" />
+    <script type="module" src="/src/vl-wizard.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
     <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-titles/dist/style.css" />
     <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-grid/dist/style.css" />
     <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-form-grid/dist/style.css" />
@@ -29,7 +30,7 @@
     <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-icon/dist/style.css" />
 </head>
 
-<body>
+<body is="vl-body">
     <vl-demo-page data-vl-webcomponent="vl-wizard" data-vl-link="https://overheid.vlaanderen.be/webuniversum/v3/documentation/js-components/vl-ui-wizard">
         <vl-demo data-vl-title="Wizard">
             <vl-wizard id="vl-wizard">
