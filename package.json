@@ -51,15 +51,15 @@
 	"devDependencies": {
 		"@govflanders/vl-ui-util": "^3.11.5",
 		"@govflanders/vl-ui-wizard": "^3.11.5",
+		"vl-ui-body": "^1.0.3",
 		"vl-ui-button": "^5.0.6",
 		"vl-ui-checkbox": "^3.2.0",
 		"vl-ui-form-grid": "^3.0.6",
 		"vl-ui-form-message": "^5.0.5",
 		"vl-ui-icon": "^5.2.0",
-		"vl-ui-input-field": "^3.2.3",
+		"vl-ui-input-field": "^3.2.4",
 		"vl-ui-link": "^4.0.5",
 		"vl-ui-titles": "^3.0.6",
-		"vl-ui-body": "^1.0.3",
-		"vl-ui-util": "^5.2.12"
+		"vl-ui-util": "^5.2.13"
 	}
 }
