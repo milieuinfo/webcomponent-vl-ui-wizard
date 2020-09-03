@@ -60,6 +60,12 @@
             <h3 slot="title">Stap 2</h3>
             <div slot="content"></div>
             <button type="button" slot="previous-action">Vorige</button>
+            <button type="button" slot="next-action">Volgende</button>
+          </vl-wizard-pane>
+          <vl-wizard-pane>
+            <h3 slot="title">Stap 3</h3>
+            <div slot="content"></div>
+            <button type="button" slot="previous-action">Vorige</button>
           </vl-wizard-pane>
         </div>
       </vl-wizard>
@@ -262,6 +268,15 @@
           });
           panes[0].next();
         });
+      });
+
+      test('navigatie toelaten naar de vorige/volgende pagina\'s kan gewijzigd worden', () => {
+        const wizard = fixture('vl-wizard-panes-fixture');
+        wizard.panes.forEach((pane) => assert.isFalse(pane.isNextPaneDisabled));
+        wizard.panes[0].disableNextPanes();
+        wizard.panes.forEach((pane) => assert.isTrue(pane.isNextPaneDisabled));
+        wizard.panes[0].enableNextPanes();
+        wizard.panes.forEach((pane) => assert.isFalse(pane.isNextPaneDisabled));
       });
     });
   </script>

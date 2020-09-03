@@ -125,16 +125,16 @@
 
       test('via een attribuut kan de navigatie naar de volgende stap overal uitgeschakeld worden', (done) => {
         const wizard = fixture('vl-wizard-fixture');
-        wizard._panes.forEach((pane) => {
+        wizard.panes.forEach((pane) => {
           sandbox.spy(pane, 'disableNextPane');
           sandbox.spy(pane, 'enableNextPane');
         });
         wizard.setAttribute('data-vl-next-panes-disabled', '');
         setTimeout(() => {
-          wizard._panes.forEach((pane) => assert(pane.disableNextPane.called));
+          wizard.panes.forEach((pane) => assert(pane.disableNextPane.called));
           wizard.removeAttribute('data-vl-next-panes-disabled');
           setTimeout(() => {
-            wizard._panes.forEach((pane) => assert(pane.enableNextPane.called));
+            wizard.panes.forEach((pane) => assert(pane.enableNextPane.called));
             done();
           });
         });
@@ -142,16 +142,16 @@
 
       test('via een attribuut kan de navigatie naar de vorige stap overal uitgeschakeld worden', (done) => {
         const wizard = fixture('vl-wizard-fixture');
-        wizard._panes.forEach((pane) => {
+        wizard.panes.forEach((pane) => {
           sandbox.spy(pane, 'disablePreviousPane');
           sandbox.spy(pane, 'enablePreviousPane');
         });
         wizard.setAttribute('data-vl-previous-panes-disabled', '');
         setTimeout(() => {
-          wizard._panes.forEach((pane) => assert(pane.disablePreviousPane.called));
+          wizard.panes.forEach((pane) => assert(pane.disablePreviousPane.called));
           wizard.removeAttribute('data-vl-previous-panes-disabled');
           setTimeout(() => {
-            wizard._panes.forEach((pane) => assert(pane.enablePreviousPane.called));
+            wizard.panes.forEach((pane) => assert(pane.enablePreviousPane.called));
             done();
           });
         });
@@ -163,16 +163,16 @@
         wizard.setAttribute('data-vl-next-panes-disabled', '');
         wizard.setAttribute('data-vl-previous-panes-disabled', '');
 
-        assert.lengthOf(wizard._panes, 3);
+        assert.lengthOf(wizard.panes, 3);
         panes.append(document.createElement('vl-wizard-pane'));
-        assert.lengthOf(wizard._panes, 4);
-        wizard._panes.forEach((pane) => {
+        assert.lengthOf(wizard.panes, 4);
+        wizard.panes.forEach((pane) => {
           sandbox.spy(pane, 'disableNextPane');
           sandbox.spy(pane, 'disablePreviousPane');
         });
         setTimeout(() => {
-          wizard._panes.forEach((pane) => assert(pane.disableNextPane.called));
-          wizard._panes.forEach((pane) => assert(pane.disablePreviousPane.called));
+          wizard.panes.forEach((pane) => assert(pane.disableNextPane.called));
+          wizard.panes.forEach((pane) => assert(pane.disablePreviousPane.called));
           done();
         });
       });

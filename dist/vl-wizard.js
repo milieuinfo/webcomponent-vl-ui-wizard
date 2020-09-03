@@ -93,16 +93,24 @@ export class VlWizard extends vlElement(HTMLElement) {
     this._activePane.previous();
   }
 
+  /**
+   * Get pagina HTML elementen.
+   * @return {Array.<VlWizardPane>}
+   */
+  get panes() {
+    return [...this._panes];
+  }
+
   get _panes() {
     return this.querySelectorAll('vl-wizard-pane');
   }
 
   get _activePane() {
-    return [...this._panes].find((pane) => pane.isActive);
+    return this.panes.find((pane) => pane.isActive);
   }
 
   get _activePaneNumber() {
-    return [...this._panes].findIndex((pane) => pane.isActive) + 1;
+    return this.panes.findIndex((pane) => pane.isActive) + 1;
   }
 
   get _progressBar() {
@@ -138,14 +146,13 @@ export class VlWizard extends vlElement(HTMLElement) {
   _observeProgressBarClick() {
     setTimeout(() => {
       this._progressBar.buttons.forEach((button) => button.onclick = (event) => {
-        const panes = [...this._panes];
         const number = Number(event.target.getAttribute('data-vl-index'));
         if (number < this._activePaneNumber) {
-          const panesBetween = panes.slice(number, panes.indexOf(this._activePane) + 1);
+          const panesBetween = this.panes.slice(number, this.panes.indexOf(this._activePane) + 1);
           const allPanesBetweenAreEnabled = panesBetween.every((pane) => !pane.isPreviousPaneDisabled);
           this.callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
         } else {
-          const panesBetween = panes.slice(panes.indexOf(this._activePane), number - 1);
+          const panesBetween = this.panes.slice(this.panes.indexOf(this._activePane), number - 1);
           const allPanesBetweenAreEnabled = panesBetween.every((pane) => !pane.isNextPaneDisabled);
           this.callback = allPanesBetweenAreEnabled ? Promise.resolve(true) : new Promise(() => { });
         }
@@ -157,9 +164,8 @@ export class VlWizard extends vlElement(HTMLElement) {
     setTimeout(() => {
       this._progressBar.onmouseover = () => {
         this._progressBar.buttons.forEach((button, index) => {
-          const panes = [...this._panes];
-          const previousPane = panes[index - 1];
-          const nextPane = panes[index + 1];
+          const previousPane = this.panes[index - 1];
+          const nextPane = this.panes[index + 1];
           const paneIsDisabled = previousPane ? previousPane.isNextPaneDisabled : nextPane.isPreviousPaneDisabled;
           if (paneIsDisabled) {
             button.parentElement.setAttribute('disabled', '');
