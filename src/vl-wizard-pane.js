@@ -123,11 +123,29 @@ export class VlWizardPane extends vlElement(HTMLElement) {
   }
 
   /**
+   * Sta navigatie naar de volgende pagina's toe.
+   */
+  enableNextPanes() {
+    const panes = this._wizard.panes;
+    const nextPanes = panes.slice(panes.indexOf(this), panes.length);
+    nextPanes.forEach((pane) => pane.enableNextPane());
+  }
+
+  /**
    * Blokkeer navigatie naar de volgende pagina.
    */
   disableNextPane() {
     this._setNextPaneDisabledAttribute(true);
     this._wizard.callback = new Promise(() => { });
+  }
+
+  /**
+   * Blokeer navigatie naar de volgende pagina's.
+   */
+  disableNextPanes() {
+    const panes = this._wizard.panes;
+    const nextPanes = panes.slice(panes.indexOf(this), panes.length);
+    nextPanes.forEach((pane) => pane.disableNextPane());
   }
 
   /**
