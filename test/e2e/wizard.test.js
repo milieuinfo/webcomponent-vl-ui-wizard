@@ -4,10 +4,12 @@ const {VlElement} = require('vl-ui-core').Test;
 const VlWizardPage = require('./pages/vl-wizard.page');
 
 describe('vl-wizard', async () => {
+  let driver;
   let vlWizardPage;
 
   before(() => {
-    vlWizardPage = new VlWizardPage(getDriver());
+    driver = getDriver();
+    vlWizardPage = new VlWizardPage(driver);
     return vlWizardPage.load();
   });
 
