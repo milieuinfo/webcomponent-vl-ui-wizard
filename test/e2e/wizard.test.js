@@ -1,12 +1,15 @@
-const {assert, driver, By} = require('vl-ui-core').Test.Setup;
+const {assert, getDriver, By} = require('vl-ui-core').Test.Setup;
 const {VlH2, VlH3} = require('vl-ui-titles').Test.VlTitles;
 const {VlElement} = require('vl-ui-core').Test;
 const VlWizardPage = require('./pages/vl-wizard.page');
 
 describe('vl-wizard', async () => {
-  const vlWizardPage = new VlWizardPage(driver);
+  let driver;
+  let vlWizardPage;
 
   before(() => {
+    driver = getDriver();
+    vlWizardPage = new VlWizardPage(driver);
     return vlWizardPage.load();
   });
 

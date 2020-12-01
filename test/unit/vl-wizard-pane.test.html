@@ -81,7 +81,7 @@
       const sandbox = sinon.createSandbox();
 
       setup((done) => {
-        customElements.whenDefined('vl-wizard').then(done);
+        customElements.whenDefined('vl-wizard').then(() => done());
       });
 
       test('bevat een titel element', () => {
