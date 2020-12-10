@@ -37,29 +37,30 @@
 		"demo": "http-server"
 	},
 	"dependencies": {
-		"vl-ui-action-group": "^3.1.0",
-		"vl-ui-core": "^6.2.3",
-		"vl-ui-grid": "^3.1.4",
-		"vl-ui-progress-bar": "^1.1.2"
+		"vl-ui-action-group": "^3.1.2",
+		"vl-ui-core": "^7.0.1",
+		"vl-ui-grid": "^3.1.6",
+		"vl-ui-progress-bar": "^1.1.3"
 	},
 	"peerDependencies": {
-		"vl-ui-action-group": "^3.0.6",
-		"vl-ui-core": "^6.0.0",
-		"vl-ui-grid": "^3.1.4",
-		"vl-ui-progress-bar": "^1.1.1"
+		"vl-ui-action-group": "^3.1.2",
+		"vl-ui-core": "^7.0.0",
+		"vl-ui-grid": "^3.1.6",
+		"vl-ui-progress-bar": "^1.1.3"
 	},
 	"devDependencies": {
-		"@govflanders/vl-ui-util": "^3.11.5",
-		"@govflanders/vl-ui-wizard": "^3.11.5",
-		"vl-ui-body": "^1.0.5",
-		"vl-ui-button": "^5.0.6",
-		"vl-ui-checkbox": "^3.2.2",
+		"@govflanders/vl-ui-core": "^4.1.3",
+		"@govflanders/vl-ui-util": "^3.12.3",
+		"@govflanders/vl-ui-wizard": "^3.12.3",
+		"vl-ui-body": "^1.0.7",
+		"vl-ui-button": "^5.0.8",
+		"vl-ui-checkbox": "^3.2.3",
 		"vl-ui-form-grid": "^3.0.7",
-		"vl-ui-form-message": "^5.0.5",
-		"vl-ui-icon": "^5.2.0",
-		"vl-ui-input-field": "^3.2.5",
-		"vl-ui-link": "^4.0.5",
-		"vl-ui-titles": "^3.0.6",
-		"vl-ui-util": "^5.3.1"
+		"vl-ui-form-message": "^5.0.6",
+		"vl-ui-icon": "^5.2.1",
+		"vl-ui-input-field": "^3.2.6",
+		"vl-ui-link": "^4.0.7",
+		"vl-ui-titles": "^3.0.8",
+		"vl-ui-util": "^5.3.4"
 	}
 }
